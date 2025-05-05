@@ -12,4 +12,5 @@ public:
     void setPoint(int x, int y, int z);
     Point3D getPoint(Point3D point);
     void printPoint();
+    void addPoint(Point3D point);
 };

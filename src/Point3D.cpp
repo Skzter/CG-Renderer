@@ -15,12 +15,19 @@ void Point3D::printPoint()
 
 void Point3D::setPoint(int x, int y, int z)
 {
-    X = x;
-    Y = y;
-    Z = z;
+    this->X = x;
+    this->Y = y;
+    this->Z = z;
 }
 
 Point3D Point3D::getPoint(Point3D point)
 {
     return point;
+}
+
+void Point3D::addPoint(Point3D point)
+{
+    this->X += point.X;
+    this->Y += point.Y;
+    this->Z += point.Z;
 }
