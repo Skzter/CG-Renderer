@@ -1,4 +1,5 @@
 #include "../include/Point3D.hpp"
+#include <iostream>
 
 int main()
 {
@@ -12,4 +13,14 @@ int main()
 
     p2.addPoint(p);
     p2.printPoint();
+
+    Point3D p1 = Point3D(7,8,9);
+    p1.printPoint();
+
+    Point3D p3 = p + p2;
+    p3.printPoint();
+
+    p3 = p3 + p3;
+    p3.printPoint();
+    std::cout << p3 << std::endl;
 }
