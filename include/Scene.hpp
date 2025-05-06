@@ -1,10 +1,17 @@
 #pragma once
 
 #include <vector>
-class
+//#include <SDL2/SDL.h>
+
+#include "Camera.hpp"
+#include "Light.hpp"
+#include "Object.hpp"
+
+class Scene
 {
-    public:
-	std::vector<Object *> objects;
-	std::vector<Light> lights;
-	Camera camera;
+public:
+    Scene();    
+    std::vector<Object *> objects;
+    std::vector<Light> lights;
+    Camera camera;
 };

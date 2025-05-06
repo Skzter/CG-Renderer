@@ -1,4 +1,6 @@
 #pragma once 
+#include "Vector3D.hpp"
+#include "Ray.hpp"
 
 class Camera {
     public :
