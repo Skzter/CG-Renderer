@@ -1,4 +1,6 @@
 #pragma once
+#include "Point3D.hpp"
+#include "Vector3D.hpp"
 
 class Ray
 {
