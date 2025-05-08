@@ -1,5 +1,6 @@
 #pragma once
+#include "Object.hpp"
 
-class Object3D
+class Object3D : public Object
 {
 };

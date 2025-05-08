@@ -1,3 +1,4 @@
+#pragma once
 #include "../include/Point3D.hpp"
 #include <iostream>
 
@@ -9,7 +10,7 @@ Point3D::Point3D()
     Z = 0;
 }
 
-Point3D::Point3D(int x, int y, int z)
+Point3D::Point3D(float x, float y, float z)
 {
     X = x;
     Y = y;
@@ -21,7 +22,7 @@ void Point3D::printPoint()
     std::cout << "[" << X << ", " << Y << ", " << Z << "]" << std::endl;
 }
 
-void Point3D::setPoint(int x, int y, int z)
+void Point3D::setPoint(float x, float y, float z)
 {
     this->X = x;
     this->Y = y;

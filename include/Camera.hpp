@@ -1,10 +1,10 @@
 #pragma once 
+#include "Object.hpp"
 #include "Vector3D.hpp"
 #include "Ray.hpp"
 
-class Camera {
+class Camera : Object{
     public :
-	Vector3D eye ; // position of the camera
 	Vector3D view ; // direction vector from the eye to the center of the screen 6 
 	float width ; // width in world coordinates of one pixel on the screen 7 
 	float height ; // height in world coordinates of one pixel on the screen 8 

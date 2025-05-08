@@ -1,5 +1,6 @@
 #pragma once
 
+#include <istream>
 #include <vector>
 //#include <SDL2/SDL.h>
 
@@ -14,4 +15,6 @@ public:
     std::vector<Object3D *> Object3Ds;
     std::vector<Light> lights;
     Camera camera;
+
+    void loadFile(std::istream*);
 };
