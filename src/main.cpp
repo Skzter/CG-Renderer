@@ -1,12 +1,8 @@
-//#include "../include/Point3D.hpp"
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
+#include "../include/Point3D.hpp"
 #include <iostream>
-#include "SDL2/SDL.h"
 
 int main()
 {
-    /*
     Point3D p;
     p.setPoint(2,3,5);
     p.printPoint();
@@ -26,19 +22,10 @@ int main()
 
     p3 = p3 + p3;
     p3.printPoint();
-    std::cout << p3 << std::endl;
-    */
 
-    SDL_Window* window;
-    SDL_Renderer* renderer;
-    window = SDL_CreateWindow("Renderer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 540, 0);
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    bool running = true;
+    Point3D p4 = p3.scale(3);
+    p4.printPoint();
 
-    while(running)
-    {
-	if(SDL_QuitRequested()){ running = false; break; }
-    }
-
-    return 0;
+    Point3D prod1 = Point3D(1, 1, -2);
+    Point3D prod2 = Point3D(1, 1, 0);
 }

@@ -10,7 +10,7 @@ Point3D::Point3D()
     Z = 0;
 }
 
-Point3D::Point3D(int x, int y, int z)
+Point3D::Point3D(float x, float y, float z)
 {
     X = x;
     Y = y;
@@ -22,7 +22,7 @@ void Point3D::printPoint()
     std::cout << "[" << X << ", " << Y << ", " << Z << "]" << std::endl;
 }
 
-void Point3D::setPoint(int x, int y, int z)
+void Point3D::setPoint(float x, float y, float z)
 {
     this->X = x;
     this->Y = y;
@@ -41,6 +41,14 @@ void Point3D::addPoint(Point3D point)
     this->Z += point.Z;
 }
 
+Point3D Point3D::scale(float factor)
+{
+    this->X *= factor;
+    this->Y *= factor;
+    this->Z *= factor;
+    return Point3D(this->X, this->Y, this->Z);
+}
+
 Point3D Point3D::operator+(const Point3D &pointA)
 {
     this->X += pointA.X;
@@ -49,4 +57,8 @@ Point3D Point3D::operator+(const Point3D &pointA)
     return Point3D(this->X,this->Y,this->Z);
 }
 
-
+float Point3D::operator*(const Point3D &pointA)
+{
+    float dotproduct = (this->X * pointA.X) + (this->Y * pointA.Y) + (this->Z * pointA.Z); 
+    return dotproduct;
+}

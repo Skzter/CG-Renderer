@@ -16,14 +16,7 @@ public:
     Point3D getPoint(Point3D point);
     void printPoint();
     void addPoint(Point3D point);
+    Point3D scale(float factor); // Skalieren von Punkt
     Point3D operator+(const Point3D &pointA);
+    float operator*(const Point3D &pointA); // Scalarprodukt
 };
-
-/*
-std::ostream& operator<<(std::ostream& os, const Point3D &pointA)
-{
-    // write obj to stream
-    os << "[" << std::to_string(pointA->X) << ", " << std::to_string(pointA.Y) << ", " << std::to_string(pointA.Z) << "]";
-    return os;
-}
-*/
