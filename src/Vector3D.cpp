@@ -1,6 +1,2 @@
 #pragma once
-
-class Vector3D
-{
-
-};
+#include "../include/Vector3D.hpp"

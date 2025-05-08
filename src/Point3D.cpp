@@ -1,6 +1,5 @@
 #include "../include/Point3D.hpp"
 #include <iostream>
-#include <string>
 
 
 Point3D::Point3D()

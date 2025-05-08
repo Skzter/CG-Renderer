@@ -5,13 +5,13 @@
 
 #include "Camera.hpp"
 #include "Light.hpp"
-#include "Object.hpp"
+#include "Object3D.hpp"
 
 class Scene
 {
 public:
     Scene();    
-    std::vector<Object *> objects;
+    std::vector<Object3D *> Object3Ds;
     std::vector<Light> lights;
     Camera camera;
 };
