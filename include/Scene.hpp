@@ -10,11 +10,11 @@
 
 class Scene
 {
-public:
-    Scene();    
+public: 
+    Scene();
     std::vector<Object3D *> Object3Ds;
     std::vector<Light> lights;
     Camera camera;
 
-    void loadFile(std::istream*);
+    void loadFile(std::istream&);
 };

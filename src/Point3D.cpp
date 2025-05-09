@@ -1,4 +1,3 @@
-#pragma once
 #include "../include/Point3D.hpp"
 #include <iostream>
 

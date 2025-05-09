@@ -1,11 +1,15 @@
 //#include "../include/Point3D.hpp"
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include <iostream>
-#include "SDL2/SDL.h"
+#include <fstream>
+#include "../include/Scene.hpp"
 
 int main()
 {
+    Scene test;
+    std::ifstream file;
+    file.open("test.ply",std::ios::in);
+    test.loadFile(file);
     /*
     Point3D p;
     p.setPoint(2,3,5);
@@ -29,6 +33,7 @@ int main()
     std::cout << p3 << std::endl;
     */
 
+    /*
     SDL_Window* window;
     SDL_Renderer* renderer;
     window = SDL_CreateWindow("Renderer", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 960, 540, 0);
@@ -40,5 +45,6 @@ int main()
 	if(SDL_QuitRequested()){ running = false; break; }
     }
 
+    */
     return 0;
 }
