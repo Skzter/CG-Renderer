@@ -48,7 +48,7 @@ void Scene::loadFile(std::istream& file){
 	//Auch einfach vertrauen das alle dimensionen richig sind
 	//vertices
 	std::vector<Vector3D> vertices(numvert);
-	std::vector<Face3D> faces(numface);
+	std::vector<std::vector<int>> faces(numface);
 
 	short dimensionen = 3;
 	float cords[3];
@@ -58,22 +58,23 @@ void Scene::loadFile(std::istream& file){
 			file >> cord;
 			cords[dim] = cord;
 		}
-		vertices.push_back(Vector3D(cords[0],cords[1],cords[2]));
+		vertices.at(curvert) = (Vector3D(cords[0],cords[1],cords[2]));
 	}
 
 	short vertpos;
 	for(size_t face = 0; face < numface; face++){
 		int numvert;
-		std::vector<Vector3D*> verts(numvert);
 		file >> numvert;
+		std::vector<int> verts(numvert);
+
 		for(size_t curvert = 0; curvert < numvert; curvert++){
 			file >> vertpos;
-			verts.push_back(&vertices.at(vertpos));
+			verts.at(curvert) = (vertpos);
 		}
-		faces.push_back(Face3D(verts));
+		faces.at(face) = (verts);
 	}
-
 	this->Object3Ds.push_back(Object3D(vertices,faces));
+	std::cout << this->Object3Ds.at(0) << std::endl;
 }
 
 Scene::Scene(){	

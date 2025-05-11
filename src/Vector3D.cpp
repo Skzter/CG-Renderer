@@ -51,4 +51,9 @@ Vector3D Vector3D::operator+(const Vector3D&pointA)
     return Vector3D(x,y,z);
 }
 
+std::ostream& operator<<(std::ostream& out, Vector3D obj){
+    return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
+}
+
+
 

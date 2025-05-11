@@ -22,7 +22,5 @@ public:
     float getZ(){return this->Z;}
 };
 
-std::ostream& operator<<(std::ostream& out, Vector3D obj){
-    return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
-}
+std::ostream& operator<<(std::ostream& out, Vector3D obj);
 

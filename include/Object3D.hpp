@@ -11,7 +11,7 @@ class Object3D
 
     public:
         Object3D();
-        Object3D(std::vector<Vector3D>&, std::vector<Face3D>&);
+        Object3D(std::vector<Vector3D>, std::vector<std::vector<int>>);
 
 
         const std::vector<Vector3D>& getPoints(){
@@ -23,16 +23,4 @@ class Object3D
         }
 };
 
-std::ostream& operator<<(std::ostream& out, Object3D obj){
-    out << "Points: " << std::endl;
-    for(Vector3D point : obj.getPoints()){
-        out << point << std::endl;
-    }
-    
-    out << "Faces: " << std::endl;
-    for(Face3D face : obj.getFaces()){
-        out << face << std::endl;
-    }
-
-    return out;
-}
+std::ostream& operator<<(std::ostream& out, Object3D obj);

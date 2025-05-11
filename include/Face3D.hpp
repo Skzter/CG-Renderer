@@ -15,9 +15,4 @@ class Face3D{
         }
 };
 
-std::ostream& operator<<(std::ostream& out, Face3D face){
-    out << "Face: " << std::endl;
-    for(Vector3D* vec : *face.getPoints()){
-        out << *vec << std::endl;
-    }
-}
+std::ostream& operator<<(std::ostream& out, Face3D face);
