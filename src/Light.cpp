@@ -1,4 +1,1 @@
-class Light
-{
-
-};
+#include "../include/Light.hpp"

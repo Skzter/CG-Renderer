@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Vector3D.hpp"
 #include <ostream>
 #include <vector>
@@ -16,7 +15,7 @@ class Face3D{
         }
 };
 
-std::ostream* operator<<(Face3D face, std::ostream out){
+std::ostream& operator<<(std::ostream& out, Face3D face){
     out << "Face: " << std::endl;
     for(Vector3D* vec : *face.getPoints()){
         out << *vec << std::endl;

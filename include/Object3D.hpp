@@ -1,9 +1,9 @@
 #pragma once
-
 #include "Vector3D.hpp"
 #include "Face3D.hpp"
 #include <ostream>
 #include <vector>
+
 class Object3D
 {
     std::vector<Vector3D> points;
@@ -23,7 +23,7 @@ class Object3D
         }
 };
 
-std::ostream* operator<<(Object3D obj,std::ostream out){
+std::ostream& operator<<(std::ostream& out, Object3D obj){
     out << "Points: " << std::endl;
     for(Vector3D point : obj.getPoints()){
         out << point << std::endl;
@@ -33,4 +33,6 @@ std::ostream* operator<<(Object3D obj,std::ostream out){
     for(Face3D face : obj.getFaces()){
         out << face << std::endl;
     }
+
+    return out;
 }

@@ -1,6 +1,3 @@
-//#include "../include/Point3D.hpp"
-#include <SDL2/SDL_render.h>
-#include <SDL2/SDL_video.h>
 #include <fstream>
 #include <iostream>
 #include "../include/Scene.hpp"

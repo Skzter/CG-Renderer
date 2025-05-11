@@ -1,9 +1,6 @@
 #pragma once
-
 #include <istream>
 #include <vector>
-//#include <SDL2/SDL.h>
-
 #include "Camera.hpp"
 #include "Light.hpp"
 #include "Object3D.hpp"

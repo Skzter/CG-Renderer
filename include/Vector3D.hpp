@@ -1,7 +1,6 @@
 #pragma once
-
-#include "Object3D.hpp"
 #include <ostream>
+
 class Vector3D
 {
 private:
