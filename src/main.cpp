@@ -2,6 +2,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
 #include <fstream>
+#include <iostream>
 #include "../include/Scene.hpp"
 
 int main()
@@ -9,6 +10,9 @@ int main()
     Scene test;
     std::ifstream file;
     file.open("test.ply",std::ios::in);
+    if(!file.is_open()){
+        std::cout << "File not opened" << std::endl;
+    }
     test.loadFile(file);
     /*
     Point3D p;

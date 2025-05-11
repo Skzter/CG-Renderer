@@ -4,7 +4,7 @@
 
 class Camera{
     public :
-	Point3D eye;
+	Vector3D eye;
 	Vector3D view ; // direction vector from the eye to the center of the screen 6 
 	float width ; // width in world coordinates of one pixel on the screen 7 
 	float height ; // height in world coordinates of one pixel on the screen 8 

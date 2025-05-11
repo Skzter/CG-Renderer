@@ -47,7 +47,7 @@ void Scene::loadFile(std::istream& file){
 
 	//Auch einfach vertrauen das alle dimensionen richig sind
 	//vertices
-	std::vector<Point3D> vertices(vertex);
+	std::vector<Vector3D> vertices(vertex);
 	short dimensionen = 3;
 	float cords[3];
 	float cord;
@@ -56,7 +56,7 @@ void Scene::loadFile(std::istream& file){
 			file >> cord;
 			cords[dim] = cord;
 		}
-		vertices.push_back(Point3D(cords[0],cords[1],cords[2]));
+		vertices.push_back(Vector3D(cords[0],cords[1],cords[2]));
 	}
 }
 
