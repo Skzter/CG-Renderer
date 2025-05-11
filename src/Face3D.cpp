@@ -5,3 +5,5 @@ Face3D::Face3D(std::vector<Vector3D*> points){
     this->points = points;
     this->normal = Vector3D(0,0,0);
 }
+
+Face3D::Face3D(){};

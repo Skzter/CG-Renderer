@@ -21,7 +21,7 @@ void Vector3D::printPoint()
     std::cout << "[" << X << ", " << Y << ", " << Z << "]" << std::endl;
 }
 
-void Vector3D::setPoint(float x, float y, float z)
+void Vector3D::setVector(float x, float y, float z)
 {
     this->X = x;
     this->Y = y;
@@ -36,7 +36,7 @@ Vector3D Vector3D::getPoint(Vector3D point)
 */
 
 
-void Vector3D::addPoint(Vector3D point)
+void Vector3D::addVector(Vector3D point)
 {
     this->X += point.X;
     this->Y += point.Y;

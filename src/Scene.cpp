@@ -32,13 +32,13 @@ void skip(unsigned int ignoreLines, std::istream& file){
 
 void Scene::loadFile(std::istream& file){
 	std::string line;
-	int vertex;
-	int faces;
+	int numvert;
+	int numface;
 
 	skip(2, file); //skip format
-	vertex = getOption<int>(file, "element vertex");
+	numvert = getOption<int>(file, "element vertex");
 	skip(3,file); //just use float
-	faces = getOption<int>(file, "element face");
+	numface = getOption<int>(file, "element face");
 	skip(1,file); //??
 
 	do{
@@ -47,17 +47,33 @@ void Scene::loadFile(std::istream& file){
 
 	//Auch einfach vertrauen das alle dimensionen richig sind
 	//vertices
-	std::vector<Vector3D> vertices(vertex);
+	std::vector<Vector3D> vertices(numvert);
+	std::vector<Face3D> faces(numface);
+
 	short dimensionen = 3;
 	float cords[3];
 	float cord;
-	for(size_t numvert = 0; numvert < vertex; numvert++){
+	for(size_t curvert = 0; curvert < numvert; curvert++){
 		for(size_t dim = 0; dim < dimensionen; dim++){
 			file >> cord;
 			cords[dim] = cord;
 		}
 		vertices.push_back(Vector3D(cords[0],cords[1],cords[2]));
 	}
+
+	short vertpos;
+	for(size_t face = 0; face < numface; face++){
+		int numvert;
+		std::vector<Vector3D*> verts(numvert);
+		file >> numvert;
+		for(size_t curvert = 0; curvert < numvert; curvert++){
+			file >> vertpos;
+			verts.push_back(&vertices.at(vertpos));
+		}
+		faces.push_back(Face3D(verts));
+	}
+
+	this->Object3Ds.push_back(Object3D(vertices,faces));
 }
 
 Scene::Scene(){	
