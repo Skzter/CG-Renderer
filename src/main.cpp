@@ -6,12 +6,12 @@ int main()
 {
     Scene test;
     std::ifstream file;
-    file.open("cow.ply",std::ios::in);
+    file.open("test.ply",std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
     }
     test.loadFile(file);
-    test.camera = Camera(Vector3D(0,0,-10), Vector3D(0,0,1), 1.0, 1.0, 100, 100);
+    test.camera = Camera(Vector3D(0,0, -10), Vector3D(0,0,1), 10.0, 10.0, 100, 100);
     test.drawPicture();
 
     //Vector3D vec1 = Vector3D(0,1,1), vec2 = Vector3D(0,1,0);

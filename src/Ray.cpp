@@ -1,4 +1,5 @@
 #include "../include/Ray.hpp"
+#include <cmath>
 
 Ray::Ray(Vector3D origin, Vector3D direction){
     this->origin = origin;
@@ -14,7 +15,7 @@ Hitpoint Ray::check(Face3D face){
     Vector3D edge1 = *triangle.at(1) - *triangle.at(0);
     Vector3D edge2 = *triangle.at(2) - *triangle.at(0);
     Vector3D ray_cross_e2 = Vector3D::cross(this->direction, edge2);
-    float det = Vector3D::Vector3D::dot(edge1, ray_cross_e2);
+    float det = Vector3D::dot(edge1, ray_cross_e2);
 
     if (det > -epsilon && det < epsilon)
         return Hitpoint();    // This ray is parallel to this triangle.
@@ -23,13 +24,13 @@ Hitpoint Ray::check(Face3D face){
     Vector3D s = this->origin - *triangle.at(0);
     float u = inv_det * Vector3D::dot(s, ray_cross_e2);
 
-    if ((u < 0 && abs(u) > epsilon) || (u > 1 && abs(u-1) > epsilon))
+    if ((u < 0 && std::fabs(u) > epsilon) || (u > 1 && std::fabs(u-1) > epsilon))
         return Hitpoint();
 
     Vector3D s_cross_e1 = Vector3D::cross(s, edge1);
     float v = inv_det * Vector3D::dot(this->direction, s_cross_e1);
 
-    if ((v < 0 && abs(v) > epsilon) || (u + v > 1 && abs(u + v - 1) > epsilon))
+    if ((v < 0 && std::fabs(v) > epsilon) || (u + v > 1 && std::fabs(u + v - 1) > epsilon))
         return Hitpoint();
 
     // At this stage we can compute t to find out where the intersection point is on the line.
