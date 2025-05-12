@@ -6,11 +6,13 @@ int main()
 {
     Scene test;
     std::ifstream file;
-    file.open("cow.ply",std::ios::in);
+    file.open("new.ply",std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
     }
     test.loadFile(file);
+    Vector3D vec1 = Vector3D(0,0,1), vec2 = Vector3D(0,1,0);
+    //std::cout << Vector3D::cross(vec1, vec2) << std::endl;
     /*
     Point3D p;
     p.setPoint(2,3,5);

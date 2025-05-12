@@ -51,6 +51,21 @@ Vector3D Vector3D::operator+(const Vector3D&pointA)
     return Vector3D(x,y,z);
 }
 
+Vector3D Vector3D::operator-(const Vector3D&pointA)
+{
+    float x = this->X - pointA.X;
+    float y = this->Y - pointA.Y;
+    float z = this->Z - pointA.Z;
+    return Vector3D(x,y,z);
+}
+
+Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){
+    float x = a.getY() * b.getZ() - a.getZ() * b.getY();
+    float y = a.getZ() * b.getX() - a.getX() * b.getZ();
+    float z = a.getX() * b.getY() - a.getY() * b.getX();
+    return Vector3D(x,y,z);
+}
+
 std::ostream& operator<<(std::ostream& out, Vector3D obj){
     return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
 }

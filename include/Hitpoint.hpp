@@ -4,8 +4,11 @@
 #include <limits>
 
 class Hitpoint {
-    public :
-	Vector3D position ;
-	float distance = std::numeric_limits <float >:: max ();
-	const Object3D * Object3D = nullptr ;
+    public:
+		Vector3D position = Vector3D();
+		float distance = std::numeric_limits<float>::max();
+		const Object3D* Object = nullptr;
+
+		Hitpoint();
+		Hitpoint(Vector3D, float, Object3D*);
 };

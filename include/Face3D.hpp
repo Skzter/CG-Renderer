@@ -18,6 +18,9 @@ class Face3D{
         const Color& getColor(){
             return this->color;
         }
+        const Vector3D& getNormal(){
+            return this->normal;
+        }
 };
 
 std::ostream& operator<<(std::ostream& out, Face3D face);
