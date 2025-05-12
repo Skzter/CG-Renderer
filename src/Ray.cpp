@@ -9,7 +9,7 @@ Hitpoint Ray::check(Face3D face){
     //https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
 
     constexpr float epsilon = std::numeric_limits<float>::epsilon();
-    std::vector<Vector3D*> triangle = face.getPoints();
+    std::vector<Vector3D*> triangle = face.points;
 
     Vector3D edge1 = *triangle.at(1) - *triangle.at(0);
     Vector3D edge2 = *triangle.at(2) - *triangle.at(0);

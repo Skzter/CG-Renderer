@@ -6,20 +6,14 @@ int main()
 {
     Scene test;
     std::ifstream file;
-    file.open("new.ply",std::ios::in);
+    file.open("cow.ply",std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
     }
     test.loadFile(file);
-    Ray testray = Ray(Vector3D(0.5,0.3,0.2), Vector3D(-1.4,0.1,0.1));
-    Face3D face = test.Object3Ds.at(0).getFaces().at(0);
-    Hitpoint intersection = testray.check(face);
-    if(intersection.face != nullptr){
-        std::cout << "Face: " << *intersection.face << std::endl;
-        std::cout << "Point: " << intersection.position << std::endl;
-    }else{
-        std::cout << "daneben: " << face << std::endl;
-    }
+    test.camera = Camera(Vector3D(0,0,-10), Vector3D(0,0,1), 1.0, 1.0, 100, 100);
+    test.drawPicture();
+
     //Vector3D vec1 = Vector3D(0,1,1), vec2 = Vector3D(0,1,0);
     //std::cout << Vector3D::dot(vec1, vec2) << std::endl;
     /*

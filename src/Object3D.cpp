@@ -14,8 +14,7 @@ Object3D::Object3D(std::vector<Vector3D> points, std::vector<std::vector<int>> f
         for(int vert : face){
             faceverts.push_back(&this->points.at(vert));
         }
-        this->faces.push_back(Face3D(faceverts));
-        
+        this->faces.push_back(Face3D(faceverts, Texture(Color(255,100,100), 1)));
     }
 }
 

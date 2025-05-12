@@ -12,4 +12,7 @@ class Camera{
 	int height_pixels ; // number of pixels on the screen in the vertical direction
 	Vector3D get_pixel(int x, int y) const;
 	Ray get_ray(int x, int y) const;
+
+	Camera();
+	Camera(Vector3D, Vector3D, float, float, int, int);
 };

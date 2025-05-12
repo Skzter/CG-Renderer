@@ -14,4 +14,5 @@ public:
     Camera camera;
 
     void loadFile(std::istream&);
+    void drawPicture();
 };
