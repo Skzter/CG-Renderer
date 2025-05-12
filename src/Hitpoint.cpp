@@ -1,8 +1,9 @@
-#pragma once 
 #include "../include/Hitpoint.hpp"
 
-Hitpoint::Hitpoint(Vector3D position, float distance, Object3D* Object){
+Hitpoint::Hitpoint(){};
+
+Hitpoint::Hitpoint(Vector3D position, float distance, Face3D* face){
     this->distance = distance;
-    this->Object = Object;
+    this->face = face;
     this->position = position;
 }

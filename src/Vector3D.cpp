@@ -1,6 +1,6 @@
 #include "../include/Vector3D.hpp"
 #include <iostream>
-
+#include <cmath>
 
 Vector3D::Vector3D()
 {
@@ -59,6 +59,18 @@ Vector3D Vector3D::operator-(const Vector3D&pointA)
     return Vector3D(x,y,z);
 }
 
+Vector3D Vector3D::operator*(const float a)
+{
+    float x = this->X * a;
+    float y = this->Y * a;
+    float z = this->Z * a;
+    return Vector3D(x,y,z);
+}
+
+float Vector3D::abs(){
+    return std::sqrt(this->X * this->X + this->Y * this->Y + this->Z * this->Z);
+}
+
 Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){
     float x = a.getY() * b.getZ() - a.getZ() * b.getY();
     float y = a.getZ() * b.getX() - a.getX() * b.getZ();
@@ -66,6 +78,9 @@ Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){
     return Vector3D(x,y,z);
 }
 
+float Vector3D::dot(Vector3D& a, Vector3D& b){
+    return a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ();
+}
 std::ostream& operator<<(std::ostream& out, Vector3D obj){
     return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
 }

@@ -11,8 +11,15 @@ int main()
         std::cout << "File not opened" << std::endl;
     }
     test.loadFile(file);
-    Vector3D vec1 = Vector3D(0,0,1), vec2 = Vector3D(0,1,0);
-    //std::cout << Vector3D::cross(vec1, vec2) << std::endl;
+    Ray testray = Ray(Vector3D(0,0,-1), Vector3D(1,0,0));
+    Hitpoint intersection = testray.check(test.Object3Ds.at(0).getFaces().at(0));
+    if(intersection.face != nullptr){
+        std::cout << *intersection.face << std::endl;
+    }else{
+        std::cout << "daneben" << std::endl;
+    }
+    //Vector3D vec1 = Vector3D(0,1,1), vec2 = Vector3D(0,1,0);
+    //std::cout << Vector3D::dot(vec1, vec2) << std::endl;
     /*
     Point3D p;
     p.setPoint(2,3,5);

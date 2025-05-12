@@ -10,5 +10,5 @@ class Ray
 
 	Ray(Vector3D, Vector3D);
 
-	static Hitpoint check(Object3D);
+	Hitpoint check(Face3D);
 };

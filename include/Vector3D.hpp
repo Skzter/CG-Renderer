@@ -17,12 +17,15 @@ public:
     void addVector(Vector3D point);
     Vector3D operator+(const Vector3D &pointA);
     Vector3D operator-(const Vector3D &pointA);
+    Vector3D operator*(const float a);
+    float abs();
 
     float getX(){return this->X;}
     float getY(){return this->Y;}
     float getZ(){return this->Z;}
 
     static Vector3D cross(Vector3D&, Vector3D&);
+    static float dot(Vector3D&, Vector3D&);
 };
 
 std::ostream& operator<<(std::ostream& out, Vector3D obj);

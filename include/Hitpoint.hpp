@@ -7,8 +7,8 @@ class Hitpoint {
     public:
 		Vector3D position = Vector3D();
 		float distance = std::numeric_limits<float>::max();
-		const Object3D* Object = nullptr;
+		const Face3D* face = nullptr;
 
 		Hitpoint();
-		Hitpoint(Vector3D, float, Object3D*);
+		Hitpoint(Vector3D, float, Face3D*);
 };
