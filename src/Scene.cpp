@@ -99,7 +99,7 @@ void Scene::drawPicture()
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
-			Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(curW * pixelWidth, -(curH * pixelHeight), 0));
+			Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
 			std::cout << "Ray - origin: " << ray.origin << " direction: " << ray.direction << "\n";
 			Hitpoint defaultHitpoint = Hitpoint();
 			for (Object3D object : Object3Ds)

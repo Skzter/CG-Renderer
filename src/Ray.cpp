@@ -1,4 +1,5 @@
 #include "../include/Ray.hpp"
+#include <iostream>
 
 Ray::Ray(Vector3D origin, Vector3D direction){
     this->origin = origin;
@@ -11,10 +12,10 @@ Hitpoint Ray::check(Face3D face){
     constexpr float epsilon = std::numeric_limits<float>::epsilon();
     std::vector<Vector3D*> triangle = face.points;
 
-    Vector3D edge1 = *triangle.at(1) - *triangle.at(0);
-    Vector3D edge2 = *triangle.at(2) - *triangle.at(0);
+    Vector3D edge1 = *triangle.at(2) - *triangle.at(0);
+    Vector3D edge2 = *triangle.at(1) - *triangle.at(0);
     Vector3D ray_cross_e2 = Vector3D::cross(this->direction, edge2);
-    float det = Vector3D::Vector3D::dot(edge1, ray_cross_e2);
+    float det = Vector3D::dot(edge1, ray_cross_e2);
 
     if (det > -epsilon && det < epsilon)
         return Hitpoint();    // This ray is parallel to this triangle.
@@ -38,7 +39,7 @@ Hitpoint Ray::check(Face3D face){
     if (t > epsilon) // ray intersection
     {
         Vector3D point = Vector3D(this->origin + this->direction * t);
-        return Hitpoint(point, this->direction.abs() * t, &face);
+        return Hitpoint(point, t, &face);
     }
     else // This means that there is a line intersection but not a ray intersection.
         return Hitpoint();
