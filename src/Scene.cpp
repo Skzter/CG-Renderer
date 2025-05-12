@@ -100,7 +100,7 @@ void Scene::drawPicture()
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
 			Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-			std::cout << "Ray - origin: " << ray.origin << " direction: " << ray.direction << "\n";
+			//std::cout << "Ray - origin: " << ray.origin << " direction: " << ray.direction << "\n";
 			Hitpoint defaultHitpoint = Hitpoint();
 			for (Object3D object : Object3Ds)
 			{
@@ -116,7 +116,7 @@ void Scene::drawPicture()
 			Color col;
 			if(defaultHitpoint.face != nullptr)
 			{
-				std::cout << "Treffer!\n";
+				//std::cout << "Treffer!\n";
 				col = defaultHitpoint.face->texture.color;
 			} else 
 			{
@@ -126,10 +126,10 @@ void Scene::drawPicture()
 			buffer[pos * 3] = col.getr();     // Red
 			buffer[pos * 3 + 1] = col.getg(); // Green
 			buffer[pos * 3 + 2] = col.getb();// Blue
-			std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
-			std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
-			std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
-			std::cout << "------------" << std::endl;
+			//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
+			//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
+			//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
+			//std::cout << "------------" << std::endl;
 			// origin plus punkt nach rechts - punkt aus i,j,0
 			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
