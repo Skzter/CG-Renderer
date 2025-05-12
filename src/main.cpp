@@ -6,7 +6,7 @@ int main()
 {
     Scene test;
     std::ifstream file;
-    file.open("test.ply",std::ios::in);
+    file.open("cow.ply",std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
     }
