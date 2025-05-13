@@ -89,6 +89,20 @@ void Scene::loadFile(std::istream& file){
 	this->Object3Ds.push_back(Object3D(vertices,faces));
 }
 
+void Scene::testoptimized(){
+	std::vector<Face3D*> allfaces;
+	for (Object3D& object : Object3Ds){
+		for(int i = 0; i < object.getFaces().size(); i++){
+			Face3D* face = &(object.getFaces().at(i));
+			allfaces.push_back(face);
+		}
+	}
+	BoundingBox box;
+	box.p1 = Vector3D(-3.0,-3.0,-3.0);
+	box.p2 = Vector3D(3.0,3.0,3.0);
+	BinaryDisect disect = BinaryDisect(allfaces,5,box);
+}
+
 void Scene::drawPicture()
 {
     uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];

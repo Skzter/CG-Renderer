@@ -14,11 +14,11 @@ class Object3D
         Object3D(std::vector<Vector3D>, std::vector<std::vector<int>>);
 
 
-        const std::vector<Vector3D>& getPoints(){
+        std::vector<Vector3D>& getPoints(){
             return (this->points);
         }
 
-        const std::vector<Face3D>& getFaces(){
+        std::vector<Face3D>& getFaces(){
             return (this->faces);
         }
 };

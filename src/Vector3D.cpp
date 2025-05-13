@@ -78,12 +78,17 @@ Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){
     return Vector3D(x,y,z);
 }
 
+Vector3D middle(Vector3D& a, Vector3D& b){
+    return (a + b) * 0.5; 
+}
+
 float Vector3D::dot(Vector3D& a, Vector3D& b){
     return a.getX() * b.getX() + a.getY() * b.getY() + a.getZ() * b.getZ();
 }
 std::ostream& operator<<(std::ostream& out, Vector3D obj){
     return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
 }
+
 
 
 

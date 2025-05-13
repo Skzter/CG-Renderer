@@ -12,7 +12,8 @@ int main()
     }
     test.loadFile(file);
     test.camera = Camera(Vector3D(-1,2, -10), Vector3D(0,0,1), 1.0, 1.0, 100, 100);
-    test.drawPicture();
+    //test.drawPicture();
+    test.testoptimized();
 
     //Vector3D vec1 = Vector3D(0,1,1), vec2 = Vector3D(0,1,0);
     //std::cout << Vector3D::dot(vec1, vec2) << std::endl;

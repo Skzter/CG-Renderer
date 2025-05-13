@@ -26,6 +26,7 @@ public:
 
     static Vector3D cross(Vector3D&, Vector3D&);
     static float dot(Vector3D&, Vector3D&);
+    static Vector3D middle(Vector3D&, Vector3D&);
 };
 
 std::ostream& operator<<(std::ostream& out, Vector3D obj);

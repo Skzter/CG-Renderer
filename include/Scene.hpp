@@ -4,6 +4,7 @@
 #include "Camera.hpp"
 #include "Light.hpp"
 #include "Object3D.hpp"
+#include "BinaryDisect.hpp"
 
 class Scene
 {
@@ -15,4 +16,5 @@ public:
 
     void loadFile(std::istream&);
     void drawPicture();
+    void testoptimized();
 };
