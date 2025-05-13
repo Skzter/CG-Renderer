@@ -23,9 +23,11 @@ public:
     float getX(){return this->X;}
     float getY(){return this->Y;}
     float getZ(){return this->Z;}
+    float& at(size_t);
 
     static Vector3D cross(Vector3D&, Vector3D&);
     static float dot(Vector3D&, Vector3D&);
+    static Vector3D middle(Vector3D&, Vector3D&);
 };
 
 std::ostream& operator<<(std::ostream& out, Vector3D obj);

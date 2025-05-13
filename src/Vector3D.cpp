@@ -71,11 +71,27 @@ float Vector3D::abs(){
     return std::sqrt(this->X * this->X + this->Y * this->Y + this->Z * this->Z);
 }
 
+float& Vector3D::at(size_t pos){
+    switch (pos)
+    {
+    case 0:
+        return X;
+    case 1:
+        return Y;
+    default:
+        return Z;
+    }
+}
+
 Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){
     float x = a.getY() * b.getZ() - a.getZ() * b.getY();
     float y = a.getZ() * b.getX() - a.getX() * b.getZ();
     float z = a.getX() * b.getY() - a.getY() * b.getX();
     return Vector3D(x,y,z);
+}
+
+Vector3D middle(Vector3D& a, Vector3D& b){
+    return (a + b) * 0.5; 
 }
 
 float Vector3D::dot(Vector3D& a, Vector3D& b){
@@ -84,6 +100,7 @@ float Vector3D::dot(Vector3D& a, Vector3D& b){
 std::ostream& operator<<(std::ostream& out, Vector3D obj){
     return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
 }
+
 
 
 
