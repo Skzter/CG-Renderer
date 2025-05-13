@@ -11,6 +11,11 @@ int main()
         std::cout << "File not opened" << std::endl;
     }
     test.loadFile(file);
+    test.camera = Camera(Vector3D(0,2, -5), Vector3D(0,0,1), 1.0, 1.0, 316, 316);
+    test.drawPicture();
+
+    //Vector3D vec1 = Vector3D(0,1,1), vec2 = Vector3D(0,1,0);
+    //std::cout << Vector3D::dot(vec1, vec2) << std::endl;
     /*
     Point3D p;
     p.setPoint(2,3,5);

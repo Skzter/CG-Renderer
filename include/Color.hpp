@@ -7,13 +7,10 @@ class Color{
     uint8_t r;
     uint8_t g;
     uint8_t b;
-    float opacity;
-
-    float surface; //irgendwelche Oberflächeninformationen
 
     public:
         Color();
-        Color(uint8_t, uint8_t, uint8_t, float);
+        Color(uint8_t, uint8_t, uint8_t);
 
         uint8_t getr(){
             return r;
@@ -23,9 +20,6 @@ class Color{
         }
         uint8_t getb(){
             return b;
-        }
-        uint8_t geto(){
-            return opacity;
         }
 };
 
