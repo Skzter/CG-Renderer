@@ -2,14 +2,31 @@
 #include <cmath>
 #include <iostream>
 
-std::list<BinaryNode> BinaryNode::allN = std::list<BinaryNode>();
-std::list<BinaryLeaf> BinaryLeaf::allL = std::list<BinaryLeaf>();
+int BinaryDisect::mostFaces = 0;
 
 BinaryNode::BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box){
     this->left = left;
     this->right = right;
     this->box = box;
     this->empty = left->empty && right->empty;
+}
+
+void BinaryNode::dealoc(){
+    this->left->dealoc();
+    this->right->dealoc();
+    delete this;
+}
+
+void BinaryLeaf::dealoc(){
+    delete this;
+}
+
+BinaryNode::~BinaryNode(){
+    //std::cout << "Node deleted" << std::endl;
+}
+
+BinaryLeaf::~BinaryLeaf(){
+    //std::cout << "Leaf deleted" << std::endl;
 }
 
 Hitpoint BinaryNode::closestHitpoint(Ray& ray){
@@ -45,14 +62,16 @@ Hitpoint BinaryLeaf::closestHitpoint(Ray& ray){
 BinaryLeaf::BinaryLeaf(std::vector<Face3D*> faces){
     this->faces = faces;
     this->empty = faces.size() == 0;
-    if(faces.size() != 0)
-        std::cout << "Num FAces: " << faces.size() << std::endl;
+    //if(faces.size() != 0)
+    //   std::cout << "Num Faces: " << faces.size() << std::endl;
+    if(faces.size() > mostFaces){
+        mostFaces = faces.size();
+    }
 }
 
 BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, BoundingBox box){
     if(depth-- <= 0){
-        BinaryLeaf::allL.push_back(BinaryLeaf(faces));
-        return &BinaryLeaf::allL.back();;
+        return new BinaryLeaf(faces);
     }
     
     std::vector<Face3D*> left;
@@ -148,7 +167,6 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
     }
     BinaryDisect* newleft = createNode(left, depth, leftB);
     BinaryDisect* newright = createNode(right, depth, rightB);
-    //std::cout << newleft->id << " | " << newright->id << std::endl;
-    BinaryNode::allN.push_back(BinaryNode(newleft,newright,box));
-    return &BinaryNode::allN.back();
+    //std::cout << newleft->id << " | " << newright->id << std::endl; 
+    return new BinaryNode(newleft,newright,box);
 }

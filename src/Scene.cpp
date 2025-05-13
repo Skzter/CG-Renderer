@@ -99,6 +99,7 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	}
 	
 	BinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
+	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
 
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
@@ -135,6 +136,7 @@ void Scene::testoptimized(BoundingBox box, int depth){
 			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
 	}
+	disect->dealoc();
 
 	int success = stbi_write_png("output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
 	delete[] buffer;

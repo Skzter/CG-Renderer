@@ -10,9 +10,12 @@ class BinaryDisect{
     public:
         bool empty;
         virtual Hitpoint closestHitpoint(Ray&) = 0;
+        virtual void dealoc() = 0;
 
         static BinaryDisect* createNode(std::vector<Face3D*> faces, int maxDepth, BoundingBox box);
-};
+
+        static int mostFaces;
+    };
 
 class BinaryNode : public BinaryDisect{
     public:
@@ -22,8 +25,8 @@ class BinaryNode : public BinaryDisect{
 
         BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box);
         Hitpoint closestHitpoint(Ray&);
-
-        static std::list<BinaryNode> allN;
+        void dealoc();
+        ~BinaryNode();
 };
 
 class BinaryLeaf : public BinaryDisect{
@@ -32,6 +35,6 @@ class BinaryLeaf : public BinaryDisect{
 
         BinaryLeaf(std::vector<Face3D*> faces);
         Hitpoint closestHitpoint(Ray&);
-
-        static std::list<BinaryLeaf> allL;
+        void dealoc();
+        ~BinaryLeaf();
 };

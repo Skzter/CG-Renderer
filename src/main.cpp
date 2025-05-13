@@ -22,10 +22,10 @@ int main()
     }
     test.loadFile(file);
 
-    test.camera = Camera(Vector3D(0,0, -5), Vector3D(0,0,1), 1.0, 0.5625, 1920, 1080);
+    test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 0.5625, 480, 270);
     BoundingBox box;
-	  box.p1 = Vector3D(-6.0,-2.0,-3.0);
-	  box.p2 = Vector3D(6,2.0,3.0);
+    box.p1 = Vector3D(-7.0,-3.0,-3.0);
+    box.p2 = Vector3D(7,3.0,3.0);
     
   
     auto start = std::chrono::high_resolution_clock::now();
