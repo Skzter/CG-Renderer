@@ -1,0 +1,27 @@
+ply
+format ascii 1.0
+element vertex 8
+property float x
+property float y
+property float z
+property uchar red
+property uchar green
+property uchar blue
+property uchar alpha
+element face 6
+property list uchar int vertex_indices
+end_header
+0 0 0 255 0 0 255      # Barrel base (red, opaque)
+10 0 0 200 100 0 255   # Barrel tip (orange, opaque)
+0 2 0 150 75 0 200     # Wooden stock (brown, semi-transparent)
+0 -2 0 150 75 0 200    # Wooden stock (brown, semi-transparent)
+5 1.5 0 100 100 100 255 # Metallic magazine (gray, opaque)
+5 -1.5 0 100 100 100 255 # Metallic magazine (gray, opaque)
+8 0 1 50 50 50 255     # Grip (dark gray, opaque)
+8 0 -1 50 50 50 255    # Grip (dark gray, opaque)
+4 0 1 2 3              # Barrel face
+4 4 5 6 7              # Magazine face
+4 0 1 4 5              # Side panel
+4 2 3 6 7              # Opposite side panel
+4 0 2 4 6              # Top face
+4 1 3 5 7              # Bottom face

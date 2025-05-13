@@ -4,8 +4,10 @@ class Texture
 {
 public:
     Color color = Color(0,0,0);
-    float opacity = 1;
+    uint8_t opacity = 255;
 
     Texture();
-    Texture(Color color, float opacity);
+    Texture(Color color, uint8_t opacity);
 };
+    
+std::ostream& operator<<(std::ostream& out, Texture Texture);

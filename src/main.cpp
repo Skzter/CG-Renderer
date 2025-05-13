@@ -14,7 +14,7 @@ int main()
     std::cout << "anHP - Dist: " << anHP.distance << " Face: " << anHP.face << " Pos: " << anHP.position << std::endl;
     */
     std::ifstream file;
-    std::string filePath = "models/big_porsche.ply";
+    std::string filePath = "models/triangle.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;

@@ -40,8 +40,10 @@ void Scene::loadFile(std::istream& file){
 
 	skip(2, file); //skip format
 	numvert = getOption<int>(file, "element vertex");
-	skip(3,file); //just use float
+	std::cout << "Numvert: " << numvert << std::endl;
+	skip(7,file); //just use float | 3 Punkte + 4 Farbe
 	numface = getOption<int>(file, "element face");
+	std::cout << "Numvert: " << numface << std::endl;
 	skip(1,file); //??
 
 	do{
@@ -51,19 +53,37 @@ void Scene::loadFile(std::istream& file){
 	//Auch einfach vertrauen das alle dimensionen richig sind
 	//vertices
 	std::vector<Vector3D> vertices;
+	std::vector<Color> colorsToVertices; // Index von Punkt in Vertices ist zu color index gleich
+	std::vector<Texture> textureToVertices;
 	vertices.reserve(numvert);
+	colorsToVertices.reserve(numvert);
+	textureToVertices.reserve(numvert);
 	std::vector<std::vector<int>> faces;
 	faces.reserve(numface);
 
 	short dimensionen = 3;
 	float cords[3];
 	float cord;
+
+	short rgba = 4;
+	uint8_t colors[4];
+	int color;
+
 	for(size_t curvert = 0; curvert < numvert; curvert++){
 		for(size_t dim = 0; dim < dimensionen; dim++){
 			file >> cord;
 			cords[dim] = cord;
 		}
 		vertices.push_back(Vector3D(cords[0],cords[1],cords[2]));
+
+		for(size_t col = 0; col < rgba; col++){
+			file >> color;
+			std::cout << "col: " << color << "\n";
+			colors[col] = (uint8_t)color;
+		}
+		colorsToVertices.push_back(Color(colors[0], colors[1], colors[2]));
+		textureToVertices.push_back(Texture(colorsToVertices.at(curvert), colors[3]));
+		std::cout << "Farbe: " << colorsToVertices.at(curvert) << " Texture: " << textureToVertices.at(curvert) << std::endl;
 	}
 
 	short vertpos;
