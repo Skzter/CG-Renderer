@@ -14,7 +14,7 @@ int main()
         return -1;
     }
     test.loadFile(file);
-    test.camera = Camera(Vector3D(0,0, -2), Vector3D(0,0,1), 1.5, 1.5, 40, 40);
+    test.camera = Camera(Vector3D(0.7,0, -3), Vector3D(0,0,1), 1.75, 0.875, 200, 100);
     auto start = std::chrono::high_resolution_clock::now();
     test.drawPicture();
     auto end = std::chrono::high_resolution_clock::now();
