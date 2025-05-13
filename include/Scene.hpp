@@ -5,6 +5,7 @@
 #include "Light.hpp"
 #include "Object3D.hpp"
 #include "BinaryDisect.hpp"
+#include <mutex>
 
 class Scene
 {
@@ -14,7 +15,11 @@ public:
     std::vector<Light> lights;
     Camera camera;
 
+    int progress;
+    std::mutex proglock;
+
     void loadFile(std::istream&);
     void drawPicture();
     void testoptimized(BoundingBox,int);
+    void calcPixels(BinaryDisect*,size_t, size_t, float, float, uint8_t*, Vector3D);
 };

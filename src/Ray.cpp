@@ -53,7 +53,7 @@ bool Ray::check(BoundingBox box){
 
     bool inside = true;
 	char quadrant[NUMDIM];
-	register int i;
+	int i;
 	int whichPlane;
 	double maxT[NUMDIM];
 	double candidatePlane[NUMDIM];
@@ -100,7 +100,8 @@ bool Ray::check(BoundingBox box){
 			hp.at(i) = origin.at(i) + maxT[whichPlane] * direction.at(i);
 			if (hp.at(i) < box.p1.at(i) || hp.at(i) > box.p2.at(i))
 				return (false);
-	return (true);				/* ray hits box */
-}	
+		return (true);				/* ray hits box */
+	}
+	return false;	
 }
    

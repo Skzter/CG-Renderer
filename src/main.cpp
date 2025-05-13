@@ -14,7 +14,7 @@ int main()
     std::cout << "anHP - Dist: " << anHP.distance << " Face: " << anHP.face << " Pos: " << anHP.position << std::endl;
     */
     std::ifstream file;
-    std::string filePath = "models/big_porsche.ply";
+    std::string filePath = "models/tommygun.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
@@ -22,7 +22,7 @@ int main()
     }
     test.loadFile(file);
 
-    test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 0.5625, 480, 270);
+    test.camera = Camera(Vector3D(0.6,0, -5), Vector3D(0,0,1), 1.0, 0.4, 2000, 800);
     BoundingBox box;
     box.p1 = Vector3D(-7.0,-3.0,-3.0);
     box.p2 = Vector3D(7,3.0,3.0);
