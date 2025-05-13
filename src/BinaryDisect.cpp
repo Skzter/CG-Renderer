@@ -91,7 +91,7 @@ BinaryDisect::BinaryDisect(std::vector<Face3D*> faces, int depth, BoundingBox bo
             //std::cout << *p << " | " << leftB.p2 << "   bigger: " << bigger << ", smaller: " << smaller << std::endl;
         }
         if(!(smaller || bigger)){
-               // std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
+               std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
         }
         if(smaller && bigger){
             throw std::runtime_error("bigger and smaller!");

@@ -6,7 +6,7 @@ int main()
 {
     Scene test;
     std::ifstream file;
-    std::string filePath = "models/triangle.ply";
+    std::string filePath = "models/big_porsche.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;

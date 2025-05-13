@@ -99,7 +99,7 @@ void Scene::testoptimized(){
 	}
 	BoundingBox box;
 	box.p1 = Vector3D(-3.0,-3.0,-3.0);
-	box.p2 = Vector3D(3.0,3.0,3.0);
+	box.p2 = Vector3D(100.0,3.0,3.0);
 	BinaryDisect disect = BinaryDisect(allfaces,5,box);
 }
 
