@@ -16,5 +16,5 @@ public:
 
     void loadFile(std::istream&);
     void drawPicture();
-    void testoptimized();
+    void testoptimized(BoundingBox,int);
 };

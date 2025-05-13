@@ -2,14 +2,57 @@
 #include <cmath>
 #include <iostream>
 
-std::vector<BinaryDisect> BinaryDisect::all = std::vector<BinaryDisect>();
+std::list<BinaryNode> BinaryNode::allN = std::list<BinaryNode>();
+std::list<BinaryLeaf> BinaryLeaf::allL = std::list<BinaryLeaf>();
 
-BinaryDisect::BinaryDisect(std::vector<Face3D*> faces, int depth, BoundingBox box){
+BinaryNode::BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box){
+    this->left = left;
+    this->right = right;
+    this->box = box;
+    this->empty = left->empty && right->empty;
+}
+
+Hitpoint BinaryNode::closestHitpoint(Ray& ray){
+    if(this->empty){
+        return Hitpoint();
+    }
+
+    if(!ray.check(this->box)){
+        //std::cout << "missed Box" << std::endl;
+        return Hitpoint();
+    }
+
+    //std::cout << left->id << " | " << right->id << std::endl;
+
+    Hitpoint h1 = this->left->closestHitpoint(ray);
+    Hitpoint h2 = this->right->closestHitpoint(ray);
+    return h1.distance < h2.distance ? h1 : h2;
+}
+
+
+Hitpoint BinaryLeaf::closestHitpoint(Ray& ray){
+    Hitpoint closest = Hitpoint();
+
+    for(Face3D* face : this->faces){
+        Hitpoint hit = ray.check(*face);
+        if(hit.distance < closest.distance)
+            closest = hit;
+    }
+    //std::cout << closest.position << std::endl;
+    return closest;
+}
+
+BinaryLeaf::BinaryLeaf(std::vector<Face3D*> faces){
+    this->faces = faces;
+    this->empty = faces.size() == 0;
+    if(faces.size() != 0)
+        std::cout << "Num FAces: " << faces.size() << std::endl;
+}
+
+BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, BoundingBox box){
     if(depth-- <= 0){
-        this->left = nullptr;
-        this->right = nullptr;
-        this->faces = faces;
-        return;
+        BinaryLeaf::allL.push_back(BinaryLeaf(faces));
+        return &BinaryLeaf::allL.back();;
     }
     
     std::vector<Face3D*> left;
@@ -33,7 +76,7 @@ BinaryDisect::BinaryDisect(std::vector<Face3D*> faces, int depth, BoundingBox bo
             dir = 2;
         }
     }
-    std::cout << (int)dir << " | xdiff: " << xdiff << ", ydiff: " << ydiff << ", zdiff: " << zdiff << std::endl;
+    //std::cout << (int)dir << " | xdiff: " << xdiff << ", ydiff: " << ydiff << ", zdiff: " << zdiff << std::endl;
     //std::cout << "p1: " << box.p1 << ", p2: " << box.p2 << std::endl;
 
     BoundingBox leftB;
@@ -60,56 +103,52 @@ BinaryDisect::BinaryDisect(std::vector<Face3D*> faces, int depth, BoundingBox bo
 
     for(int i = 0; i < faces.size(); i++){
         //std::cout << "i: " << i << " | " << *faces.at(i) << std::endl;
-        bool smaller = true, bigger = true;
+        bool smaller = false, bigger = false;
         for(Vector3D* p : faces.at(i)->points){
             switch (dir)
             {
             case 0:
                 if(p->getX() < leftB.p2.getX()){
-                    bigger = false;
+                    smaller = true;
                 }else{
-                    smaller = false;
+                    bigger = true;
                 }
                 break;
 
             case 1:
                 if(p->getY() < leftB.p2.getY()){
-                    bigger = false;
+                    smaller = true;
                 }else{
-                    smaller = false;
+                    bigger = true;
                 }
                 break;
 
             default:
                 if(p->getZ() < leftB.p2.getZ()){
-                    bigger = false;
+                    smaller = true;
                 }else{
-                    smaller = false;
+                    bigger = true;
                 }
                 break;
             }
             //std::cout << *p << " | " << leftB.p2 << "   bigger: " << bigger << ", smaller: " << smaller << std::endl;
         }
         if(!(smaller || bigger)){
-               std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
+            throw std::runtime_error("neither bigger nor smaller!");
         }
         if(smaller && bigger){
-            throw std::runtime_error("bigger and smaller!");
+            //std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
         }
         if(smaller){
             left.push_back(faces.at(i));
-            faces.erase(faces.begin() + i);
         }
         if(bigger){
             right.push_back(faces.at(i));
-            faces.erase(faces.begin() + i);
         }
     }
-    std::cout << faces.size() << std::endl;
-
-    this->faces = faces;
-    BinaryDisect::all.push_back(BinaryDisect(left, depth, leftB));
-    this->left = &BinaryDisect::all.back();
-    BinaryDisect::all.push_back(BinaryDisect(right, depth, rightB));
-    this->right = &BinaryDisect::all.back();
+    BinaryDisect* newleft = createNode(left, depth, leftB);
+    BinaryDisect* newright = createNode(right, depth, rightB);
+    //std::cout << newleft->id << " | " << newright->id << std::endl;
+    BinaryNode::allN.push_back(BinaryNode(newleft,newright,box));
+    return &BinaryNode::allN.back();
 }

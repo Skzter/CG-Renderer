@@ -89,7 +89,7 @@ void Scene::loadFile(std::istream& file){
 	this->Object3Ds.push_back(Object3D(vertices,faces));
 }
 
-void Scene::testoptimized(){
+void Scene::testoptimized(BoundingBox box, int depth){
 	std::vector<Face3D*> allfaces;
 	for (Object3D& object : Object3Ds){
 		for(int i = 0; i < object.getFaces().size(); i++){
@@ -97,10 +97,54 @@ void Scene::testoptimized(){
 			allfaces.push_back(face);
 		}
 	}
-	BoundingBox box;
-	box.p1 = Vector3D(-3.0,-3.0,-3.0);
-	box.p2 = Vector3D(100.0,3.0,3.0);
-	BinaryDisect disect = BinaryDisect(allfaces,5,box);
+	
+	BinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
+
+	std::cout << "Start Drawing" << std::endl;
+	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
+	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
+	float pixelWidth = camera.width / camera.width_pixels;
+	float pixelHeight = camera.height / camera.height_pixels;
+	for (size_t curH = 0; curH < camera.height_pixels; curH++)
+	{
+		for (size_t curW = 0; curW < camera.width_pixels; curW++)
+		{
+			if(curH % 10 == 0 && curW == 0)
+				std::cout << curH << std::endl;
+			Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
+			Hitpoint closest = disect->closestHitpoint(ray);
+			
+			Color col;
+			if(closest.face != nullptr)
+			{
+				//std::cout << "Treffer!\n";
+				col = closest.face->texture.color;
+			} else 
+			{
+				col = Color();
+			}
+			size_t pos = curH * camera.width_pixels + curW;
+			buffer[pos * 3] = col.getr();     // Red
+			buffer[pos * 3 + 1] = col.getg(); // Green
+			buffer[pos * 3 + 2] = col.getb();// Blue
+			//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
+			//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
+			//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
+			//std::cout << "------------" << std::endl;
+			// origin plus punkt nach rechts - punkt aus i,j,0
+			// aus i j verhältnis zu bildschirm und dann gänsehosen
+		}
+	}
+
+	int success = stbi_write_png("output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
+	delete[] buffer;
+
+	if (!success)
+	{
+		std::cout << "Failed to write PNG!" << std::endl;
+		return;
+	}
+	// 2d array von colors pro pixel zu 1D array mit rgb values 
 }
 
 void Scene::drawPicture()
@@ -113,6 +157,7 @@ void Scene::drawPicture()
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
+			std::cout << curH << " " << curW << std::endl;
 			Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
 			//std::cout << "Ray - origin: " << ray.origin << " direction: " << ray.direction << "\n";
 			Hitpoint defaultHitpoint = Hitpoint();

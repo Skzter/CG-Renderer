@@ -6,7 +6,7 @@ Ray::Ray(Vector3D origin, Vector3D direction){
     this->direction = direction;
 }
 
-Hitpoint Ray::check(Face3D face){
+Hitpoint Ray::check(Face3D& face){
     //https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
 
     constexpr float epsilon = std::numeric_limits<float>::epsilon();
@@ -43,5 +43,64 @@ Hitpoint Ray::check(Face3D face){
     }
     else // This means that there is a line intersection but not a ray intersection.
         return Hitpoint();
+}
+
+bool Ray::check(BoundingBox box){
+    #define NUMDIM	3
+    #define RIGHT	0
+    #define LEFT	1
+    #define MIDDLE	2
+
+    bool inside = true;
+	char quadrant[NUMDIM];
+	register int i;
+	int whichPlane;
+	double maxT[NUMDIM];
+	double candidatePlane[NUMDIM];
+
+	/* Find candidate planes; this loop can be avoided if
+   	rays cast all from the eye(assume perpsective view) */
+	for (i=0; i<NUMDIM; i++)
+		if(this->origin.at(i) < box.p1.at(i)) {
+			quadrant[i] = LEFT;
+			candidatePlane[i] = box.p1.at(i);
+			inside = false;
+		}else if (origin.at(i) > box.p2.at(i)) {
+			quadrant[i] = RIGHT;
+			candidatePlane[i] = box.p2.at(i);
+			inside = false;
+		}else	{
+			quadrant[i] = MIDDLE;
+		}
+
+	/* Ray origin inside bounding box */
+	if(inside)	{
+		return (true);
+	}
+
+
+	/* Calculate T distances to candidate planes */
+	for (i = 0; i < NUMDIM; i++)
+		if (quadrant[i] != MIDDLE && direction.at(i) !=0.)
+			maxT[i] = (candidatePlane[i]-origin.at(i)) / direction.at(i);
+		else
+			maxT[i] = -1.;
+
+	/* Get largest of the maxT's for final choice of intersection */
+	whichPlane = 0;
+	for (i = 1; i < NUMDIM; i++)
+		if (maxT[whichPlane] < maxT[i])
+			whichPlane = i;
+
+	/* Check final candidate actually inside box */
+    Vector3D hp;
+	if (maxT[whichPlane] < 0.) return (false);
+	for (i = 0; i < NUMDIM; i++)
+		if (whichPlane != i) {
+			hp.at(i) = origin.at(i) + maxT[whichPlane] * direction.at(i);
+			if (hp.at(i) < box.p1.at(i) || hp.at(i) > box.p2.at(i))
+				return (false);
+	return (true);				/* ray hits box */
+}	
 }
    
