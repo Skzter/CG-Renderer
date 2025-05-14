@@ -103,13 +103,13 @@ void Scene::calcPixels(BinaryDisect* disect,size_t startH, size_t endH, float pi
 				proglock.unlock();
 			}
 			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-			Hitpoint* closest = disect->closestHitpoint(ray);
+			Hitpoint closest = disect->closestHitpoint(ray);
 			
 			Color col;
-			if(closest->face != nullptr)
+			if(closest.face != nullptr)
 			{
 				//std::cout << "Treffer!\n";
-				col = closest->face->texture.color;
+				col = closest.face->texture.color;
 			} else 
 			{
 				col = Color();
