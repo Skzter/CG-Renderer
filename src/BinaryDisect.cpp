@@ -69,6 +69,9 @@ BinaryLeaf::BinaryLeaf(std::vector<Face3D*> faces){
 }
 
 BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, BoundingBox box){
+    //https://stackoverflow.com/questions/251781/how-to-find-the-kth-largest-element-in-an-unsorted-array-of-length-n-in-on
+    //auch mal mit zugriff auf Punkte mit at() n bissl übersichtlicher machen
+
     if(faces.size() == 0){
         return new BinaryEmpty();
     }

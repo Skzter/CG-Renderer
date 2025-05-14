@@ -90,10 +90,8 @@ void Scene::loadFile(std::istream& file){
 	this->Object3Ds.push_back(Object3D(vertices,faces));
 }
 
-void Scene::calcPixels(BinaryDisect* disect,size_t startH, size_t endH, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
-	if(startH > endH || startH < 0 || endH > camera.height_pixels)
-		return;
-	for (size_t curH = startH; curH < endH; curH++)
+void Scene::calcPixels(BinaryDisect* disect,size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
+	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
@@ -126,7 +124,7 @@ void Scene::calcPixels(BinaryDisect* disect,size_t startH, size_t endH, float pi
 			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
 	}
-	std::cout << "Thread [" << startH << " - " << endH << "]" << std::endl;
+	std::cout << "Thread [" << start << "]" << std::endl;
 }
 
 void Scene::testoptimized(BoundingBox box, int depth){
@@ -153,10 +151,7 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	progress = 0;
 
 	for(size_t i = 0; i < numThreads; i++){
-		size_t startH = i * rowsPerThread;
-        size_t endH = (i == numThreads - 1) ? camera.height_pixels : startH + rowsPerThread;
-
-		threads.push_back(std::thread(&Scene::calcPixels, this, disect,startH,endH, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
+		threads.push_back(std::thread(&Scene::calcPixels, this, disect,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
 	}
 
 	//calcPixels(disect,0,camera.height_pixels/2, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);

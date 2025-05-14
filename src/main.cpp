@@ -30,7 +30,7 @@ int main()
   
     auto start = std::chrono::high_resolution_clock::now();
     //test.drawPicture();
-    test.testoptimized(box,15);
+    test.testoptimized(box,20);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);
