@@ -11,6 +11,6 @@ class Ray
 
 	Ray(Vector3D, Vector3D);
 
-	Hitpoint check(Face3D&);
+	Hitpoint* check(Face3D&);
 	bool check(BoundingBox);
 };

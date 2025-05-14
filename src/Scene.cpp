@@ -103,13 +103,13 @@ void Scene::calcPixels(BinaryDisect* disect,size_t startH, size_t endH, float pi
 				proglock.unlock();
 			}
 			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-			Hitpoint closest = disect->closestHitpoint(ray);
+			Hitpoint* closest = disect->closestHitpoint(ray);
 			
 			Color col;
-			if(closest.face != nullptr)
+			if(closest->face != nullptr)
 			{
 				//std::cout << "Treffer!\n";
-				col = closest.face->texture.color;
+				col = closest->face->texture.color;
 			} else 
 			{
 				col = Color();
@@ -126,6 +126,7 @@ void Scene::calcPixels(BinaryDisect* disect,size_t startH, size_t endH, float pi
 			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
 	}
+	std::cout << "Thread [" << startH << " - " << endH << "]" << std::endl;
 }
 
 void Scene::testoptimized(BoundingBox box, int depth){
@@ -178,6 +179,7 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	// 2d array von colors pro pixel zu 1D array mit rgb values 
 }
 
+/*
 void Scene::drawPicture()
 {
     uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
@@ -234,7 +236,7 @@ void Scene::drawPicture()
 		return;
 	}
 	// 2d array von colors pro pixel zu 1D array mit rgb values 
-}
+}*/
 
 Scene::Scene(){	
 }

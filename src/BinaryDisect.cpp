@@ -4,55 +4,55 @@
 
 int BinaryDisect::mostFaces = 0;
 
+Hitpoint* BinaryEmpty::closestHitpoint(Ray&){
+    return new Hitpoint();
+}
+
+void BinaryDisect::dealoc(){
+    //std::cout << "deleting smth else" << std::endl;
+     delete this;
+}
+
 BinaryNode::BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box){
     this->left = left;
     this->right = right;
     this->box = box;
-    this->empty = left->empty && right->empty;
 }
 
 void BinaryNode::dealoc(){
+    //std::cout << "deleting Node" << std::endl;
     this->left->dealoc();
     this->right->dealoc();
     delete this;
 }
 
-void BinaryLeaf::dealoc(){
-    delete this;
-}
-
-BinaryNode::~BinaryNode(){
-    //std::cout << "Node deleted" << std::endl;
-}
-
-BinaryLeaf::~BinaryLeaf(){
-    //std::cout << "Leaf deleted" << std::endl;
-}
-
-Hitpoint BinaryNode::closestHitpoint(Ray& ray){
-    if(this->empty){
-        return Hitpoint();
-    }
-
+Hitpoint* BinaryNode::closestHitpoint(Ray& ray){
     if(!ray.check(this->box)){
         //std::cout << "missed Box" << std::endl;
-        return Hitpoint();
+        return new Hitpoint();
     }
 
     //std::cout << left->id << " | " << right->id << std::endl;
 
-    Hitpoint h1 = this->left->closestHitpoint(ray);
-    Hitpoint h2 = this->right->closestHitpoint(ray);
-    return h1.distance < h2.distance ? h1 : h2;
+    Hitpoint* h1 = this->left->closestHitpoint(ray);
+    Hitpoint* h2 = this->right->closestHitpoint(ray);
+    
+    if(h1->distance < h2->distance){
+        delete h2;
+        return h1;
+    }else{
+        delete h1;
+        return h2;
+    }
 }
 
 
-Hitpoint BinaryLeaf::closestHitpoint(Ray& ray){
-    Hitpoint closest = Hitpoint();
+Hitpoint* BinaryLeaf::closestHitpoint(Ray& ray){
+    Hitpoint* closest = new Hitpoint();
 
     for(Face3D* face : this->faces){
-        Hitpoint hit = ray.check(*face);
-        if(hit.distance < closest.distance)
+        Hitpoint* hit = ray.check(*face);
+        if(hit->distance < closest->distance)
             closest = hit;
     }
     //std::cout << closest.position << std::endl;
@@ -61,15 +61,17 @@ Hitpoint BinaryLeaf::closestHitpoint(Ray& ray){
 
 BinaryLeaf::BinaryLeaf(std::vector<Face3D*> faces){
     this->faces = faces;
-    this->empty = faces.size() == 0;
     //if(faces.size() != 0)
-    //   std::cout << "Num Faces: " << faces.size() << std::endl;
+    //std::cout << "Num Faces: " << faces.size() << std::endl;
     if(faces.size() > mostFaces){
         mostFaces = faces.size();
     }
 }
 
 BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, BoundingBox box){
+    if(faces.size() < 2){
+        return new BinaryEmpty();
+    }
     if(depth-- <= 0){
         return new BinaryLeaf(faces);
     }
