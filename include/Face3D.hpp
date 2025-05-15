@@ -13,6 +13,13 @@ public:
 
     Face3D();
     Face3D(std::vector<Vector3D*>, Texture);
+    Vector3D middlePoint();
+
+    float maxW(size_t dir);
+    float minW(size_t dir);
+
+    static bool smallerEqDir(Face3D*, Face3D*, size_t);
 };
 
 std::ostream& operator<<(std::ostream& out, Face3D face);
+

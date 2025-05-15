@@ -138,7 +138,9 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	
 	BinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
 	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
-
+	std::cout << "Avg Faces: " << BinaryDisect::sumFaces / BinaryDisect::cntLeafs << std::endl;
+	std::cout << "Count Leafs: " << BinaryDisect::cntLeafs << std::endl;
+	
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
 	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);

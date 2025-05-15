@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include "../include/Scene.hpp"
+#include "../include/Quickselect.hpp"
 
 int main()
 {
@@ -27,10 +28,17 @@ int main()
     box.p1 = Vector3D(-7.0,-3.0,-3.0);
     box.p2 = Vector3D(7,3.0,3.0);
     
-  
+    /*
+    Vector3D v1 = Vector3D(-1,0,1);
+    Vector3D v2 = Vector3D(1,-1,0);
+    Vector3D v3 = Vector3D(0,1,-1);
+    Face3D f = Face3D({&v1,&v2,&v3},Texture());
+    std::cout << f.maxW(0) << " " << f.minW(1) << std::endl;
+    */
+
     auto start = std::chrono::high_resolution_clock::now();
     //test.drawPicture();
-    test.testoptimized(box,20);
+    test.testoptimized(box,18);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);
