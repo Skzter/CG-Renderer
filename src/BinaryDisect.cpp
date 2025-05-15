@@ -1,7 +1,6 @@
 #include "../include/BinaryDisect.hpp"
 #include <cmath>
 #include <iostream>
-#include "../include/Quickselect.hpp"
 #include <algorithm>
 
 int BinaryDisect::mostFaces = 0;

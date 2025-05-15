@@ -2,7 +2,6 @@
 #include <iostream>
 #include <chrono>
 #include "../include/Scene.hpp"
-#include "../include/Quickselect.hpp"
 
 int main()
 {
