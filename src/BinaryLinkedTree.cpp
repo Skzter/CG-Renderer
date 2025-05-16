@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <climits>
 
 int BinaryLinkedTree::mostFaces = 0;
 int BinaryLinkedTree::sumFaces = 0;
