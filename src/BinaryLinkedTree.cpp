@@ -1,22 +1,22 @@
-#include "../include/BinaryDisect.hpp"
+#include "../include/BinaryLinkedTree.hpp"
 #include <cmath>
 #include <iostream>
 #include <algorithm>
 
-int BinaryDisect::mostFaces = 0;
-int BinaryDisect::sumFaces = 0;
-int BinaryDisect::cntLeafs = 0;
+int BinaryLinkedTree::mostFaces = 0;
+int BinaryLinkedTree::sumFaces = 0;
+int BinaryLinkedTree::cntLeafs = 0;
 
 Hitpoint BinaryEmpty::closestHitpoint(Ray&){
     return Hitpoint();
 }
 
-void BinaryDisect::dealoc(){
+void BinaryLinkedTree::dealoc(){
     //std::cout << "deleting smth else" << std::endl;
      delete this;
 }
 
-BinaryNode::BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box){
+BinaryNode::BinaryNode(BinaryLinkedTree* left, BinaryLinkedTree* right, BoundingBox box){
     this->left = left;
     this->right = right;
     this->box = box;
@@ -74,7 +74,7 @@ BinaryLeaf::BinaryLeaf(std::vector<Face3D*> faces){
     }
 }
 
-BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, BoundingBox box){
+BinaryLinkedTree* BinaryLinkedTree::createNode(std::vector<Face3D*> faces, int depth, BoundingBox box){
     //https://www.geeksforgeeks.org/quickselect-algorithm/
     //auch mal mit zugriff auf Punkte mit at() n bissl übersichtlicher machen
 
@@ -197,8 +197,8 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
 
     
     //std::cout << "total: " << faces.size() << " pivotnr: " << faces.size() / 2 + 1 << " left: " << left.size() << " | right: " << right.size() << std::endl;
-    BinaryDisect* newleft = createNode(bestleft, depth, bestleftB); 
-    BinaryDisect* newright = createNode(bestright, depth, bestrightB);
+    BinaryLinkedTree* newleft = createNode(bestleft, depth, bestleftB); 
+    BinaryLinkedTree* newright = createNode(bestright, depth, bestrightB);
     //std::cout << newleft->id << " | " << newright->id << std::endl; 
     return new BinaryNode(newleft,newright,box);
 }

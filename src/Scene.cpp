@@ -90,7 +90,7 @@ void Scene::loadFile(std::istream& file){
 	this->Object3Ds.push_back(Object3D(vertices,faces));
 }
 
-void Scene::calcPixels(BinaryDisect* disect,size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
+void Scene::calcPixels(BinaryLinkedTree* disect,size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
@@ -136,10 +136,10 @@ void Scene::testoptimized(BoundingBox box, int depth){
 		}
 	}
 	
-	BinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
-	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
-	std::cout << "Avg Faces: " << BinaryDisect::sumFaces / BinaryDisect::cntLeafs << std::endl;
-	std::cout << "Count Leafs: " << BinaryDisect::cntLeafs << std::endl;
+	BinaryLinkedTree* disect = BinaryLinkedTree::createNode(allfaces, depth, box);
+	std::cout << "Most Faces: " << BinaryLinkedTree::mostFaces << std::endl;
+	std::cout << "Avg Faces: " << BinaryLinkedTree::sumFaces / BinaryLinkedTree::cntLeafs << std::endl;
+	std::cout << "Count Leafs: " << BinaryLinkedTree::cntLeafs << std::endl;
 	
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];

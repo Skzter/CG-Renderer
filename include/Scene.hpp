@@ -4,7 +4,7 @@
 #include "Camera.hpp"
 #include "Light.hpp"
 #include "Object3D.hpp"
-#include "BinaryDisect.hpp"
+#include "BinaryLinkedTree.hpp"
 #include <mutex>
 
 class Scene
@@ -21,5 +21,5 @@ public:
     void loadFile(std::istream&);
     void drawPicture();
     void testoptimized(BoundingBox,int);
-    void calcPixels(BinaryDisect*,size_t, size_t, float, float, uint8_t*, Vector3D);
+    void calcPixels(BinaryLinkedTree*,size_t, size_t, float, float, uint8_t*, Vector3D);
 };

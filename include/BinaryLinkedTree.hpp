@@ -1,35 +1,32 @@
 #pragma once
 #include "Face3D.hpp"
-#include "Hitpoint.hpp"
-#include "Ray.hpp"
+#include "IBinaryDisect.hpp"
 #include "BoundingBox.hpp"
 #include <list>
 
-class BinaryDisect{
-    
+class BinaryLinkedTree : public IBinaryDisect{
     public:
-        virtual Hitpoint closestHitpoint(Ray&) = 0;
         virtual void dealoc();
 
-        static BinaryDisect* createNode(std::vector<Face3D*> faces, int maxDepth, BoundingBox box);
+        static BinaryLinkedTree* createNode(std::vector<Face3D*> faces, int maxDepth, BoundingBox box);
 
         static int mostFaces;
         static int sumFaces;
         static int cntLeafs;
     };
 
-class BinaryNode : public BinaryDisect{
+class BinaryNode : public BinaryLinkedTree{
     public:
         BoundingBox box;
-        BinaryDisect* left;
-        BinaryDisect* right;
+        BinaryLinkedTree* left;
+        BinaryLinkedTree* right;
 
-        BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box);
+        BinaryNode(BinaryLinkedTree* left, BinaryLinkedTree* right, BoundingBox box);
         Hitpoint closestHitpoint(Ray&);
         void dealoc() override;
 };
 
-class BinaryLeaf : public BinaryDisect{
+class BinaryLeaf : public BinaryLinkedTree{
     public:
         std::vector<Face3D*> faces;
 
@@ -37,7 +34,7 @@ class BinaryLeaf : public BinaryDisect{
         Hitpoint closestHitpoint(Ray&);
 };
 
-class BinaryEmpty : public BinaryDisect{
+class BinaryEmpty : public BinaryLinkedTree{
     public:
         Hitpoint closestHitpoint(Ray&);
 };
