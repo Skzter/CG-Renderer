@@ -18,8 +18,8 @@ public:
     int progress;
     std::mutex proglock;
 
-    void loadFile(std::istream&);
+    void loadFile(std::istream&, int);
     void drawPicture();
-    void testoptimized(BoundingBox,int);
-    void calcPixels(BinaryLinkedTree*,size_t, size_t, float, float, uint8_t*, Vector3D);
+    void testoptimized();
+    void calcPixels(size_t, size_t, float, float, uint8_t*, Vector3D);
 };

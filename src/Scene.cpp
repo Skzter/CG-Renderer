@@ -34,7 +34,7 @@ void skip(unsigned int ignoreLines, std::istream& file){
 		file.ignore	(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void Scene::loadFile(std::istream& file){
+void Scene::loadFile(std::istream& file, int treeDepth){
 	std::string line;
 	int numvert;
 	int numface;
@@ -87,56 +87,50 @@ void Scene::loadFile(std::istream& file){
 			faces.push_back(verts);
 		}
 	}
-	this->Object3Ds.push_back(Object3D(vertices,faces));
+	this->Object3Ds.push_back(Object3D(vertices,faces,treeDepth));
 }
 
-void Scene::calcPixels(BinaryLinkedTree* disect,size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
+void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
-			if(curH % 10 == 0 && curW == 0){
+			for(Object3D obj : this->Object3Ds){
+
+				if(curH % 10 == 0 && curW == 0){
 				proglock.lock();
 				std::cout << ((++progress) * 1000) / camera.height_pixels << "%" << std::endl;
 				proglock.unlock();
+				}
+				Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
+				Hitpoint closest = obj.disect->closestHitpoint(ray);
+				
+				Color col;
+				if(closest.face != nullptr)
+				{
+					//std::cout << "Treffer!\n";
+					col = closest.face->texture.color;
+				} else 
+				{
+					col = Color();
+				}
+				size_t pos = curH * camera.width_pixels + curW;
+				buffer[pos * 3] = col.getr();     // Red
+				buffer[pos * 3 + 1] = col.getg(); // Green
+				buffer[pos * 3 + 2] = col.getb();// Blue
+				//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
+				//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
+				//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
+				//std::cout << "------------" << std::endl;
+				// origin plus punkt nach rechts - punkt aus i,j,0
+				// aus i j verhältnis zu bildschirm und dann gänsehosen
 			}
-			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-			Hitpoint closest = disect->closestHitpoint(ray);
-			
-			Color col;
-			if(closest.face != nullptr)
-			{
-				//std::cout << "Treffer!\n";
-				col = closest.face->texture.color;
-			} else 
-			{
-				col = Color();
-			}
-			size_t pos = curH * camera.width_pixels + curW;
-			buffer[pos * 3] = col.getr();     // Red
-			buffer[pos * 3 + 1] = col.getg(); // Green
-			buffer[pos * 3 + 2] = col.getb();// Blue
-			//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
-			//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
-			//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
-			//std::cout << "------------" << std::endl;
-			// origin plus punkt nach rechts - punkt aus i,j,0
-			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
 	}
 	std::cout << "Thread [" << start << "]" << std::endl;
 }
 
-void Scene::testoptimized(BoundingBox box, int depth){
-	std::vector<Face3D*> allfaces;
-	for (Object3D& object : Object3Ds){
-		for(int i = 0; i < object.getFaces().size(); i++){
-			Face3D* face = &(object.getFaces().at(i));
-			allfaces.push_back(face);
-		}
-	}
-	
-	BinaryLinkedTree* disect = BinaryLinkedTree::createNode(allfaces, depth, box);
+void Scene::testoptimized(){
 	std::cout << "Most Faces: " << BinaryLinkedTree::mostFaces << std::endl;
 	std::cout << "Avg Faces: " << BinaryLinkedTree::sumFaces / BinaryLinkedTree::cntLeafs << std::endl;
 	std::cout << "Count Leafs: " << BinaryLinkedTree::cntLeafs << std::endl;
@@ -153,7 +147,7 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	progress = 0;
 
 	for(size_t i = 0; i < numThreads; i++){
-		threads.push_back(std::thread(&Scene::calcPixels, this, disect,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
+		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
 	}
 
 	//calcPixels(disect,0,camera.height_pixels/2, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);
@@ -162,8 +156,6 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	for(auto& t : threads){
 		t.join();
 	}
-
-	disect->dealoc();
 
 	int success = stbi_write_png("output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
 	delete[] buffer;

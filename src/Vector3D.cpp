@@ -4,28 +4,28 @@
 
 Vector3D::Vector3D()
 {
-    X = 0;
-    Y = 0;
-    Z = 0;
+    cords[0] = 0;
+    cords[1] = 0;
+    cords[2] = 0;
 }
 
 Vector3D::Vector3D(float x, float y, float z)
 {
-    X = x;
-    Y = y;
-    Z = z;
+    cords[0] = x;
+    cords[1] = y;
+    cords[2] = z;
 }
 
 void Vector3D::printPoint()
 {
-    std::cout << "[" << X << ", " << Y << ", " << Z << "]" << std::endl;
+    std::cout << "[" << cords[0] << ", " << cords[1] << ", " << cords[2] << "]" << std::endl;
 }
 
 void Vector3D::setVector(float x, float y, float z)
 {
-    this->X = x;
-    this->Y = y;
-    this->Z = z;
+    this->cords[0] = x;
+    this->cords[1] = y;
+    this->cords[2] = z;
 }
 
 /* ?????
@@ -38,49 +38,41 @@ Vector3D Vector3D::getPoint(Vector3D point)
 
 void Vector3D::addVector(Vector3D point)
 {
-    this->X += point.X;
-    this->Y += point.Y;
-    this->Z += point.Z;
+    this->cords[0] += point.cords[0];
+    this->cords[1] += point.cords[1];
+    this->cords[2] += point.cords[2];
 }
 
 Vector3D Vector3D::operator+(const Vector3D&pointA)
 {
-    float x = this->X + pointA.X;
-    float y = this->Y + pointA.Y;
-    float z = this->Z + pointA.Z;
+    float x = this->cords[0] + pointA.cords[0];
+    float y = this->cords[1] + pointA.cords[1];
+    float z = this->cords[2] + pointA.cords[2];
     return Vector3D(x,y,z);
 }
 
 Vector3D Vector3D::operator-(const Vector3D&pointA)
 {
-    float x = this->X - pointA.X;
-    float y = this->Y - pointA.Y;
-    float z = this->Z - pointA.Z;
+    float x = this->cords[0] - pointA.cords[0];
+    float y = this->cords[1] - pointA.cords[1];
+    float z = this->cords[2] - pointA.cords[2];
     return Vector3D(x,y,z);
 }
 
 Vector3D Vector3D::operator*(const float a)
 {
-    float x = this->X * a;
-    float y = this->Y * a;
-    float z = this->Z * a;
+    float x = this->cords[0] * a;
+    float y = this->cords[1] * a;
+    float z = this->cords[2] * a;
     return Vector3D(x,y,z);
 }
 
 float Vector3D::abs(){
-    return std::sqrt(this->X * this->X + this->Y * this->Y + this->Z * this->Z);
+    return std::sqrt(this->cords[0] * this->cords[0] + this->cords[1] * this->cords[1] + this->cords[2] * this->cords[2]);
 }
 
 float& Vector3D::at(size_t pos){
-    switch (pos)
-    {
-    case 0:
-        return X;
-    case 1:
-        return Y;
-    default:
-        return Z;
-    }
+    return cords[pos];
 }
 
 Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){

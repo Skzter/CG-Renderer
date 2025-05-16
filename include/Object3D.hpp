@@ -3,16 +3,18 @@
 #include "Face3D.hpp"
 #include <ostream>
 #include <vector>
+#include "BinaryLinkedTree.hpp"
 
 class Object3D
 {
     std::vector<Vector3D> points;
     std::vector<Face3D> faces;
-
     public:
         Object3D();
-        Object3D(std::vector<Vector3D>, std::vector<std::vector<int>>);
+        Object3D(std::vector<Vector3D>, std::vector<std::vector<int>>, int depth);
+        ~Object3D();
 
+        BinaryLinkedTree* disect;
 
         std::vector<Vector3D>& getPoints(){
             return (this->points);

@@ -4,9 +4,7 @@
 class Vector3D
 {
 private:
-    float X;
-    float Y;
-    float Z;
+    float cords[3];
 
 public:
     Vector3D();
@@ -20,9 +18,9 @@ public:
     Vector3D operator*(const float a);
     float abs();
 
-    float getX(){return this->X;}
-    float getY(){return this->Y;}
-    float getZ(){return this->Z;}
+    float getX(){return this->cords[0];}
+    float getY(){return this->cords[1];}
+    float getZ(){return this->cords[2];}
     float& at(size_t);
 
     static Vector3D cross(Vector3D&, Vector3D&);
