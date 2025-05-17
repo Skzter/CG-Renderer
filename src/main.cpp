@@ -14,14 +14,14 @@ int main()
     std::cout << "anHP - Dist: " << anHP.distance << " Face: " << anHP.face << " Pos: " << anHP.position << std::endl;
     */
     std::ifstream file;
-    std::string filePath = "models/tommygun.ply";
+    std::string filePath = "models/prisma.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
         return -1;
     }
-    test.loadFile(file, 10);
-
+    test.loadFile(file, 15);
+    test.camera = Camera(Vector3D(0.6,0, -5), Vector3D(0,0,1), 1.0, 0.4, 200, 80);
     
     /*
     Vector3D v1 = Vector3D(-1,0,1);

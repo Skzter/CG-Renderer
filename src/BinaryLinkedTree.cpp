@@ -12,7 +12,12 @@ Hitpoint BinaryEmpty::closestHitpoint(Ray&){
     return Hitpoint();
 }
 
-void BinaryLinkedTree::dealoc(){
+void BinaryLeaf::dealoc(){
+    //std::cout << "deleting smth else" << std::endl;
+     delete this;
+}
+
+void BinaryEmpty::dealoc(){
     //std::cout << "deleting smth else" << std::endl;
      delete this;
 }

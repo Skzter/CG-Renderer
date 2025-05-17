@@ -6,8 +6,6 @@
 
 class BinaryLinkedTree : public IBinaryDisect{
     public:
-        virtual void dealoc();
-
         static BinaryLinkedTree* createNode(std::vector<Face3D*> faces, int maxDepth, BoundingBox box);
 
         static int mostFaces;
@@ -22,7 +20,7 @@ class BinaryNode : public BinaryLinkedTree{
         BinaryLinkedTree* right;
 
         BinaryNode(BinaryLinkedTree* left, BinaryLinkedTree* right, BoundingBox box);
-        Hitpoint closestHitpoint(Ray&);
+        Hitpoint closestHitpoint(Ray&) override;
         void dealoc() override;
 };
 
@@ -31,10 +29,12 @@ class BinaryLeaf : public BinaryLinkedTree{
         std::vector<Face3D*> faces;
 
         BinaryLeaf(std::vector<Face3D*> faces);
-        Hitpoint closestHitpoint(Ray&);
+        Hitpoint closestHitpoint(Ray&) override;
+        void dealoc() override;
 };
 
 class BinaryEmpty : public BinaryLinkedTree{
     public:
-        Hitpoint closestHitpoint(Ray&);
+        Hitpoint closestHitpoint(Ray&) override;
+        void dealoc() override;
 };

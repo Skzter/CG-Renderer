@@ -11,6 +11,7 @@ class Scene
 {
 public: 
     Scene();
+    ~Scene();
     std::vector<Object3D> Object3Ds;
     std::vector<Light> lights;
     Camera camera;

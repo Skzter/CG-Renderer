@@ -34,6 +34,12 @@ void skip(unsigned int ignoreLines, std::istream& file){
 		file.ignore	(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
+Scene::~Scene(){
+	for(Object3D obj : this->Object3Ds){
+		obj.dealoc();
+	}
+}
+
 void Scene::loadFile(std::istream& file, int treeDepth){
 	std::string line;
 	int numvert;
@@ -95,37 +101,41 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
-			for(size_t i = 0; i < this->Object3Ds.size(); i++){
-
-				if(curH % 10 == 0 && curW == 0){
+			//std::cout << curH << " " << curW << std::endl;
+			if(curH % 10 == 0 && curW == 0){
 				proglock.lock();
 				std::cout << ((++progress) * 1000) / camera.height_pixels << "%" << std::endl;
 				proglock.unlock();
-				}
-				Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-				std::cout << "lol" << std::endl;
-				Hitpoint closest = Object3Ds.at(i).disect->closestHitpoint(ray);
-				
-				Color col;
-				if(closest.face != nullptr)
-				{
-					//std::cout << "Treffer!\n";
-					col = closest.face->texture.color;
-				} else 
-				{
-					col = Color();
-				}
-				size_t pos = curH * camera.width_pixels + curW;
-				buffer[pos * 3] = col.getr();     // Red
-				buffer[pos * 3 + 1] = col.getg(); // Green
-				buffer[pos * 3 + 2] = col.getb();// Blue
-				//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
-				//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
-				//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
-				//std::cout << "------------" << std::endl;
-				// origin plus punkt nach rechts - punkt aus i,j,0
-				// aus i j verhältnis zu bildschirm und dann gänsehosen
 			}
+			
+			Hitpoint closest = Hitpoint();
+			for(Object3D obj : this->Object3Ds){
+				Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
+				Hitpoint hp = obj.disect->closestHitpoint(ray);
+				if(hp.distance < closest.distance){
+					closest = hp;
+				}
+			}
+				
+			Color col;
+			if(closest.face != nullptr)
+			{
+				//std::cout << "Treffer!\n";
+				col = closest.face->texture.color;
+			} else 
+			{
+				col = Color();
+			}
+			size_t pos = curH * camera.width_pixels + curW;
+			buffer[pos * 3] = col.getr();     // Red
+			buffer[pos * 3 + 1] = col.getg(); // Green
+			buffer[pos * 3 + 2] = col.getb();// Blue
+			//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
+			//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
+			//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
+			//std::cout << "------------" << std::endl;
+			// origin plus punkt nach rechts - punkt aus i,j,0
+			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
 	}
 	std::cout << "Thread [" << start << "]" << std::endl;
@@ -138,6 +148,7 @@ void Scene::testoptimized(){
 	
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
+	std::cout << "buffer" << std::endl;
 	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
 	float pixelWidth = camera.width / camera.width_pixels;
 	float pixelHeight = camera.height / camera.height_pixels;
@@ -151,7 +162,7 @@ void Scene::testoptimized(){
 		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
 	}
 
-	//calcPixels(disect,0,camera.height_pixels/2, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);
+	//calcPixels(0,1, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);
 	//calcPixels,disect,camera.height_pixels / 2 - 1,camera.height_pixels, pixelWidth, pixelHeight, buffer, vectorToOriginPixel
 
 	for(auto& t : threads){

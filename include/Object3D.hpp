@@ -12,7 +12,7 @@ class Object3D
     public:
         Object3D();
         Object3D(std::vector<Vector3D>, std::vector<std::vector<int>>, int depth);
-        ~Object3D();
+        void dealoc();
 
         BinaryLinkedTree* disect;
 

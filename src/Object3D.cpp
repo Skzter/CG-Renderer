@@ -48,10 +48,11 @@ Object3D::Object3D(std::vector<Vector3D> points, std::vector<std::vector<int>> f
     this->disect = BinaryLinkedTree::createNode(treeFaces, depth, box);
 }
 
-Object3D::~Object3D(){
+void Object3D::dealoc(){
     if(disect == nullptr){
         std::cout << "ALARM" << std::endl;
     }
+    //std::cout << "dealoc called" << std::endl;
     this->disect->dealoc();
 }
 
