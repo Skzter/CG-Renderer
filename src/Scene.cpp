@@ -34,7 +34,13 @@ void skip(unsigned int ignoreLines, std::istream& file){
 		file.ignore	(std::numeric_limits<std::streamsize>::max(), '\n');
 }
 
-void Scene::loadFile(std::istream& file){
+Scene::~Scene(){
+	for(IBinaryDisect* bd : disects){
+		delete bd;
+	}
+}
+
+void Scene::loadFile(std::istream& file, int maxDepth){
 	std::string line;
 	int numvert;
 	int numface;
@@ -88,9 +94,38 @@ void Scene::loadFile(std::istream& file){
 		}
 	}
 	this->Object3Ds.push_back(Object3D(vertices,faces));
+	disects.reserve(Object3Ds.size());
+
+	for (Object3D& object : Object3Ds){
+		std::vector<Face3D*> faces;
+		Vector3D lower;
+		Vector3D upper;
+		for(int i = 0; i < 3; i++){
+			lower.at(i) = std::numeric_limits<float>::max();
+			upper.at(i) = std::numeric_limits<float>::min();
+		}
+
+		for(Vector3D V : object.getPoints()){
+			for(int i = 0; i < 3; i++){
+				if(V.at(i) < lower.at(i)){
+					lower.at(i) = V.at(i);
+				}
+				if(V.at(i) > upper.at(i)){
+					upper.at(i) = V.at(i);
+				}
+			}
+		}
+
+		for(int i = 0; i < object.getFaces().size(); i++){
+			Face3D* face = &(object.getFaces().at(i));
+			faces.push_back(face);
+		}
+
+		this->disects.push_back(BinaryLinkedTree::createNode(faces, maxDepth, BoundingBox{lower, upper}));
+	}
 }
 
-void Scene::calcPixels(BinaryLinkedTree* disect,size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
+void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
@@ -101,7 +136,14 @@ void Scene::calcPixels(BinaryLinkedTree* disect,size_t start, size_t step, float
 				proglock.unlock();
 			}
 			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-			Hitpoint closest = disect->closestHitpoint(ray);
+
+			Hitpoint closest = Hitpoint();
+			for(IBinaryDisect* bd : this->disects){
+				Hitpoint hp = bd->closestHitpoint(ray);
+				if(hp.distance < closest.distance){
+					closest = hp;
+				}
+			}
 			
 			Color col;
 			if(closest.face != nullptr)
@@ -127,16 +169,8 @@ void Scene::calcPixels(BinaryLinkedTree* disect,size_t start, size_t step, float
 	std::cout << "Thread [" << start << "]" << std::endl;
 }
 
-void Scene::testoptimized(BoundingBox box, int depth){
-	std::vector<Face3D*> allfaces;
-	for (Object3D& object : Object3Ds){
-		for(int i = 0; i < object.getFaces().size(); i++){
-			Face3D* face = &(object.getFaces().at(i));
-			allfaces.push_back(face);
-		}
-	}
+void Scene::testoptimized(){
 	
-	BinaryLinkedTree* disect = BinaryLinkedTree::createNode(allfaces, depth, box);
 	std::cout << "Most Faces: " << BinaryLinkedTree::mostFaces << std::endl;
 	std::cout << "Avg Faces: " << BinaryLinkedTree::sumFaces / BinaryLinkedTree::cntLeafs << std::endl;
 	std::cout << "Count Leafs: " << BinaryLinkedTree::cntLeafs << std::endl;
@@ -153,7 +187,7 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	progress = 0;
 
 	for(size_t i = 0; i < numThreads; i++){
-		threads.push_back(std::thread(&Scene::calcPixels, this, disect,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
+		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
 	}
 
 	//calcPixels(disect,0,camera.height_pixels/2, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);
@@ -162,8 +196,6 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	for(auto& t : threads){
 		t.join();
 	}
-
-	disect->dealoc();
 
 	int success = stbi_write_png("output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
 	delete[] buffer;

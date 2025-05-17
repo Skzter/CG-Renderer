@@ -11,15 +11,17 @@ class Scene
 {
 public: 
     Scene();
+    ~Scene();
     std::vector<Object3D> Object3Ds;
+    std::vector<IBinaryDisect*> disects;
     std::vector<Light> lights;
     Camera camera;
 
     int progress;
     std::mutex proglock;
 
-    void loadFile(std::istream&);
+    void loadFile(std::istream&, int);
     void drawPicture();
-    void testoptimized(BoundingBox,int);
-    void calcPixels(BinaryLinkedTree*,size_t, size_t, float, float, uint8_t*, Vector3D);
+    void testoptimized();
+    void calcPixels(size_t, size_t, float, float, uint8_t*, Vector3D);
 };
