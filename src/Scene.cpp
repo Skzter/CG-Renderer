@@ -95,7 +95,7 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
-			for(Object3D obj : this->Object3Ds){
+			for(size_t i = 0; i < this->Object3Ds.size(); i++){
 
 				if(curH % 10 == 0 && curW == 0){
 				proglock.lock();
@@ -103,7 +103,8 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 				proglock.unlock();
 				}
 				Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-				Hitpoint closest = obj.disect->closestHitpoint(ray);
+				std::cout << "lol" << std::endl;
+				Hitpoint closest = Object3Ds.at(i).disect->closestHitpoint(ray);
 				
 				Color col;
 				if(closest.face != nullptr)

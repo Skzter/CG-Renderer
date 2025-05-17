@@ -49,6 +49,9 @@ Object3D::Object3D(std::vector<Vector3D> points, std::vector<std::vector<int>> f
 }
 
 Object3D::~Object3D(){
+    if(disect == nullptr){
+        std::cout << "ALARM" << std::endl;
+    }
     this->disect->dealoc();
 }
 

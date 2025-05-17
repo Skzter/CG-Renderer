@@ -148,7 +148,6 @@ BinaryLinkedTree* BinaryLinkedTree::createNode(std::vector<Face3D*> faces, int d
 
         leftB.p1 = box.p1;
 
-        //Vector3D middlePoint = Quickselect::kthSmallestDir(faces, 0, faces.size()-1, faces.size() / 2 + 1, dir);
         std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
         Vector3D optimalPoint = faces.at(faces.size() / 2)->middlePoint(); 
         Vector3D middlePoint = (box.p1 + box.p2) * 0.5; 
@@ -160,7 +159,7 @@ BinaryLinkedTree* BinaryLinkedTree::createNode(std::vector<Face3D*> faces, int d
         rightB.p1.at(dir) = weighted.at(dir);
         rightB.p2 = box.p2;
 
-        //std::cout << ", box p1: " << box.p1 << ", box p2: " << box.p2 << ": " << middlePoint << std::endl; 
+        //std::cout << ", box p1: " << box.p1 << ", box p2: " << box.p2 << ": " << weighted << std::endl; 
 
         for(int i = 0; i < faces.size(); i++){
             //std::cout << "i: " << i << " | " << *faces.at(i) << std::endl;
