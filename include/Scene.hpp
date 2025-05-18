@@ -5,6 +5,7 @@
 #include "Light.hpp"
 #include "Object3D.hpp"
 #include "BinaryLinkedTree.hpp"
+#include "BinaryArray.hpp"
 #include <mutex>
 
 class Scene

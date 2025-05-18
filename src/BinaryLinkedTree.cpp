@@ -4,10 +4,6 @@
 #include <algorithm>
 #include <climits>
 
-int BinaryLinkedTree::mostFaces = 0;
-int BinaryLinkedTree::sumFaces = 0;
-int BinaryLinkedTree::cntLeafs = 0;
-
 Hitpoint BinaryEmpty::closestHitpoint(Ray&){
     return Hitpoint();
 }

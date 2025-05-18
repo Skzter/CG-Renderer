@@ -12,6 +12,10 @@
 #include <array>
 #include <thread>
 
+int IBinaryDisect::mostFaces = 0;
+int IBinaryDisect::sumFaces = 0;
+int IBinaryDisect::cntLeafs = 0;
+
 template<class T>
 T getOption(std::istream& in, std::string option){
 	T value;
@@ -36,7 +40,7 @@ void skip(unsigned int ignoreLines, std::istream& file){
 
 Scene::~Scene(){
 	for(IBinaryDisect* bd : disects){
-		delete bd;
+		bd->dealoc();
 	}
 }
 
@@ -121,7 +125,7 @@ void Scene::loadFile(std::istream& file, int maxDepth){
 			faces.push_back(face);
 		}
 
-		this->disects.push_back(BinaryLinkedTree::createNode(faces, maxDepth, BoundingBox{lower, upper}));
+		this->disects.push_back(new BinaryArray(ArrBoundingBox{lower, upper},faces, maxDepth, 0));
 	}
 }
 

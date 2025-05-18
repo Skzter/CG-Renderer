@@ -7,10 +7,6 @@
 class BinaryLinkedTree : public IBinaryDisect{
     public:
         static BinaryLinkedTree* createNode(std::vector<Face3D*> faces, int maxDepth, BoundingBox box);
-
-        static int mostFaces;
-        static int sumFaces;
-        static int cntLeafs;
     };
 
 class BinaryNode : public BinaryLinkedTree{

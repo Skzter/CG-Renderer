@@ -22,6 +22,7 @@ int main()
     }
     test.loadFile(file, 15);
 
+    //std::cout << sizeof(ArrBoundingBox);
     test.camera = Camera(Vector3D(0.6,0, -5), Vector3D(0,0,1), 1.0, 0.4, 2000, 800);
     
     /*
