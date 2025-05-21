@@ -26,7 +26,7 @@ int main()
     BoundingBox box;
     box.p1 = Vector3D(-7.0,-3.0,-3.0);
     box.p2 = Vector3D(7,3.0,3.0);
-    
+
   
     auto start = std::chrono::high_resolution_clock::now();
     //test.drawPicture();
