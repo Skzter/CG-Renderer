@@ -3,8 +3,8 @@ default:
 
 run:
 	make
-	./bin/main.exe
+	./bin/main
 
 log:
 	make 
-	.\bin\main.exe > log.txt
+	.\bin\main > log.txt

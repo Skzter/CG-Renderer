@@ -14,14 +14,14 @@ int main()
     std::cout << "anHP - Dist: " << anHP.distance << " Face: " << anHP.face << " Pos: " << anHP.position << std::endl;
     */
     std::ifstream file;
-    std::string filePath = "models/prisma.ply";
+    std::string filePath = "models/big_porsche.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
         return -1;
     }
-    test.loadFile(file, 15);
-    test.camera = Camera(Vector3D(0.6,0, -5), Vector3D(0,0,1), 1.0, 0.4, 200, 80);
+    test.loadFile(file, 10);
+    test.camera = Camera(Vector3D(0.6,0, -10), Vector3D(0,0,1), 1.0, 0.4, 1000, 400);
     
     /*
     Vector3D v1 = Vector3D(-1,0,1);
@@ -33,7 +33,7 @@ int main()
 
     auto start = std::chrono::high_resolution_clock::now();
     //test.drawPicture();
-    test.testoptimized();
+    test.testoptimized(12);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);

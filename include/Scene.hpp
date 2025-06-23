@@ -21,6 +21,6 @@ public:
 
     void loadFile(std::istream&, int);
     void drawPicture();
-    void testoptimized();
+    void testoptimized(uint);
     void calcPixels(size_t, size_t, float, float, uint8_t*, Vector3D);
 };

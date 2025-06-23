@@ -1,5 +1,7 @@
 #include "../include/BinaryLinkedTree.hpp"
 #include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <iostream>
 #include <algorithm>
 #include <climits>
@@ -7,6 +9,7 @@
 int BinaryLinkedTree::mostFaces = 0;
 int BinaryLinkedTree::sumFaces = 0;
 int BinaryLinkedTree::cntLeafs = 0;
+int BinaryLinkedTree::duplicate = 0;
 
 Hitpoint BinaryEmpty::closestHitpoint(Ray&){
     return Hitpoint();
@@ -22,10 +25,11 @@ void BinaryEmpty::dealoc(){
      delete this;
 }
 
-BinaryNode::BinaryNode(BinaryLinkedTree* left, BinaryLinkedTree* right, BoundingBox box){
+BinaryNode::BinaryNode(BinaryLinkedTree* left, BinaryLinkedTree* right, BoundingBox box, uint8_t dir){
     this->left = left;
     this->right = right;
     this->box = box;
+    this->dir = dir;
 }
 
 void BinaryNode::dealoc(){
@@ -43,15 +47,18 @@ Hitpoint BinaryNode::closestHitpoint(Ray& ray){
 
     //std::cout << left->id << " | " << right->id << std::endl;
 
-    Hitpoint h1 = this->left->closestHitpoint(ray);
-    Hitpoint h2 = this->right->closestHitpoint(ray);
-    
-    if(h1.distance < h2.distance){
-        //delete h2;
-        return h1;
+    if(Vector3D::dot(ray.direction, Vector3D::dirNorms[this->dir]) <= 0){
+        Hitpoint h1 = this->left->closestHitpoint(ray);
+        if (h1.distance < std::numeric_limits<float>::max()){
+            return h1;
+        }
+        return this->right->closestHitpoint(ray);
     }else{
-        //delete h1;
-        return h2;
+        Hitpoint h2 = this->right->closestHitpoint(ray);
+        if (h2.distance < std::numeric_limits<float>::max()){
+            return h2;
+        }
+        return this->left->closestHitpoint(ray);
     }
 }
 
@@ -144,19 +151,21 @@ BinaryLinkedTree* BinaryLinkedTree::createNode(std::vector<Face3D*> faces, int d
     BoundingBox bestleftB;
     BoundingBox bestrightB;
     int optimize = INT_MAX;
+    uint8_t bestdir;
 
-    for(int dir = 0; dir < 3; dir++){
+    for(uint8_t dir = 0; dir < 3; dir++){
         std::vector<Face3D*> left;
         std::vector<Face3D*> right;
         BoundingBox leftB;
         BoundingBox rightB;
+        int val = 0;
 
         leftB.p1 = box.p1;
 
         std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
-        Vector3D optimalPoint = faces.at(faces.size() / 2)->middlePoint(); 
+        Vector3D optimalPoint = (faces.at(faces.size() / 2)->middlePoint()+faces.at(faces.size() / 2 + 1)->middlePoint())*0.5;
         Vector3D middlePoint = (box.p1 + box.p2) * 0.5; 
-        Vector3D weighted = optimalPoint * 0.3 + middlePoint * 0.7;
+        Vector3D weighted = optimalPoint * 0.0 + middlePoint * 1.0;
 
         leftB.p2 = box.p2;
         leftB.p2.at(dir) = weighted.at(dir);
@@ -181,6 +190,7 @@ BinaryLinkedTree* BinaryLinkedTree::createNode(std::vector<Face3D*> faces, int d
                 throw std::runtime_error("neither bigger nor smaller!");
             }
             if(smaller && bigger){
+                val++;
                 //std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
             }
             if(smaller){
@@ -190,20 +200,22 @@ BinaryLinkedTree* BinaryLinkedTree::createNode(std::vector<Face3D*> faces, int d
                 right.push_back(faces.at(i));
             }
         }
-        int val = left.size() + right.size();
+        //int val = abs((int)left.size()-(int)right.size());
         if(val < optimize){
             bestleft = left;
             bestright = right;
             bestleftB = leftB;
             bestrightB = rightB;
             optimize = val;
+            bestdir = dir;
         }
     }
 
+    duplicate += optimize;
     
     //std::cout << "total: " << faces.size() << " pivotnr: " << faces.size() / 2 + 1 << " left: " << left.size() << " | right: " << right.size() << std::endl;
     BinaryLinkedTree* newleft = createNode(bestleft, depth, bestleftB); 
     BinaryLinkedTree* newright = createNode(bestright, depth, bestrightB);
     //std::cout << newleft->id << " | " << newright->id << std::endl; 
-    return new BinaryNode(newleft,newright,box);
+    return new BinaryNode(newleft,newright,box, bestdir);
 }

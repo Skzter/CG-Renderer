@@ -2,6 +2,8 @@
 #include <iostream>
 #include <cmath>
 
+Vector3D Vector3D::dirNorms[3] = {Vector3D(1,0,0),Vector3D(0,1,0),Vector3D(0,0,1)};
+
 Vector3D::Vector3D()
 {
     cords[0] = 0;

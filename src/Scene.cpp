@@ -141,11 +141,12 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 	std::cout << "Thread [" << start << "]" << std::endl;
 }
 
-void Scene::testoptimized(){
+void Scene::testoptimized(const uint numThreads){
 	std::cout << "Most Faces: " << BinaryLinkedTree::mostFaces << std::endl;
 	std::cout << "Avg Faces: " << BinaryLinkedTree::sumFaces / BinaryLinkedTree::cntLeafs << std::endl;
 	std::cout << "Count Leafs: " << BinaryLinkedTree::cntLeafs << std::endl;
-	
+	std::cout << "Duplicate Faces: " << BinaryLinkedTree::duplicate << std::endl;
+	/*
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
 	std::cout << "buffer" << std::endl;
@@ -153,7 +154,6 @@ void Scene::testoptimized(){
 	float pixelWidth = camera.width / camera.width_pixels;
 	float pixelHeight = camera.height / camera.height_pixels;
 	
-	const size_t numThreads = 8;
 	std::vector<std::thread> threads;
 	const size_t rowsPerThread = camera.height_pixels / numThreads;
 	progress = 0;
@@ -178,6 +178,7 @@ void Scene::testoptimized(){
 		return;
 	}
 	// 2d array von colors pro pixel zu 1D array mit rgb values 
+	*/
 }
 
 /*
