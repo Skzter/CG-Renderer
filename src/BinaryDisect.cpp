@@ -1,4 +1,5 @@
 #include "../include/BinaryDisect.hpp"
+#include <climits>
 #include <cmath>
 #include <iostream>
 #include <algorithm>
