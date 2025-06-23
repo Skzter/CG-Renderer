@@ -1,6 +1,8 @@
 #include "../include/BinaryDisect.hpp"
 #include <climits>
 #include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <iostream>
 #include <algorithm>
 
@@ -8,19 +10,16 @@ int BinaryDisect::mostFaces = 0;
 int BinaryDisect::sumFaces = 0;
 int BinaryDisect::cntLeafs = 0;
 
-Hitpoint BinaryEmpty::closestHitpoint(Ray&){
-    return Hitpoint();
-}
-
 void BinaryDisect::dealoc(){
     //std::cout << "deleting smth else" << std::endl;
      delete this;
 }
 
-BinaryNode::BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box){
+BinaryNode::BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box, uint8_t dir){
     this->left = left;
     this->right = right;
     this->box = box;
+    this->dir = dir;
 }
 
 void BinaryNode::dealoc(){
@@ -36,24 +35,24 @@ Hitpoint BinaryNode::closestHitpoint(Ray& ray){
         return Hitpoint();
     }
 
-    //std::cout << left->id << " | " << right->id << std::endl;
-
-    Hitpoint h1 = this->left->closestHitpoint(ray);
-    Hitpoint h2 = this->right->closestHitpoint(ray);
-    
-    if(h1.distance < h2.distance){
-        //delete h2;
-        return h1;
-    }else{
-        //delete h1;
-        return h2;
-    }
+     if(Vector3D::dot(ray.direction, Vector3D::dirNorms[this->dir]) < 0){
+        Hitpoint h1 = this->left->closestHitpoint(ray);
+        if (h1.distance < std::numeric_limits<float>::max()){
+            return h1;
+        }
+        return this->right->closestHitpoint(ray);
+     }else{
+        Hitpoint h2 = this->right->closestHitpoint(ray);
+        if (h2.distance < std::numeric_limits<float>::max()){
+            return h2;
+        }
+        return this->left->closestHitpoint(ray);
+     }
 }
 
 
 Hitpoint BinaryLeaf::closestHitpoint(Ray& ray){
     Hitpoint closest = Hitpoint();
-
     for(Face3D* face : this->faces){
         Hitpoint hit = ray.check(*face);
         if(hit.distance < closest.distance)
@@ -79,9 +78,6 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
     //https://www.geeksforgeeks.org/quickselect-algorithm/
     //auch mal mit zugriff auf Punkte mit at() n bissl übersichtlicher machen
 
-    if(faces.size() == 0){
-        return new BinaryEmpty();
-    }
     if(depth-- <= 0 || faces.size() < 5){
         return new BinaryLeaf(faces);
     }
@@ -134,6 +130,7 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
         break;
     }
     */
+    uint8_t bestdir;
     std::vector<Face3D*> bestleft;
     std::vector<Face3D*> bestright;
     BoundingBox bestleftB;
@@ -152,7 +149,7 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
         std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
         Vector3D optimalPoint = faces.at(faces.size() / 2)->middlePoint(); 
         Vector3D middlePoint = (box.p1 + box.p2) * 0.5; 
-        Vector3D weighted = optimalPoint * 0.3 + middlePoint * 0.7;
+        Vector3D weighted = optimalPoint * 0.5 + middlePoint * 0.5;
 
         leftB.p2 = box.p2;
         leftB.p2.at(dir) = weighted.at(dir);
@@ -186,13 +183,14 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
                 right.push_back(faces.at(i));
             }
         }
-        int val = left.size() + right.size();
+        int val = left.size()+right.size();
         if(val < optimize){
             bestleft = left;
             bestright = right;
             bestleftB = leftB;
             bestrightB = rightB;
             optimize = val;
+            bestdir = dir;
         }
     }
 
@@ -201,5 +199,5 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
     BinaryDisect* newleft = createNode(bestleft, depth, bestleftB); 
     BinaryDisect* newright = createNode(bestright, depth, bestrightB);
     //std::cout << newleft->id << " | " << newright->id << std::endl; 
-    return new BinaryNode(newleft,newright,box);
+    return new BinaryNode(newleft,newright,box,bestdir);
 }

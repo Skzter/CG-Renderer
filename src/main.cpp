@@ -14,7 +14,7 @@ int main()
     std::cout << "anHP - Dist: " << anHP.distance << " Face: " << anHP.face << " Pos: " << anHP.position << std::endl;
     */
     std::ifstream file;
-    std::string filePath = "models/tommygun.ply";
+    std::string filePath = "models/big_porsche.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
@@ -22,10 +22,7 @@ int main()
     }
     test.loadFile(file);
 
-    test.camera = Camera(Vector3D(0.6,0, -5), Vector3D(0,0,1), 1.0, 0.4, 2000, 800);
-    BoundingBox box;
-    box.p1 = Vector3D(-7.0,-3.0,-3.0);
-    box.p2 = Vector3D(7,3.0,3.0);
+    test.camera = Camera(Vector3D(0,0, -15), Vector3D(0,0,1), 1.0, 0.4, 2000, 800);
     
     /*
     Vector3D v1 = Vector3D(-1,0,1);
@@ -37,7 +34,7 @@ int main()
 
     auto start = std::chrono::high_resolution_clock::now();
     //test.drawPicture();
-    test.testoptimized(box,18);
+    test.testoptimized(12,12);
     auto end = std::chrono::high_resolution_clock::now();
     std::chrono::duration<double> duration = end - start;
     auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);

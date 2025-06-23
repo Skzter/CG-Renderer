@@ -25,6 +25,10 @@ public:
     float getZ(){return this->Z;}
     float& at(size_t);
 
+    static Vector3D dirNorms[3];
+    static Vector3D minVector;
+    static Vector3D maxVector;
+
     static Vector3D cross(Vector3D&, Vector3D&);
     static float dot(Vector3D&, Vector3D&);
     //static Vector3D middle(Vector3D&, Vector3D&);

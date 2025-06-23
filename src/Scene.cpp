@@ -97,7 +97,7 @@ void Scene::calcPixels(BinaryDisect* disect,size_t start, size_t step, float pix
 		{
 			if(curH % 10 == 0 && curW == 0){
 				proglock.lock();
-				std::cout << ((++progress) * 1000) / camera.height_pixels << "%" << std::endl;
+				std::cout << ((++progress) * 1000) / camera.height_pixels << "%\r" << std::flush;
 				proglock.unlock();
 			}
 			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
@@ -124,22 +124,38 @@ void Scene::calcPixels(BinaryDisect* disect,size_t start, size_t step, float pix
 			// aus i j verhältnis zu bildschirm und dann gänsehosen
 		}
 	}
-	std::cout << "Thread [" << start << "]" << std::endl;
+	//std::cout << "Thread [" << start << "]" << std::endl;
 }
 
-void Scene::testoptimized(BoundingBox box, int depth){
+void Scene::testoptimized(int depth, uint numThreads){
+	BoundingBox box = BoundingBox{Vector3D::maxVector, Vector3D::minVector};
+
 	std::vector<Face3D*> allfaces;
 	for (Object3D& object : Object3Ds){
 		for(int i = 0; i < object.getFaces().size(); i++){
 			Face3D* face = &(object.getFaces().at(i));
 			allfaces.push_back(face);
 		}
+		// Boundingbox berechnen
+		for(Vector3D p : object.getPoints()){
+			for(int j = 0; j < 3; j++){
+				if(p.at(j) < box.p1.at(j)){
+					box.p1.at(j) = p.at(j);
+				}
+				if(p.at(j) > box.p2.at(j)){
+					box.p2.at(j) = p.at(j);
+				}
+			}
+		}
 	}
+
+	std::cout << "Box: " << box.p1 << box.p2 << std::endl;
 	
 	BinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
 	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
 	std::cout << "Avg Faces: " << BinaryDisect::sumFaces / BinaryDisect::cntLeafs << std::endl;
 	std::cout << "Count Leafs: " << BinaryDisect::cntLeafs << std::endl;
+	std::cout << "Sum Faces: " << BinaryDisect::sumFaces << std::endl;
 	
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
@@ -147,7 +163,6 @@ void Scene::testoptimized(BoundingBox box, int depth){
 	float pixelWidth = camera.width / camera.width_pixels;
 	float pixelHeight = camera.height / camera.height_pixels;
 	
-	const size_t numThreads = 8;
 	std::vector<std::thread> threads;
 	const size_t rowsPerThread = camera.height_pixels / numThreads;
 	progress = 0;

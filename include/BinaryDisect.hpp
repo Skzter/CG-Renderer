@@ -3,7 +3,7 @@
 #include "Hitpoint.hpp"
 #include "Ray.hpp"
 #include "BoundingBox.hpp"
-#include <list>
+#include <cstdint>
 
 class BinaryDisect{
     
@@ -23,9 +23,10 @@ class BinaryNode : public BinaryDisect{
         BoundingBox box;
         BinaryDisect* left;
         BinaryDisect* right;
+        uint8_t dir;
 
-        BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box);
-        Hitpoint closestHitpoint(Ray&);
+        BinaryNode(BinaryDisect* left, BinaryDisect* right, BoundingBox box, uint8_t dir);
+        Hitpoint closestHitpoint(Ray&) override;
         void dealoc() override;
 };
 
@@ -34,10 +35,5 @@ class BinaryLeaf : public BinaryDisect{
         std::vector<Face3D*> faces;
 
         BinaryLeaf(std::vector<Face3D*> faces);
-        Hitpoint closestHitpoint(Ray&);
-};
-
-class BinaryEmpty : public BinaryDisect{
-    public:
-        Hitpoint closestHitpoint(Ray&);
+        Hitpoint closestHitpoint(Ray&) override;
 };

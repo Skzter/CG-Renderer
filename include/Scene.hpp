@@ -20,6 +20,6 @@ public:
 
     void loadFile(std::istream&);
     void drawPicture();
-    void testoptimized(BoundingBox,int);
+    void testoptimized(int,uint);
     void calcPixels(BinaryDisect*,size_t, size_t, float, float, uint8_t*, Vector3D);
 };

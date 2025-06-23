@@ -1,6 +1,13 @@
 #include "../include/Vector3D.hpp"
 #include <iostream>
 #include <cmath>
+#include <limits>
+
+Vector3D Vector3D::dirNorms[3] = {Vector3D(1,0,0),Vector3D(0,1,0),Vector3D(0,0,1)};
+
+Vector3D Vector3D::minVector = Vector3D(std::numeric_limits<float>::min(),std::numeric_limits<float>::min(),std::numeric_limits<float>::min());
+
+Vector3D Vector3D::maxVector = Vector3D(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
 
 Vector3D::Vector3D()
 {
