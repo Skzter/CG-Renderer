@@ -35,7 +35,7 @@ Hitpoint BinaryNode::closestHitpoint(Ray& ray){
         return Hitpoint();
     }
 
-     if(Vector3D::dot(ray.direction, Vector3D::dirNorms[this->dir]) < 0){
+     if(Vector3D::dot(ray.direction, Vector3D::dirNorms[this->dir]) > 0){
         Hitpoint h1 = this->left->closestHitpoint(ray);
         if (h1.distance < std::numeric_limits<float>::max()){
             return h1;
@@ -149,7 +149,7 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
         std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
         Vector3D optimalPoint = faces.at(faces.size() / 2)->middlePoint(); 
         Vector3D middlePoint = (box.p1 + box.p2) * 0.5; 
-        Vector3D weighted = optimalPoint * 0.5 + middlePoint * 0.5;
+        Vector3D weighted = optimalPoint * 1.0 + middlePoint * 0.0;
 
         leftB.p2 = box.p2;
         leftB.p2.at(dir) = weighted.at(dir);
