@@ -61,7 +61,7 @@ bool Face3D::smallerEqDir(Face3D* f1, Face3D* f2, size_t dir){
     return f1->middlePoint().at(dir) < f2->middlePoint().at(dir);
 }
 
-std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disect(std::vector<Face3D*> faces, uint8_t dir, float value){
+std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Face3D*> faces, uint8_t dir, float value){
     std::vector<Face3D*> left;
     std::vector<Face3D*> right;
     for(int i = 0; i < faces.size(); i++){
@@ -89,4 +89,16 @@ std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disect(std::vector<Face3D*
         }
     }
     return {left, right};
+}
+
+float calcDisectValue(size_t dir, std::vector<Face3D *> faces, BoundingBox box, float optper){
+    if(optper > 1 || optper < 0){
+        optper = 1;
+    }
+
+    std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
+    float optval = faces.at(faces.size() / 2)->middlePoint().at(dir);
+    float midval = ((box.p1 + box.p2) * 0.5).at(dir); 
+    return optval * optper + midval * (1.0-optper);
+
 }

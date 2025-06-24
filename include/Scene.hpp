@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <istream>
 #include <vector>
 #include "BoundingBox.hpp"
@@ -6,7 +7,10 @@
 #include "Light.hpp"
 #include "Object3D.hpp"
 #include "BinaryDisect.hpp"
+#include "BinaryArray.hpp"
 #include <mutex>
+
+using tp = std::chrono::time_point<std::chrono::system_clock, std::chrono::duration<long, std::ratio<1, 1000000000>>>;
 
 class Scene
 {
@@ -24,6 +28,6 @@ public:
 
     void loadFile(std::istream&,int);
     void drawPicture();
-    void testoptimized(uint);
-    void calcPixels(size_t, size_t, float, float, uint8_t*, Vector3D);
+    void testoptimized(uint, tp);
+    void calcPixels(size_t, size_t, float, float, uint8_t*, Vector3D, tp);
 };

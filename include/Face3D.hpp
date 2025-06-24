@@ -1,9 +1,12 @@
 #pragma once
 #include "Vector3D.hpp"
+#include <cstddef>
 #include <ostream>
 #include <vector>
 #include "Color.hpp"
 #include "Texture.hpp"
+#include <algorithm>
+#include "BoundingBox.hpp"
 
 class Face3D{
 public:
@@ -23,5 +26,6 @@ public:
 
 std::ostream& operator<<(std::ostream& out, Face3D face);
 
-std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disect(std::vector<Face3D*> faces, uint8_t dir, float value);
+std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Face3D*> faces, uint8_t dir, float value);
+float calcDisectValue(size_t dir, std::vector<Face3D*> faces, BoundingBox box, float optperc);
 

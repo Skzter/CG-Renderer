@@ -1,3 +1,4 @@
+#include <iomanip>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../include/stb_image_write.h"
 #include "../include/Scene.hpp"
@@ -11,6 +12,10 @@
 #include <vector>
 #include <array>
 #include <thread>
+
+int IBinaryDisect::mostFaces = 0;
+int IBinaryDisect::sumFaces = 0;
+int IBinaryDisect::cntLeafs = 0;
 
 template<class T>
 T getOption(std::istream& in, std::string option){
@@ -113,25 +118,42 @@ void Scene::loadFile(std::istream& file, int depth){
 
 	std::cout << "Box: " << box.p1 << box.p2 << std::endl;
 	
-	BinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
+	//IBinaryDisect* disect = new BinaryArray(allfaces, depth, box);
+	IBinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
 	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
 	std::cout << "Avg Faces: " << BinaryDisect::sumFaces / BinaryDisect::cntLeafs << std::endl;
 	std::cout << "Count Leafs: " << BinaryDisect::cntLeafs << std::endl;
 	std::cout << "Sum Faces: " << BinaryDisect::sumFaces << std::endl;
-
+	
 	this->box = box;
 	this->disect = disect;
+	std::cout << "File loaded" << std::endl;
 }
 
-void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin){
+void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin, tp starttp){
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
 		{
 			if(curH % 10 == 0 && curW == 0){
 				proglock.lock();
-				std::cout << ">" << ((++progress) * 1000) / camera.height_pixels << "%\r" << std::flush;
+				float progperc = ((float)++progress * 10 / camera.height_pixels);
 				proglock.unlock();
+				
+				std::cout << ">" << (int)(progperc * 100) << "% [";
+				for(int i = 0; i < 20; i++){
+					if(i < progperc * 20){
+						std::cout << "#";
+					}else{
+						std::cout << " ";
+					}
+				}
+
+				tp current = std::chrono::high_resolution_clock::now();
+				std::chrono::duration<double> duration = (current - starttp) * (1 / progperc);
+				auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);
+				uint secs = round((duration - mins).count());
+				std::cout << "] ETA: " << mins.count() << ":" << std::setfill('0') << std::setw(2) << secs << "\r" << std::flush;
 			}
 			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
 			Hitpoint closest = this->disect->closestHitpoint(ray);
@@ -160,7 +182,7 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 	//std::cout << "Thread [" << start << "]" << std::endl;
 }
 
-void Scene::testoptimized(uint numThreads){
+void Scene::testoptimized(uint numThreads, tp start){
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
 	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
@@ -172,7 +194,7 @@ void Scene::testoptimized(uint numThreads){
 	progress = 0;
 
 	for(size_t i = 0; i < numThreads; i++){
-		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel));
+		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel, start));
 	}
 
 	//calcPixels(disect,0,camera.height_pixels/2, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);
@@ -184,7 +206,7 @@ void Scene::testoptimized(uint numThreads){
 
 	disect->dealoc();
 
-	int success = stbi_write_png("output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
+	int success = stbi_write_png("resultate/output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
 	delete[] buffer;
 
 	if (!success)

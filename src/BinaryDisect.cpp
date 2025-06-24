@@ -4,13 +4,9 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iostream>
-#include <algorithm>
+
 #include <utility>
 #include <vector>
-
-int BinaryDisect::mostFaces = 0;
-int BinaryDisect::sumFaces = 0;
-int BinaryDisect::cntLeafs = 0;
 
 void BinaryDisect::dealoc(){
     //std::cout << "deleting smth else" << std::endl;
@@ -145,21 +141,17 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
 
         leftB.p1 = box.p1;
 
-        //Vector3D middlePoint = Quickselect::kthSmallestDir(faces, 0, faces.size()-1, faces.size() / 2 + 1, dir);
-        std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
-        Vector3D optimalPoint = faces.at(faces.size() / 2)->middlePoint(); 
-        Vector3D middlePoint = (box.p1 + box.p2) * 0.5; 
-        Vector3D weighted = optimalPoint * 1.0 + middlePoint * 0.0;
-
+        float disectValue = calcDisectValue(dir, faces, box, 0.3);
+        
         leftB.p2 = box.p2;
-        leftB.p2.at(dir) = weighted.at(dir);
+        leftB.p2.at(dir) = disectValue;
         rightB.p1 = box.p1;
-        rightB.p1.at(dir) = weighted.at(dir);
+        rightB.p1.at(dir) = disectValue;
         rightB.p2 = box.p2;
 
         //std::cout << ", box p1: " << box.p1 << ", box p2: " << box.p2 << ": " << middlePoint << std::endl; 
         
-        std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disected = disect(faces, dir, weighted.at(dir));
+        std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disected = calcDisect(faces, dir, disectValue);
 
         int val = disected.first.size()+disected.second.size();
         if(val < optimize){

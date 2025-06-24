@@ -11,10 +11,6 @@ class BinaryDisect : public IBinaryDisect{
     public:
         static BinaryDisect* createNode(std::vector<Face3D*> faces, int maxDepth, BoundingBox box);
         virtual void dealoc();
-
-        static int mostFaces;
-        static int sumFaces;
-        static int cntLeafs;
 };
 
 class BinaryNode : public BinaryDisect{
