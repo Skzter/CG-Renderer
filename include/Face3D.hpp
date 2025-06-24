@@ -23,3 +23,5 @@ public:
 
 std::ostream& operator<<(std::ostream& out, Face3D face);
 
+std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disect(std::vector<Face3D*> faces, uint8_t dir, float value);
+

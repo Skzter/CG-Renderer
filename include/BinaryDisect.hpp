@@ -3,13 +3,9 @@
 #include "Hitpoint.hpp"
 #include "Ray.hpp"
 #include "BoundingBox.hpp"
+#include "IBinaryDisect.hpp"
 #include <cstdint>
-
-class IBinaryDisect{
-    public:
-        virtual Hitpoint closestHitpoint(Ray&) = 0;
-        virtual void dealoc() = 0;
-};
+#include <vector>
 
 class BinaryDisect : public IBinaryDisect{
     public:

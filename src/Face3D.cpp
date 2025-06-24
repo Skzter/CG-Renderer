@@ -60,3 +60,33 @@ bool Face3D::smallerEqDir(Face3D* f1, Face3D* f2, size_t dir){
     }*/
     return f1->middlePoint().at(dir) < f2->middlePoint().at(dir);
 }
+
+std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disect(std::vector<Face3D*> faces, uint8_t dir, float value){
+    std::vector<Face3D*> left;
+    std::vector<Face3D*> right;
+    for(int i = 0; i < faces.size(); i++){
+        //std::cout << "i: " << i << " | " << *faces.at(i) << std::endl;
+        bool smaller = false, bigger = false;
+        for(Vector3D* p : faces.at(i)->points){
+            if(p->at(dir) < value){
+                smaller = true;
+            }else{
+                bigger = true;
+            }
+            //std::cout << *p << " | " << leftB.p2 << "   bigger: " << bigger << ", smaller: " << smaller << std::endl;
+        }
+        if(!(smaller || bigger)){
+            throw std::runtime_error("neither bigger nor smaller!");
+        }
+        if(smaller && bigger){
+            //std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
+        }
+        if(smaller){
+            left.push_back(faces.at(i));
+        }
+        if(bigger){
+            right.push_back(faces.at(i));
+        }
+    }
+    return {left, right};
+}

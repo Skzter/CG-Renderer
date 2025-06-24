@@ -5,6 +5,8 @@
 #include <cstdlib>
 #include <iostream>
 #include <algorithm>
+#include <utility>
+#include <vector>
 
 int BinaryDisect::mostFaces = 0;
 int BinaryDisect::sumFaces = 0;
@@ -138,8 +140,6 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
     int optimize = INT_MAX;
 
     for(int dir = 0; dir < 3; dir++){
-        std::vector<Face3D*> left;
-        std::vector<Face3D*> right;
         BoundingBox leftB;
         BoundingBox rightB;
 
@@ -158,42 +158,19 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
         rightB.p2 = box.p2;
 
         //std::cout << ", box p1: " << box.p1 << ", box p2: " << box.p2 << ": " << middlePoint << std::endl; 
+        
+        std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disected = disect(faces, dir, weighted.at(dir));
 
-        for(int i = 0; i < faces.size(); i++){
-            //std::cout << "i: " << i << " | " << *faces.at(i) << std::endl;
-            bool smaller = false, bigger = false;
-            for(Vector3D* p : faces.at(i)->points){
-                if(p->at(dir) < weighted.at(dir)){
-                    smaller = true;
-                }else{
-                    bigger = true;
-                }
-                //std::cout << *p << " | " << leftB.p2 << "   bigger: " << bigger << ", smaller: " << smaller << std::endl;
-            }
-            if(!(smaller || bigger)){
-                throw std::runtime_error("neither bigger nor smaller!");
-            }
-            if(smaller && bigger){
-                //std::cout << "auf der Kante: " << *faces.at(i) << " | " << leftB.p2 << std::endl;
-            }
-            if(smaller){
-                left.push_back(faces.at(i));
-            }
-            if(bigger){
-                right.push_back(faces.at(i));
-            }
-        }
-        int val = left.size()+right.size();
+        int val = disected.first.size()+disected.second.size();
         if(val < optimize){
-            bestleft = left;
-            bestright = right;
+            bestleft = disected.first;
+            bestright = disected.second;
             bestleftB = leftB;
             bestrightB = rightB;
             optimize = val;
             bestdir = dir;
         }
     }
-
     
     //std::cout << "total: " << faces.size() << " pivotnr: " << faces.size() / 2 + 1 << " left: " << left.size() << " | right: " << right.size() << std::endl;
     BinaryDisect* newleft = createNode(bestleft, depth, bestleftB); 
