@@ -72,9 +72,10 @@ std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Fac
         //std::cout << "i: " << i << " | " << *faces.at(i) << std::endl;
         bool smaller = false, bigger = false;
         for(Vector3D* p : faces.at(i)->points){
-            if(p->at(dir) < value){
+            if(p->at(dir) <= value){
                 smaller = true;
-            }else{
+            }
+            if(p->at(dir) >= value){
                 bigger = true;
             }
             //std::cout << *p << " | " << leftB.p2 << "   bigger: " << bigger << ", smaller: " << smaller << std::endl;

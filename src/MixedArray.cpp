@@ -1,7 +1,10 @@
 #include "../include/MixedArray.hpp"
 #include <climits>
+#include <cmath>
 #include <cstddef>
 #include <cstdint>
+#include <iostream>
+#include <limits>
 #include <sys/types.h>
 
 MixedArray::MixedArray(std::vector<Face3D*> faces, int maxDepth, BoundingBox box){
@@ -105,19 +108,32 @@ Hitpoint MixedArray::calcHP(Ray& ray, ushort pos, BoundingBox box){
     lbox.p2.at(disect.dir) = disectValue;
     rbox.p1.at(disect.dir) = disectValue;
 
+
+    if(std::fabs(ray.direction.at(disect.dir)) <= std::numeric_limits<float>::epsilon()){
+        Hitpoint h1 = calcHP(ray, disect.left, lbox);
+        Hitpoint h2 = calcHP(ray, disect.right, rbox);
+        return h1.distance < h2.distance ? h1 : h2;
+    }
+
     if(ray.direction.at(disect.dir) > 0) {
         Hitpoint h1 = calcHP(ray, disect.left, lbox);
-        if (h1.distance < std::numeric_limits<float>::max()) {
+        if (h1.face != NULL && h1.position.at(disect.dir) < disect.value) { //eigentlich müsste in alle Richtungen geclipt werdem, geht aber erstaml so
             return h1;
         }
         return calcHP(ray, disect.right, rbox);
     }else{
         Hitpoint h2 = calcHP(ray, disect.right, rbox);
-        if (h2.distance < std::numeric_limits<float>::max()) {
+        if (h2.face != NULL && h2.position.at(disect.dir) > disect.value) {
             return h2;
         }
         return calcHP(ray, disect.left, lbox);
     }
+    /*
+
+    Hitpoint h1 = calcHP(ray, disect.left, lbox);
+    Hitpoint h2 = calcHP(ray, disect.right, rbox);
+    return h1.distance < h2.distance ? h1 : h2;
+    */
 }
 
 void MixedArray::dealoc() {
