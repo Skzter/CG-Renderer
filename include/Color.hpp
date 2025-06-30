@@ -21,6 +21,7 @@ class Color{
         uint8_t getb(){
             return b;
         }
+	Color operator*(const float a) const;
 };
 
 std::ostream& operator<<(std::ostream& out, Color c);

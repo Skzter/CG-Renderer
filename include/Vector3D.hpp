@@ -31,6 +31,8 @@ public:
 
     static Vector3D cross(Vector3D&, Vector3D&);
     static float dot(Vector3D&, Vector3D&);
+    static Vector3D normalize(Vector3D&);
+
     //static Vector3D middle(Vector3D&, Vector3D&);
 };
 

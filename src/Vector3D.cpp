@@ -108,6 +108,6 @@ std::ostream& operator<<(std::ostream& out, Vector3D obj){
     return out << "[ " << obj.getX() << " | " << obj.getY() << " | " << obj.getZ() << " ]";
 }
 
-
-
-
+Vector3D Vector3D::normalize(Vector3D& a) {
+    return Vector3D(a.X/a.abs(), a.Y/a.abs(), a.Z/a.abs());
+}

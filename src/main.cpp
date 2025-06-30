@@ -7,6 +7,7 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
+#include <vector>
 #include "../include/Scene.hpp"
 
 int main(int argc, char **argv)
@@ -22,6 +23,8 @@ int main(int argc, char **argv)
     }
 
     test.loadFile(file,12);
+    Light lightsource = Light(Vector3D(5,5,20));
+    test.lights.push_back(lightsource); // irgenwo oben ig
 
     int type;
     bool safe;
