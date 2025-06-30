@@ -10,8 +10,8 @@ MixedArray::MixedArray(std::vector<Face3D*> faces, int maxDepth, BoundingBox box
 }
 
 size_t MixedArray::buildArray(std::vector<Face3D*> faces,BoundingBox box, uint8_t depth){
-    size_t facesSize;
-    if(depth <= 0 || (facesSize = faces.size()) < 20){
+    size_t facesSize = faces.size();
+    if(depth <= 0 || facesSize < 20){
         IBinaryDisect::sumFaces+=facesSize;
         IBinaryDisect::cntLeafs++;
         if(facesSize > IBinaryDisect::mostFaces){

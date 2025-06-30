@@ -1,5 +1,7 @@
 #include <algorithm>
+#include <cstdlib>
 #include <iomanip>
+#include <iterator>
 #include <ostream>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../include/stb_image_write.h"
@@ -122,14 +124,18 @@ void Scene::loadFile(std::istream& file, int depth){
 
 	std::cout << "Box: " << box.p1 << box.p2 << std::endl;
 	
+	IBinaryDisect::mostFaces = 0;
+	IBinaryDisect::sumFaces = 0;
+	IBinaryDisect::cntLeafs = 0;
+
 	//IBinaryDisect* disect = new BinaryArray(allfaces, depth, box);
 	//IBinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
 	IBinaryDisect* disect = new MixedArray(allfaces, depth, box);
 	
-	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
-	std::cout << "Avg Faces: " << BinaryDisect::sumFaces / BinaryDisect::cntLeafs << std::endl;
-	std::cout << "Count Leafs: " << BinaryDisect::cntLeafs << std::endl;
-	std::cout << "Sum Faces: " << BinaryDisect::sumFaces << std::endl;
+	std::cout << "Most Faces: " << IBinaryDisect::mostFaces << std::endl;
+	std::cout << "Avg Faces: " << IBinaryDisect::sumFaces / IBinaryDisect::cntLeafs << std::endl;
+	std::cout << "Count Leafs: " << IBinaryDisect::cntLeafs << std::endl;
+	std::cout << "Sum Faces: " << IBinaryDisect::sumFaces << std::endl;
 	std::cout << "Größe: " << sizeof(Disect) << std::endl;
 	
 	this->box = box;
@@ -173,8 +179,9 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 			    Vector3D path = lightSource - closest.position;
 			    Vector3D lightDirection = Vector3D::normalize(path);
 			    Vector3D normale = closest.face->normal;
-			    float intensity = std::max((float) 0.0, Vector3D::dot(lightDirection, normale)); 
-			    //std::cout << "Treffer!\n";
+				float dot = Vector3D::dot(lightDirection, normale);
+			    float intensity = std::abs(dot); 
+			    std::cout << dot << std::endl;
 			    col = closest.face->texture.color * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
 			    //col = closest.face->texture.color;
 			} else 

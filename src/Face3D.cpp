@@ -8,7 +8,8 @@ Face3D::Face3D(std::vector<Vector3D*> points, Texture texture){
     this->points = points;
     Vector3D vec1 = *points.at(1) - *points.at(0);
     Vector3D vec2 = *points.at(2) - *points.at(0);
-    this->normal = Vector3D::cross(vec1,vec2);
+    Vector3D norm = Vector3D::cross(vec1,vec2);
+    this->normal = Vector3D::normalize(norm);
     this->texture = texture;
 }
 

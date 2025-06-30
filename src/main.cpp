@@ -15,7 +15,7 @@ int main(int argc, char **argv)
     std::srand(std::time({}));
     Scene test;
     std::ifstream file;
-    std::string filePath = "models/big_dodge.ply";
+    std::string filePath = "models/big_porsche.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
     }
 
     test.loadFile(file,20);
-    Light lightsource = Light(Vector3D(5,5,20));
+    Light lightsource = Light(Vector3D(10,20,-10));
     test.lights.push_back(lightsource); // irgenwo oben ig
 
     int type;
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
         safe = false;
     }
 
-    Vector3D eye = Vector3D(1,0, -20);
+    Vector3D eye = Vector3D(0.5,0, -20);
     Vector3D view = Vector3D(0,0,1);
 
     std::cout << "Preset: ";
