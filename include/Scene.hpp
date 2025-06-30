@@ -7,6 +7,7 @@
 #include "Light.hpp"
 #include "Object3D.hpp"
 #include "BinaryDisect.hpp"
+#include "MixedArray.hpp"
 #include "BinaryArray.hpp"
 #include "Vector3D.hpp"
 #include <mutex>

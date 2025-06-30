@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iomanip>
+#include <ostream>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../include/stb_image_write.h"
 #include "../include/Scene.hpp"
@@ -13,6 +14,7 @@
 #include <vector>
 #include <array>
 #include <thread>
+
 
 int IBinaryDisect::mostFaces = 0;
 int IBinaryDisect::sumFaces = 0;
@@ -100,7 +102,8 @@ void Scene::loadFile(std::istream& file, int depth){
 
 	std::vector<Face3D*> allfaces;
 	for (Object3D& object : Object3Ds){
-		for(int i = 0; i < object.getFaces().size(); i++){
+		size_t size = object.getFaces().size();
+		for(int i = 0; i < size; i++){
 			Face3D* face = &(object.getFaces().at(i));
 			allfaces.push_back(face);
 		}
@@ -120,11 +123,14 @@ void Scene::loadFile(std::istream& file, int depth){
 	std::cout << "Box: " << box.p1 << box.p2 << std::endl;
 	
 	//IBinaryDisect* disect = new BinaryArray(allfaces, depth, box);
-	IBinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
+	//IBinaryDisect* disect = BinaryDisect::createNode(allfaces, depth, box);
+	IBinaryDisect* disect = new MixedArray(allfaces, depth, box);
+	
 	std::cout << "Most Faces: " << BinaryDisect::mostFaces << std::endl;
 	std::cout << "Avg Faces: " << BinaryDisect::sumFaces / BinaryDisect::cntLeafs << std::endl;
 	std::cout << "Count Leafs: " << BinaryDisect::cntLeafs << std::endl;
 	std::cout << "Sum Faces: " << BinaryDisect::sumFaces << std::endl;
+	std::cout << "Größe: " << sizeof(Disect) << std::endl;
 	
 	this->box = box;
 	this->disect = disect;
@@ -151,7 +157,7 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 				}
 
 				tp current = std::chrono::high_resolution_clock::now();
-				std::chrono::duration<double> duration = (current - starttp) * (1 / progperc);
+				std::chrono::duration<double> duration = (current - starttp) * (1.0 / progperc);
 				auto mins = std::chrono::duration_cast<std::chrono::minutes>(duration);
 				uint secs = round((duration - mins).count());
 				std::cout << "] ETA: " << mins.count() << ":" << std::setfill('0') << std::setw(2) << secs << "\r" << std::flush;

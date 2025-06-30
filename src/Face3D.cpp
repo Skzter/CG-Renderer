@@ -1,4 +1,6 @@
 #include "../include/Face3D.hpp"
+#include <cstddef>
+#include <cstdint>
 #include <vector>
 #include <limits>
 
@@ -64,7 +66,8 @@ bool Face3D::smallerEqDir(Face3D* f1, Face3D* f2, size_t dir){
 std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Face3D*> faces, uint8_t dir, float value){
     std::vector<Face3D*> left;
     std::vector<Face3D*> right;
-    for(int i = 0; i < faces.size(); i++){
+    size_t size = faces.size();
+    for(int i = 0; i < size; i++){
         //std::cout << "i: " << i << " | " << *faces.at(i) << std::endl;
         bool smaller = false, bigger = false;
         for(Vector3D* p : faces.at(i)->points){
@@ -91,7 +94,7 @@ std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Fac
     return {left, right};
 }
 
-float calcDisectValue(size_t dir, std::vector<Face3D *> faces, BoundingBox box, float optper){
+float calcDisectValue(uint8_t dir, std::vector<Face3D *> faces, BoundingBox box, float optper){
     if(optper > 1 || optper < 0){
         optper = 1;
     }

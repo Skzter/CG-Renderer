@@ -4,9 +4,7 @@
 class Vector3D
 {
 private:
-    float X;
-    float Y;
-    float Z;
+    float verts[3] = {0,0,0};
 
 public:
     Vector3D();
@@ -15,14 +13,14 @@ public:
     //Vector3D getPoint(Vector3D point);
     void printPoint();
     void addVector(Vector3D point);
-    Vector3D operator+(const Vector3D &pointA);
-    Vector3D operator-(const Vector3D &pointA);
+    Vector3D operator+(const Vector3D &point);
+    Vector3D operator-(const Vector3D &point);
     Vector3D operator*(const float a);
     float abs();
 
-    float getX(){return this->X;}
-    float getY(){return this->Y;}
-    float getZ(){return this->Z;}
+    float getX(){return this->verts[0];}
+    float getY(){return this->verts[1];}
+    float getZ(){return this->verts[2];}
     float& at(size_t);
 
     static Vector3D dirNorms[3];

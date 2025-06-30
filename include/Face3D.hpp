@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector3D.hpp"
 #include <cstddef>
+#include <cstdint>
 #include <ostream>
 #include <vector>
 #include "Color.hpp"
@@ -27,5 +28,5 @@ public:
 std::ostream& operator<<(std::ostream& out, Face3D face);
 
 std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Face3D*> faces, uint8_t dir, float value);
-float calcDisectValue(size_t dir, std::vector<Face3D*> faces, BoundingBox box, float optperc);
+float calcDisectValue(uint8_t dir, std::vector<Face3D*> faces, BoundingBox box, float optperc);
 

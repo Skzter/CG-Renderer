@@ -22,7 +22,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    test.loadFile(file,12);
+    test.loadFile(file,20);
     Light lightsource = Light(Vector3D(5,5,20));
     test.lights.push_back(lightsource); // irgenwo oben ig
 
@@ -40,35 +40,32 @@ int main(int argc, char **argv)
         safe = false;
     }
 
+    Vector3D eye = Vector3D(1,0, -20);
+    Vector3D view = Vector3D(0,0,1);
+
     std::cout << "Preset: ";
     switch (type) 
     {
     case 1:
         std::cout << "1" << std::endl;
-        test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 0.5625, 1920, 1080);
+        test.camera = Camera(eye, view, 1.0, 0.5625, 1920, 1080);
         break;
     case 2:
         std::cout << "2" << std::endl;
-        test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 0.5625, 1280, 720);
+        test.camera = Camera(eye, view, 1.0, 0.5625, 1280, 720);
         break;
     case 3:
         std::cout << "3" << std::endl;
-        test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 1.0, 1000, 1000);
+        test.camera = Camera(eye, view,  1.0, 1.0, 500, 500);
         break;
     case 4:
         std::cout << "4" << std::endl;
-        test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 1.0, 10, 10);
+        test.camera = Camera(eye, view, 1.0, 1.0, 10, 10);
         break;
     default:
         std::cout << "default" << std::endl;
-        test.camera = Camera(Vector3D(0,0, -20), Vector3D(0,0,1), 1.0, 0.4, 200, 80); 
+        test.camera = Camera(eye, view, 1.0, 0.4, 200, 80); 
     }
-
-    BoundingBox box;
-    box.p1 = Vector3D(-7.0,-3.0,-3.0);
-    box.p2 = Vector3D(7,3.0,3.0);
-
-
   
     tp start = std::chrono::high_resolution_clock::now();
     test.testoptimized(12, start);

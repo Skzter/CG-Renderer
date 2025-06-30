@@ -76,7 +76,7 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
     //https://www.geeksforgeeks.org/quickselect-algorithm/
     //auch mal mit zugriff auf Punkte mit at() n bissl übersichtlicher machen
 
-    if(depth-- <= 0 || faces.size() < 5){
+    if(depth-- <= 0 || faces.size() < 10){
         return new BinaryLeaf(faces);
     }
     
@@ -141,7 +141,7 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
 
         leftB.p1 = box.p1;
 
-        float disectValue = calcDisectValue(dir, faces, box, 0.3);
+        float disectValue = calcDisectValue(dir, faces, box, 0.2);
         
         leftB.p2 = box.p2;
         leftB.p2.at(dir) = disectValue;

@@ -1,0 +1,266 @@
+--------------------------------------------------------------------------------
+-- Metadata
+--------------------------------------------------------------------------------
+Invocation:       /usr/bin/cg_annotate cachegrind.out.66668
+Command:          ./bin/main
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Threshold:        0.1%
+Annotation:       on
+
+--------------------------------------------------------------------------------
+-- Summary
+--------------------------------------------------------------------------------
+Ir_____________________ 
+
+32,022,671,001 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+-- File:function summary
+--------------------------------------------------------------------------------
+  Ir___________________________  file:function
+
+< 30,624,731,111 (95.6%, 95.6%)  ???:
+   3,445,240,950 (10.8%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::size() const
+   2,431,277,486  (7.6%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::operator[](unsigned long)
+   2,159,327,184  (6.7%)           Vector3D::operator+(Vector3D const&)
+   1,878,714,421  (5.9%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::at(unsigned long)
+   1,842,709,860  (5.8%)           Vector3D::Vector3D(float, float, float)
+   1,657,689,195  (5.2%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::_M_range_check(unsigned long) const
+   1,348,317,540  (4.2%)           Face3D::middlePoint()
+   1,240,718,976  (3.9%)           Vector3D::operator-(Vector3D const&)
+   1,154,873,438  (3.6%)           Vector3D::at(unsigned long)
+   1,128,788,159  (3.5%)           Ray::check(BoundingBox)
+   1,109,786,314  (3.5%)           Ray::check(Face3D&)
+   1,012,411,035  (3.2%)           Vector3D::operator*(float)
+     865,532,832  (2.7%)           Vector3D::cross(Vector3D&, Vector3D&)
+     633,839,688  (2.0%)           Vector3D::dot(Vector3D&, Vector3D&)
+     629,567,476  (2.0%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::vector(std::vector<Vector3D*, std::allocator<Vector3D*> > const&)
+     554,255,469  (1.7%)           MixedArray::calcHP(Ray&, unsigned short, BoundingBox)
+     498,940,302  (1.6%)           Vector3D::getZ()
+     498,940,302  (1.6%)           Vector3D::getY()
+     498,940,302  (1.6%)           Vector3D::getX()
+     482,746,896  (1.5%)           Face3D::smallerEqDir(Face3D*, Face3D*, unsigned long)
+     397,479,468  (1.2%)           Vector3D** std::uninitialized_copy<__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**>(__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, __gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**)
+     225,527,900  (0.7%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::~vector()
+     224,229,512  (0.7%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_create_storage(unsigned long)
+     208,329,414  (0.7%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_deallocate(Vector3D**, unsigned long)
+     208,179,600  (0.7%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::~_Vector_base()
+     199,122,592  (0.6%)           std::__new_allocator<Vector3D*>::allocate(unsigned long, void const*)
+     194,231,367  (0.6%)           calcDisect(std::vector<Face3D*, std::allocator<Face3D*> >, unsigned char, float)
+     189,507,030  (0.6%)           Vector3D::Vector3D()
+     181,807,584  (0.6%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_allocate(unsigned long)
+     181,108,452  (0.6%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_impl::_Vector_impl(std::allocator<Vector3D*> const&)
+     181,108,452  (0.6%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_base(unsigned long, std::allocator<Vector3D*> const&)
+     179,626,752  (0.6%)           calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}::operator()(Face3D*, Face3D*) const
+     173,815,920  (0.5%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::end() const
+     165,125,124  (0.5%)           std::vector<Vector3D*, std::allocator<Vector3D*> >::begin() const
+     158,146,240  (0.5%)           Hitpoint::Hitpoint()
+     129,612,870  (0.4%)           Vector3D** std::__uninitialized_copy_a<__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, __gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**, Vector3D*>(__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, __gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**, std::allocator<Vector3D*>&)
+     121,205,056  (0.4%)           std::__new_allocator<Vector3D*>::deallocate(Vector3D**, unsigned long)
+     116,878,890  (0.4%)           std::vector<Face3D*, std::allocator<Face3D*> >::size() const
+     114,500,912  (0.4%)           bool __gnu_cxx::__ops::_Iter_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>::operator()<__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > > >(__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >)
+     112,763,950  (0.4%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_impl::~_Vector_impl()
+     104,353,210  (0.3%)           __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > > std::__unguarded_partition<__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Iter_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}> >(__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Iter_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>)
+     104,089,800  (0.3%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_get_Tp_allocator()
+     103,890,048  (0.3%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_impl_data::_Vector_impl_data()
+     103,790,172  (0.3%)           std::__new_allocator<Vector3D*>::~__new_allocator()
+     100,963,301  (0.3%)           void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Val_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}> >(__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Val_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>)
+      70,334,679  (0.2%)           std::vector<Face3D*, std::allocator<Face3D*> >::push_back(Face3D* const&)
+      68,739,512  (0.2%)           std::fabs(float)
+      66,119,696  (0.2%)           std::vector<Disect, std::allocator<Disect> >::size() const
+      65,124,752  (0.2%)           bool __gnu_cxx::__ops::_Val_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>::operator()<Face3D*, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > > >(Face3D*&, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >)
+      64,026,966  (0.2%)           Hitpoint::~Hitpoint()
+      60,835,572  (0.2%)           void std::_Destroy<Vector3D**>(Vector3D**, Vector3D**)
+      60,081,626  (0.2%)           std::vector<Face3D*, std::allocator<Face3D*> >::operator[](unsigned long)
+      56,009,240  (0.2%)           std::numeric_limits<float>::max()
+      51,845,148  (0.2%)           std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_get_Tp_allocator() const
+      51,500,125  (0.2%)           std::vector<Disect, std::allocator<Disect> >::operator[](unsigned long)
+      46,426,711  (0.1%)           std::vector<Face3D*, std::allocator<Face3D*> >::at(unsigned long)
+      40,964,745  (0.1%)           std::vector<Face3D*, std::allocator<Face3D*> >::_M_range_check(unsigned long) const
+      38,057,744  (0.1%)           std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<Face3D*> >, std::is_move_constructible<Face3D*>, std::is_move_assignable<Face3D*> >::value, void>::type std::swap<Face3D*>(Face3D*&, Face3D*&)
+      35,020,085  (0.1%)           std::vector<Disect, std::allocator<Disect> >::at(unsigned long)
+
+<    918,972,605  (2.9%, 98.5%)  /usr/src/debug/glibc/glibc/malloc/malloc.c:
+     517,330,702  (1.6%)           free
+     381,568,536  (1.2%)           malloc
+
+<    145,268,640  (0.5%, 99.0%)  /usr/src/debug/gcc/gcc/libstdc++-v3/libsupc++/new_op.cc:operator new(unsigned long)
+
+<    117,162,953  (0.4%, 99.3%)  /usr/src/debug/glibc/glibc/string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S:
+     116,675,083  (0.4%)           __memcpy_avx_unaligned_erms
+
+<     96,261,706  (0.3%, 99.6%)  /usr/src/debug/glibc/glibc/malloc/arena.c:
+      96,113,095  (0.3%)           free
+
+--------------------------------------------------------------------------------
+-- Function:file summary
+--------------------------------------------------------------------------------
+  Ir__________________________  function:file
+
+> 3,445,240,950 (10.8%, 10.8%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::size() const:???
+
+> 2,431,277,486  (7.6%, 18.4%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::operator[](unsigned long):???
+
+> 2,159,327,184  (6.7%, 25.1%)  Vector3D::operator+(Vector3D const&):???
+
+> 1,878,714,421  (5.9%, 31.0%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::at(unsigned long):???
+
+> 1,842,709,860  (5.8%, 36.7%)  Vector3D::Vector3D(float, float, float):???
+
+> 1,657,689,195  (5.2%, 41.9%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::_M_range_check(unsigned long) const:???
+
+> 1,348,317,540  (4.2%, 46.1%)  Face3D::middlePoint():???
+
+> 1,240,718,976  (3.9%, 50.0%)  Vector3D::operator-(Vector3D const&):???
+
+> 1,154,873,438  (3.6%, 53.6%)  Vector3D::at(unsigned long):???
+
+> 1,128,788,159  (3.5%, 57.1%)  Ray::check(BoundingBox):???
+
+> 1,109,786,314  (3.5%, 60.6%)  Ray::check(Face3D&):???
+
+> 1,012,411,035  (3.2%, 63.7%)  Vector3D::operator*(float):???
+
+>   865,532,832  (2.7%, 66.4%)  Vector3D::cross(Vector3D&, Vector3D&):???
+
+>   633,839,688  (2.0%, 68.4%)  Vector3D::dot(Vector3D&, Vector3D&):???
+
+>   629,567,476  (2.0%, 70.4%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::vector(std::vector<Vector3D*, std::allocator<Vector3D*> > const&):???
+
+>   613,443,797  (1.9%, 72.3%)  free:
+    517,330,702  (1.6%)           /usr/src/debug/glibc/glibc/malloc/malloc.c
+     96,113,095  (0.3%)           /usr/src/debug/glibc/glibc/malloc/arena.c
+
+>   554,255,469  (1.7%, 74.0%)  MixedArray::calcHP(Ray&, unsigned short, BoundingBox):???
+
+>   498,940,302  (1.6%, 75.6%)  Vector3D::getZ():???
+
+>   498,940,302  (1.6%, 77.1%)  Vector3D::getY():???
+
+>   498,940,302  (1.6%, 78.7%)  Vector3D::getX():???
+
+>   482,746,896  (1.5%, 80.2%)  Face3D::smallerEqDir(Face3D*, Face3D*, unsigned long):???
+
+>   397,479,468  (1.2%, 81.5%)  Vector3D** std::uninitialized_copy<__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**>(__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, __gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**):???
+
+>   381,708,847  (1.2%, 82.6%)  malloc:
+    381,568,536  (1.2%)           /usr/src/debug/glibc/glibc/malloc/malloc.c
+
+>   225,527,900  (0.7%, 83.3%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::~vector():???
+
+>   224,229,512  (0.7%, 84.0%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_create_storage(unsigned long):???
+
+>   208,329,414  (0.7%, 84.7%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_deallocate(Vector3D**, unsigned long):???
+
+>   208,179,600  (0.7%, 85.4%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::~_Vector_base():???
+
+>   199,122,592  (0.6%, 86.0%)  std::__new_allocator<Vector3D*>::allocate(unsigned long, void const*):???
+
+>   194,231,367  (0.6%, 86.6%)  calcDisect(std::vector<Face3D*, std::allocator<Face3D*> >, unsigned char, float):???
+
+>   189,507,030  (0.6%, 87.2%)  Vector3D::Vector3D():???
+
+>   181,807,584  (0.6%, 87.7%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_allocate(unsigned long):???
+
+>   181,108,452  (0.6%, 88.3%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_impl::_Vector_impl(std::allocator<Vector3D*> const&):???
+
+>   181,108,452  (0.6%, 88.9%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_base(unsigned long, std::allocator<Vector3D*> const&):???
+
+>   179,626,752  (0.6%, 89.4%)  calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}::operator()(Face3D*, Face3D*) const:???
+
+>   173,815,920  (0.5%, 90.0%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::end() const:???
+
+>   165,125,124  (0.5%, 90.5%)  std::vector<Vector3D*, std::allocator<Vector3D*> >::begin() const:???
+
+>   158,146,240  (0.5%, 91.0%)  Hitpoint::Hitpoint():???
+
+>   145,268,640  (0.5%, 91.4%)  operator new(unsigned long):/usr/src/debug/gcc/gcc/libstdc++-v3/libsupc++/new_op.cc
+
+>   129,612,870  (0.4%, 91.8%)  Vector3D** std::__uninitialized_copy_a<__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, __gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**, Vector3D*>(__gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, __gnu_cxx::__normal_iterator<Vector3D* const*, std::vector<Vector3D*, std::allocator<Vector3D*> > >, Vector3D**, std::allocator<Vector3D*>&):???
+
+>   121,205,056  (0.4%, 92.2%)  std::__new_allocator<Vector3D*>::deallocate(Vector3D**, unsigned long):???
+
+>   116,878,890  (0.4%, 92.6%)  std::vector<Face3D*, std::allocator<Face3D*> >::size() const:???
+
+>   116,675,083  (0.4%, 92.9%)  __memcpy_avx_unaligned_erms:/usr/src/debug/glibc/glibc/string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+
+>   114,500,912  (0.4%, 93.3%)  bool __gnu_cxx::__ops::_Iter_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>::operator()<__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > > >(__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >):???
+
+>   112,763,950  (0.4%, 93.7%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_impl::~_Vector_impl():???
+
+>   104,353,210  (0.3%, 94.0%)  __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > > std::__unguarded_partition<__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Iter_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}> >(__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Iter_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>):???
+
+>   104,089,800  (0.3%, 94.3%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_get_Tp_allocator():???
+
+>   103,890,048  (0.3%, 94.6%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_Vector_impl_data::_Vector_impl_data():???
+
+>   103,790,172  (0.3%, 95.0%)  std::__new_allocator<Vector3D*>::~__new_allocator():???
+
+>   100,963,301  (0.3%, 95.3%)  void std::__unguarded_linear_insert<__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Val_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}> >(__gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >, __gnu_cxx::__ops::_Val_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>):???
+
+>    70,334,679  (0.2%, 95.5%)  std::vector<Face3D*, std::allocator<Face3D*> >::push_back(Face3D* const&):???
+
+>    68,739,512  (0.2%, 95.7%)  std::fabs(float):???
+
+>    66,119,696  (0.2%, 95.9%)  std::vector<Disect, std::allocator<Disect> >::size() const:???
+
+>    65,124,752  (0.2%, 96.1%)  bool __gnu_cxx::__ops::_Val_comp_iter<calcDisectValue(unsigned char, std::vector<Face3D*, std::allocator<Face3D*> >, BoundingBox, float)::{lambda(Face3D*, Face3D*)#1}>::operator()<Face3D*, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > > >(Face3D*&, __gnu_cxx::__normal_iterator<Face3D**, std::vector<Face3D*, std::allocator<Face3D*> > >):???
+
+>    64,026,966  (0.2%, 96.3%)  Hitpoint::~Hitpoint():???
+
+>    60,835,572  (0.2%, 96.5%)  void std::_Destroy<Vector3D**>(Vector3D**, Vector3D**):???
+
+>    60,081,626  (0.2%, 96.7%)  std::vector<Face3D*, std::allocator<Face3D*> >::operator[](unsigned long):???
+
+>    56,009,240  (0.2%, 96.9%)  std::numeric_limits<float>::max():???
+
+>    51,845,148  (0.2%, 97.0%)  std::_Vector_base<Vector3D*, std::allocator<Vector3D*> >::_M_get_Tp_allocator() const:???
+
+>    51,500,125  (0.2%, 97.2%)  std::vector<Disect, std::allocator<Disect> >::operator[](unsigned long):???
+
+>    46,426,711  (0.1%, 97.3%)  std::vector<Face3D*, std::allocator<Face3D*> >::at(unsigned long):???
+
+>    40,964,745  (0.1%, 97.5%)  std::vector<Face3D*, std::allocator<Face3D*> >::_M_range_check(unsigned long) const:???
+
+>    38,057,744  (0.1%, 97.6%)  std::enable_if<std::__and_<std::__not_<std::__is_tuple_like<Face3D*> >, std::is_move_constructible<Face3D*>, std::is_move_assignable<Face3D*> >::value, void>::type std::swap<Face3D*>(Face3D*&, Face3D*&):???
+
+>    35,020,085  (0.1%, 97.7%)  std::vector<Disect, std::allocator<Disect> >::at(unsigned long):???
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /usr/src/debug/gcc/gcc/libstdc++-v3/libsupc++/new_op.cc
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /usr/src/debug/gcc/gcc/libstdc++-v3/libsupc++/new_op.cc
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /usr/src/debug/glibc/glibc/malloc/arena.c
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /usr/src/debug/glibc/glibc/malloc/arena.c
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /usr/src/debug/glibc/glibc/malloc/malloc.c
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /usr/src/debug/glibc/glibc/malloc/malloc.c
+
+--------------------------------------------------------------------------------
+-- Annotated source file: /usr/src/debug/glibc/glibc/string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+--------------------------------------------------------------------------------
+Unannotated because one or more of these original files are unreadable:
+- /usr/src/debug/glibc/glibc/string/../sysdeps/x86_64/multiarch/memmove-vec-unaligned-erms.S
+
+--------------------------------------------------------------------------------
+-- Annotation summary
+--------------------------------------------------------------------------------
+Ir____________________ 
+
+             0            annotated: files known & above threshold & readable, line numbers known
+             0            annotated: files known & above threshold & readable, line numbers unknown
+             0          unannotated: files known & above threshold & two or more non-identical
+ 1,277,665,904  (4.0%)  unannotated: files known & above threshold & unreadable 
+   120,273,986  (0.4%)  unannotated: files known & below threshold
+30,624,731,111 (95.6%)  unannotated: files unknown
+
