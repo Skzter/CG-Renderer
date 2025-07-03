@@ -1,12 +1,14 @@
 #pragma once
 #include "Vector3D.hpp"
 
-struct BoundingBox{
+class BoundingBox{
+    public:
     Vector3D p1;
     Vector3D p2;
-};
 
-bool contains(BoundingBox, Vector3D);
+    bool contains(Vector3D&);
+    void expandToInclude(BoundingBox);
+};
 
 
 

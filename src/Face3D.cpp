@@ -1,4 +1,5 @@
 #include "../include/Face3D.hpp"
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
 #include <vector>
@@ -103,4 +104,19 @@ float calcDisectValue(uint8_t axis, std::vector<Face3D *> faces){
     }
     std::nth_element(centers.begin(), centers.begin() + centers.size()/2, centers.end());
     return centers[centers.size()/2];
+}
+
+BoundingBox Face3D::boundingBox(){
+    Vector3D minp, maxp;
+    for(uint8_t dim = 0; dim < 3; dim++){
+        float minw = this->minW(dim);
+        if(minp.at(dim) > minw){
+            minp.at(dim) = minw;
+        }
+        float maxw = this->maxW(dim);
+        if(maxp.at(dim) < maxw){
+            maxp.at(dim) = maxw;
+        }
+    }
+    return BoundingBox{minp, maxp};
 }

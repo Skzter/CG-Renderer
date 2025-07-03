@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 #include <ostream>
 
 class Vector3D
@@ -22,7 +23,7 @@ public:
     float getX(){return this->verts[0];}
     float getY(){return this->verts[1];}
     float getZ(){return this->verts[2];}
-    float& at(size_t);
+    float& at(uint8_t);
 
     static Vector3D dirNorms[3];
     static Vector3D minVector;

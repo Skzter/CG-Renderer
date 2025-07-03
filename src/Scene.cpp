@@ -3,20 +3,17 @@
 #include <cstdint>
 #include <cstdlib>
 #include <iomanip>
-#include <iterator>
 #include <ostream>
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "../include/stb_image_write.h"
 #include "../include/Scene.hpp"
 #include <cstddef>
-#include <exception>
 #include <limits>
 #include <sstream>
 #include <stdexcept>
 #include <string>
 #include <iostream>
 #include <vector>
-#include <array>
 #include <thread>
 
 
@@ -331,15 +328,6 @@ void Scene::drawPicture()
 }*/
 
 Scene::Scene(){	
-}
-
-bool contains(BoundingBox box, Vector3D vec){
-	for(uint8_t dir = 0; dir < 3; dir++){
-		if(vec.at(dir) < box.p1.at(dir) || vec.at(dir) > box.p2.at(dir)){
-			return false;
-		}
-	}
-	return true;
 }
 
 void IBinaryDisect::incrCounters(size_t size){

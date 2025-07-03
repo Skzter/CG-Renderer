@@ -9,11 +9,12 @@
 #include <vector>
 
 struct Disect{
-    float value;
     uint8_t dir; // höchstes bit 1 -> links blatt, 2. höchstes: rechts Blatt
     ushort left;
     //ushort middle;
     ushort right;
+    BoundingBox leftB;
+    BoundingBox rightB;
 };
 
 class MixedArray : public IBinaryDisect{

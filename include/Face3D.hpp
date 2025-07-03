@@ -4,9 +4,7 @@
 #include <cstdint>
 #include <ostream>
 #include <vector>
-#include "Color.hpp"
 #include "Texture.hpp"
-#include <algorithm>
 #include "BoundingBox.hpp"
 
 class Face3D{
@@ -21,6 +19,8 @@ public:
 
     float maxW(size_t dir);
     float minW(size_t dir);
+
+    BoundingBox boundingBox();
 
     static bool smallerEqDir(Face3D*, Face3D*, size_t);
 };

@@ -85,7 +85,7 @@ bool Vector3D::operator==(Vector3D& other){
 }
 
 
-float& Vector3D::at(size_t pos){
+float& Vector3D::at(uint8_t pos){
     return this->verts[pos];
 }
 
