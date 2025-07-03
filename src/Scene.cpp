@@ -341,3 +341,10 @@ bool contains(BoundingBox box, Vector3D vec){
 	}
 	return true;
 }
+
+void IBinaryDisect::incrCounters(size_t size){
+	IBinaryDisect::sumFaces+=size;
+	if(size > IBinaryDisect::mostFaces){
+		IBinaryDisect::mostFaces = size;
+	}
+}

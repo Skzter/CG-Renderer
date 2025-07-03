@@ -10,8 +10,9 @@
 
 struct Disect{
     float value;
-    uint8_t dir; // dir=4 -> Blatt
-    ushort left; // wird zu position der faces, fals Blatt
+    uint8_t dir; // höchstes bit 1 -> links blatt, 2. höchstes: rechts Blatt
+    ushort left;
+    //ushort middle;
     ushort right;
 };
 
@@ -22,6 +23,7 @@ class MixedArray : public IBinaryDisect{
 
     size_t buildArray(std::vector<Face3D*> faces, BoundingBox box, uint8_t depth);
     Hitpoint calcHP(Ray& ray, ushort pos, BoundingBox box);
+    Hitpoint calcDisectHP(Ray&,ushort, BoundingBox, bool);
 
     public:
     MixedArray(const MixedArray&) = delete;

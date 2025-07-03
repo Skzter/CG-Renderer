@@ -23,7 +23,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    test.loadFile(file,20);
+    test.loadFile(file,15);
 
     int type;
     bool safe;
