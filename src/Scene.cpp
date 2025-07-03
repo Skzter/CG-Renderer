@@ -177,18 +177,31 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 			    // hier kommt das mitm licht ig um die farbe zu ersetzen
 			    // neue param: light vector und man brauch irgendeine normale an dem punkt?
 			    Vector3D lightSource = this->lights[0].getLightSource();
-			    Vector3D path = lightSource - closest.position;
-			    Vector3D lightDirection = Vector3D::normalize(path);
-			    Vector3D normale = closest.face->normal;
-				float dot = Vector3D::dot(lightDirection, normale);
-			    float intensity = std::max(dot, 0.0f);
-			    //std::cout << dot << std::endl;
-			    col = closest.face->texture.color * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
-			    //col = closest.face->texture.color;
-				
-				/*Vector3D vec  = closest.face->normal;
-				vec = Vector3D::normalize(vec);
-				col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
+			    Vector3D path = closest.position - lightSource;
+			    Vector3D lightDirection = Vector3D::normalize(path) * -1.0f;
+				Ray LightRay = Ray(lightSource, path);
+
+				Hitpoint LightHit = this->disect->closestHitpoint(LightRay);
+				//std::cout << LightHit.position << closest.position;
+				if(LightHit.position == closest.position){
+					//std::cout << " Hit" << std::endl;
+					//col = closest.face->texture.color;
+					
+					Vector3D normale = closest.face->normal;
+					float dot = Vector3D::dot(lightDirection, normale);
+					float intensity = std::max(dot, 0.0f);
+					//std::cout << dot << std::endl;
+					col = closest.face->texture.color * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
+					
+					//col = closest.face->texture.color;
+					
+					/*Vector3D vec  = closest.face->normal;
+					vec = Vector3D::normalize(vec);
+					col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
+				}else{
+					//std::cout << " no Hit" << std::endl;
+					col = Color();
+				}
 			} else 
 			{
 				col = Color();

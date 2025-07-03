@@ -17,6 +17,7 @@ public:
     Vector3D operator-(const Vector3D &point);
     Vector3D operator*(const float a);
     float abs();
+    bool operator==(Vector3D& other);
 
     float getX(){return this->verts[0];}
     float getY(){return this->verts[1];}

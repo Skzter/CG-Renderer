@@ -13,3 +13,4 @@ class Hitpoint {
 		Hitpoint(Vector3D, float, Face3D*);
 		~Hitpoint();
 };
+

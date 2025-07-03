@@ -1,4 +1,5 @@
 #include "../include/Vector3D.hpp"
+#include <cstdint>
 #include <iostream>
 #include <cmath>
 #include <limits>
@@ -73,6 +74,16 @@ Vector3D Vector3D::operator*(const float a)
 
 float Vector3D::abs(){
     return std::sqrt(this->verts[0] * this->verts[0] + this->verts[1] * this->verts[1] + this->verts[2] * this->verts[2]);
+}
+
+bool Vector3D::operator==(Vector3D& other){
+    const float epsilon = std::numeric_limits<float>::epsilon();
+    for(uint8_t dim = 0; dim < 3; dim++){
+        if(fabs(this->at(dim) - other.at(dim)) > 0.0001){
+            return false;
+        }
+    }
+    return true;
 }
 
 float& Vector3D::at(size_t pos){
