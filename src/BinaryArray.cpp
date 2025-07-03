@@ -41,7 +41,7 @@ void BinaryArray::calcFace(std::vector<Face3D*> faces, size_t pos, uint8_t dir, 
         return;
     }
 
-    float disectValue = calcDisectValue(dir, faces, box, 0.2);
+    float disectValue = calcDisectValue(dir, faces);
     disects[pos] = disectValue;
 
     BoundingBox lbox = box;

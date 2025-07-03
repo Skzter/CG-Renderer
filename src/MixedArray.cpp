@@ -14,7 +14,7 @@ MixedArray::MixedArray(std::vector<Face3D*> faces, int maxDepth, BoundingBox box
 
 size_t MixedArray::buildArray(std::vector<Face3D*> faces,BoundingBox box, uint8_t depth){
     size_t facesSize = faces.size();
-    if(depth <= 0 || facesSize < 20){
+    if(depth <= 0 || facesSize < 30){
         IBinaryDisect::sumFaces+=facesSize;
         IBinaryDisect::cntLeafs++;
         if(facesSize > IBinaryDisect::mostFaces){
@@ -29,52 +29,37 @@ size_t MixedArray::buildArray(std::vector<Face3D*> faces,BoundingBox box, uint8_
     }
 
     //beste Teilung finden
-    uint8_t bestdir;
-    std::vector<Face3D*> bestleft;
-    std::vector<Face3D*> bestright;
-    BoundingBox bestleftB;
-    BoundingBox bestrightB;
-    float bestDisectVal;
-    int optimize = INT_MAX;
-
-    for(int dir = 0; dir < 3; dir++){
-        BoundingBox leftB;
-        BoundingBox rightB;
-
-        leftB.p1 = box.p1;
-
-        float disectValue = calcDisectValue(dir, faces, box, 0.2);
-        
-        leftB.p2 = box.p2;
-        leftB.p2.at(dir) = disectValue;
-        rightB.p1 = box.p1;
-        rightB.p1.at(dir) = disectValue;
-        rightB.p2 = box.p2;
-
-        //std::cout << ", box p1: " << box.p1 << ", box p2: " << box.p2 << ": " << middlePoint << std::endl; 
-        
-        std::pair<std::vector<Face3D*>, std::vector<Face3D*>> disected = calcDisect(faces, dir, disectValue);
-
-        int val = disected.first.size()+disected.second.size();
-        if(val < optimize){
-            bestleft = disected.first;
-            bestright = disected.second;
-            bestleftB = leftB;
-            bestrightB = rightB;
-            optimize = val;
-            bestdir = dir;
-            bestDisectVal = disectValue;
+    uint8_t axis = 0;
+    float maxLen = box.p2.at(0) - box.p1.at(0);
+    for (int i = 1; i < 3; ++i) {
+        float len = box.p2.at(i) - box.p1.at(i);
+        if (len > maxLen) {
+            axis = i;
+            maxLen = len;
         }
     }
-    this->Disects.push_back(Disect{
-        bestDisectVal,
-        bestdir,
+
+    float splitValue = calcDisectValue(axis, faces);
+
+    std::vector<Face3D*> leftFaces, rightFaces;
+    for (auto f : faces) {
+        if (f->middlePoint().at(axis) <= splitValue) leftFaces.push_back(f);
+        else rightFaces.push_back(f);
+    }
+    // Create child boxes
+    BoundingBox leftBox = box;
+    BoundingBox rightBox = box;
+    leftBox.p2.at(axis) = splitValue;
+    rightBox.p1.at(axis) = splitValue;
+        this->Disects.push_back(Disect{
+        splitValue,
+        axis,
         0,
         0
     });
     size_t pos = Disects.size() - 1;
-    size_t left = buildArray(bestleft, bestleftB, depth-1);
-    size_t right = buildArray(bestright, bestrightB, depth-1);
+    size_t left = buildArray(leftFaces, leftBox, depth-1);
+    size_t right = buildArray(rightFaces, rightBox, depth-1);
     
     this->Disects.at(pos).left = left;
     this->Disects.at(pos).right = right;
@@ -109,21 +94,21 @@ Hitpoint MixedArray::calcHP(Ray& ray, ushort pos, BoundingBox box){
     rbox.p1.at(disect.dir) = disectValue;
 
 
-    if(std::fabs(ray.direction.at(disect.dir)) <= std::numeric_limits<float>::epsilon()){
+    //if(std::fabs(ray.direction.at(disect.dir)) <= std::numeric_limits<float>::epsilon()){
         Hitpoint h1 = calcHP(ray, disect.left, lbox);
         Hitpoint h2 = calcHP(ray, disect.right, rbox);
         return h1.distance < h2.distance ? h1 : h2;
-    }
+    //}
 
     if(ray.direction.at(disect.dir) > 0) {
         Hitpoint h1 = calcHP(ray, disect.left, lbox);
-        if (h1.face != NULL && h1.position.at(disect.dir) < disect.value) { //eigentlich müsste in alle Richtungen geclipt werdem, geht aber erstaml so
+        if (h1.face != NULL && contains(box, h1.position)) { //eigentlich müsste in alle Richtungen geclipt werdem, geht aber erstaml so
             return h1;
         }
         return calcHP(ray, disect.right, rbox);
     }else{
         Hitpoint h2 = calcHP(ray, disect.right, rbox);
-        if (h2.face != NULL && h2.position.at(disect.dir) > disect.value) {
+        if (h2.face != NULL && contains(box, h2.position)) {
             return h2;
         }
         return calcHP(ray, disect.left, lbox);

@@ -1,4 +1,6 @@
 #include <algorithm>
+#include <cmath>
+#include <cstdint>
 #include <cstdlib>
 #include <iomanip>
 #include <iterator>
@@ -143,7 +145,7 @@ void Scene::loadFile(std::istream& file, int depth){
 	std::cout << "File loaded" << std::endl;
 }
 
-void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelHeight, uint8_t* buffer, Vector3D VecToOrigin, tp starttp){
+void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down, uint8_t* buffer, Vector3D VecToOrigin, tp starttp){
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
@@ -168,39 +170,38 @@ void Scene::calcPixels(size_t start, size_t step, float pixelWidth, float pixelH
 				uint secs = round((duration - mins).count());
 				std::cout << "] ETA: " << mins.count() << ":" << std::setfill('0') << std::setw(2) << secs << "\r" << std::flush;
 			}
-			Ray ray = Ray(camera.eye, VecToOrigin + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
+
+			Ray ray = Ray(camera.eye, VecToOrigin + right * (float)curW + down * (float)curH);
 			Hitpoint closest = this->disect->closestHitpoint(ray);
 			Color col;
 			if(closest.face != nullptr)
 			{
-				
-			    // hier kommt das mitm licht ig um die farbe zu ersetzen
-			    // neue param: light vector und man brauch irgendeine normale an dem punkt?
-			    Vector3D lightSource = this->lights[0].getLightSource();
-			    Vector3D path = closest.position - lightSource;
-			    Vector3D lightDirection = Vector3D::normalize(path) * -1.0f;
-				Ray LightRay = Ray(lightSource, path);
+				col = Color();
+				for(Light l : this->lights){
+					Vector3D lightSource = l.getLightSource();
+					Vector3D path = closest.position - lightSource;
+					Vector3D lightDirection = Vector3D::normalize(path) * -1.0f;
+					Ray LightRay = Ray(lightSource, path);
 
-				Hitpoint LightHit = this->disect->closestHitpoint(LightRay);
-				//std::cout << LightHit.position << closest.position;
-				if(LightHit.position == closest.position){
-					//std::cout << " Hit" << std::endl;
-					//col = closest.face->texture.color;
-					
-					Vector3D normale = closest.face->normal;
-					float dot = Vector3D::dot(lightDirection, normale);
-					float intensity = std::max(dot, 0.0f);
-					//std::cout << dot << std::endl;
-					col = closest.face->texture.color * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
-					
-					//col = closest.face->texture.color;
-					
-					/*Vector3D vec  = closest.face->normal;
-					vec = Vector3D::normalize(vec);
-					col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
-				}else{
-					//std::cout << " no Hit" << std::endl;
-					col = Color();
+					Hitpoint LightHit = this->disect->closestHitpoint(LightRay);
+
+					if(LightHit.position == closest.position){
+						//std::cout << " Hit" << std::endl;
+						//col = closest.face->texture.color;
+						
+						Vector3D normale = closest.face->normal;
+						float dot = Vector3D::dot(lightDirection, normale);
+						float intensity = std::max(dot, 0.0f) * (1.0f / (LightHit.distance / l.fallof() + 1.0f));
+						//std::cout << dot << std::endl;
+						col += l.getColor().on(closest.face->texture.color) * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
+						//col += closest.face->texture.color * intensity;
+
+						//col = closest.face->texture.color;s
+						
+						/*Vector3D vec  = closest.face->normal;
+						vec = Vector3D::normalize(vec);
+						col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
+					}	
 				}
 			} else 
 			{
@@ -225,15 +226,29 @@ void Scene::testoptimized(uint numThreads, tp start){
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
 	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
+	
 	float pixelWidth = camera.width / camera.width_pixels;
 	float pixelHeight = camera.height / camera.height_pixels;
-	
+
+	Vector3D yaxis = Vector3D(0,1,0);
+
+	Vector3D right;
+	if(yaxis == camera.view){
+		right = Vector3D(-1,0,0);
+	}else{
+		right = Vector3D::cross(yaxis, camera.view);
+	}
+	 
+	Vector3D down = Vector3D::cross(right, camera.view);
+	down = down * (pixelHeight / down.abs());
+	right = right * (pixelWidth / right.abs());
+
 	std::vector<std::thread> threads;
 	const size_t rowsPerThread = camera.height_pixels / numThreads;
 	progress = 0;
 
 	for(size_t i = 0; i < numThreads; i++){
-		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, pixelWidth, pixelHeight, buffer, vectorToOriginPixel, start));
+		threads.push_back(std::thread(&Scene::calcPixels, this,i,numThreads, right, down, buffer, vectorToOriginPixel, start));
 	}
 
 	//calcPixels(disect,0,camera.height_pixels/2, pixelWidth, pixelHeight, buffer, vectorToOriginPixel);
@@ -316,4 +331,13 @@ void Scene::drawPicture()
 }*/
 
 Scene::Scene(){	
+}
+
+bool contains(BoundingBox box, Vector3D vec){
+	for(uint8_t dir = 0; dir < 3; dir++){
+		if(vec.at(dir) < box.p1.at(dir) || vec.at(dir) > box.p2.at(dir)){
+			return false;
+		}
+	}
+	return true;
 }

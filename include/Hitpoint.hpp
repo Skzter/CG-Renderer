@@ -1,6 +1,6 @@
 #pragma once 
+#include "Face3D.hpp"
 #include "Vector3D.hpp"
-#include "Object3D.hpp"
 #include <limits>
 
 class Hitpoint {

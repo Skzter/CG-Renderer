@@ -1,3 +1,4 @@
+#include <cstddef>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -23,8 +24,6 @@ int main(int argc, char **argv)
     }
 
     test.loadFile(file,20);
-    Light lightsource = Light(Vector3D(10,20,-10));
-    test.lights.push_back(lightsource); // irgenwo oben ig
 
     int type;
     bool safe;
@@ -40,31 +39,52 @@ int main(int argc, char **argv)
         safe = false;
     }
 
-    Vector3D eye = Vector3D(0.5,0, -20);
-    Vector3D view = Vector3D(0,0,1);
+    Vector3D eye = Vector3D(18,14.7, -20);
+    Vector3D view = Vector3D(-1,-1,1);
+    float vw = 1;
+
+     test.lights = {
+        //Light(Vector3D(20,0,0), 100, Color(255,0,0)),
+        //Light(Vector3D(0,20,0), 100, Color(0,255,0)),
+        //Light(Vector3D(0,0,-20), 100, Color(0,0,255)),
+        Light(Vector3D(10,10,-20), 4, Color(0,0,255)),
+        Light(Vector3D(10,10,20), 2, Color(255,0,0)),
+    };
 
     std::cout << "Preset: ";
+
+    size_t x, y;
     switch (type) 
     {
     case 1:
         std::cout << "1" << std::endl;
-        test.camera = Camera(eye, view, 1.0, 0.5625, 1920, 1080);
+        x = 1920;
+        y = 1080;
+        test.camera = Camera(eye, view, vw, (float)y/(float)x * vw, x, y);
         break;
     case 2:
         std::cout << "2" << std::endl;
-        test.camera = Camera(eye, view, 1.0, 0.5625, 1280, 720);
+        x = 1280;
+        y = 720;
+        test.camera = Camera(eye, view, vw, (float)y/(float)x * vw, x, y);
         break;
     case 3:
+        x = 500;
+        y = 250;
         std::cout << "3" << std::endl;
-        test.camera = Camera(eye, view,  1.0, 1.0, 500, 500);
+        test.camera = Camera(eye, view, vw, (float)y/(float)x * vw, x, y);
         break;
     case 4:
+        x = 10;
+        y = 10;
         std::cout << "4" << std::endl;
-        test.camera = Camera(eye, view, 1.0, 1.0, 10, 10);
+        test.camera = Camera(eye, view, vw, (float)y/(float)x * vw, x, y);
         break;
     default:
+        x = 200;
+        y = 80;
         std::cout << "default" << std::endl;
-        test.camera = Camera(eye, view, 1.0, 0.4, 200, 80); 
+        test.camera = Camera(eye, view, vw, (float)y/(float)x * vw, x, y);
     }
   
     tp start = std::chrono::high_resolution_clock::now();

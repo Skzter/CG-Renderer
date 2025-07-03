@@ -7,6 +7,7 @@
 #include "Light.hpp"
 #include "Object3D.hpp"
 #include "BinaryDisect.hpp"
+#include "KDTree.hpp"
 #include "MixedArray.hpp"
 #include "BinaryArray.hpp"
 #include "Vector3D.hpp"
@@ -31,5 +32,5 @@ public:
     void loadFile(std::istream&,int);
     void drawPicture();
     void testoptimized(uint, tp);
-    void calcPixels(size_t, size_t, float, float, uint8_t*, Vector3D, tp);
+    void calcPixels(size_t, size_t, Vector3D, Vector3D, uint8_t*, Vector3D, tp);
 };

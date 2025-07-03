@@ -141,7 +141,7 @@ BinaryDisect* BinaryDisect::createNode(std::vector<Face3D*> faces, int depth, Bo
 
         leftB.p1 = box.p1;
 
-        float disectValue = calcDisectValue(dir, faces, box, 0.2);
+        float disectValue = calcDisectValue(dir, faces);
         
         leftB.p2 = box.p2;
         leftB.p2.at(dir) = disectValue;

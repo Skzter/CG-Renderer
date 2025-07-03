@@ -96,14 +96,11 @@ std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Fac
     return {left, right};
 }
 
-float calcDisectValue(uint8_t dir, std::vector<Face3D *> faces, BoundingBox box, float optper){
-    if(optper > 1 || optper < 0){
-        optper = 1;
+float calcDisectValue(uint8_t axis, std::vector<Face3D *> faces){
+    std::vector<float> centers;
+    for (auto f : faces) {
+        centers.push_back(f->middlePoint().at(axis));
     }
-
-    std::sort(faces.begin(), faces.end(), [dir](Face3D* a,Face3D* b){return Face3D::smallerEqDir(a,b,dir);});
-    float optval = faces.at(faces.size() / 2)->middlePoint().at(dir);
-    float midval = ((box.p1 + box.p2) * 0.5).at(dir); 
-    return optval * optper + midval * (1.0-optper);
-
+    std::nth_element(centers.begin(), centers.begin() + centers.size()/2, centers.end());
+    return centers[centers.size()/2];
 }

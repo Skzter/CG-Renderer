@@ -10,9 +10,7 @@ Vector3D Vector3D::minVector = Vector3D(std::numeric_limits<float>::min(),std::n
 
 Vector3D Vector3D::maxVector = Vector3D(std::numeric_limits<float>::max(),std::numeric_limits<float>::max(),std::numeric_limits<float>::max());
 
-Vector3D::Vector3D()
-{
-}
+Vector3D::Vector3D() : verts{0.0f, 0.0f, 0.0f} {}
 
 Vector3D::Vector3D(float x, float y, float z)
 {
@@ -86,14 +84,15 @@ bool Vector3D::operator==(Vector3D& other){
     return true;
 }
 
+
 float& Vector3D::at(size_t pos){
     return this->verts[pos];
 }
 
 Vector3D Vector3D::cross(Vector3D& a, Vector3D& b){
-    float x = a.getY() * b.getZ() - a.getZ() * b.getY();
-    float y = a.getZ() * b.getX() - a.getX() * b.getZ();
-    float z = a.getX() * b.getY() - a.getY() * b.getX();
+    float x = a.verts[1] * b.verts[2] - a.verts[2] * b.verts[1];
+    float y = a.verts[2] * b.verts[0] - a.verts[0] * b.verts[2];
+    float z = a.verts[0] * b.verts[1] - a.verts[1] * b.verts[0];
     return Vector3D(x,y,z);
 }
 

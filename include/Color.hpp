@@ -22,6 +22,8 @@ class Color{
             return b;
         }
 	Color operator*(const float a) const;
+    void operator+=(const Color& other);
+    Color on(const Color& other);
 };
 
 std::ostream& operator<<(std::ostream& out, Color c);

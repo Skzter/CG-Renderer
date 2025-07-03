@@ -4,7 +4,7 @@
 class Vector3D
 {
 private:
-    float verts[3] = {0,0,0};
+    alignas(16) float verts[3] = {0,0,0};
 
 public:
     Vector3D();
