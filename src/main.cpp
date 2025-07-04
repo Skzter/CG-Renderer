@@ -22,7 +22,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    Scene test(file, 15, std::string("textures/porsche.png").data());
+    Scene test(file, 15, std::string("textures/porsche_ohne_cheaten.png").data());
 
     int type;
     bool safe;
@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     float vw = 1;
 
     test.lights = {
-        Light(Vector3D(0,30, 0), 100, Color(255,255,255)),
+        Light(Vector3D(0,20, -10), 100, Color(255,255,255)),
     };
 
     std::cout << "Preset: ";

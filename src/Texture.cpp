@@ -31,8 +31,8 @@ Color Texture::get(size_t x, size_t y){
     }
 
     size_t pos = y * width + x;
-    uint8_t r = textureData[channels * pos];
+    uint8_t r = textureData[channels * pos + 0];
     uint8_t g = textureData[channels * pos + 1];
     uint8_t b = textureData[channels * pos + 2];
-    return Color(r,b,g);
+    return Color(r,g,b);
 }
