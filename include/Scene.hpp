@@ -4,6 +4,7 @@
 #include <vector>
 #include "BoundingBox.hpp"
 #include "Camera.hpp"
+#include "Face3D.hpp"
 #include "Light.hpp"
 #include "Object3D.hpp"
 #include "BinaryDisect.hpp"
@@ -18,13 +19,14 @@ using tp = std::chrono::time_point<std::chrono::system_clock, std::chrono::durat
 class Scene
 {
 public: 
-    Scene();
+    Scene(std::istream& file, int depth, char*);
     std::vector<Object3D> Object3Ds;
     std::vector<Light> lights;
     Camera camera;
     IBinaryDisect* disect;
     BoundingBox box;
 
+    Texture texture;
 
     int progress;
     std::mutex proglock;

@@ -46,7 +46,8 @@ size_t MixedArray::buildArray(std::vector<Face3D*> faces,BoundingBox box, uint8_
         }
     }
 
-    float splitValue = calcDisectValue(axis, faces);
+    //float splitValue = calcDisectValue(axis, faces);
+    float splitValue = calcOctDisectValue(box, axis);
 
     /*
     std::vector<Face3D*> leftFaces, rightFaces;

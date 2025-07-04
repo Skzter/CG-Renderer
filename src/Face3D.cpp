@@ -4,13 +4,12 @@
 #include <vector>
 #include <limits>
 
-Face3D::Face3D(std::vector<Vector3D*> points, Texture texture){
+Face3D::Face3D(std::vector<Vector3D*> points){
     this->points = points;
     Vector3D vec1 = *points.at(1) - *points.at(0);
     Vector3D vec2 = *points.at(2) - *points.at(0);
     Vector3D norm = Vector3D::cross(vec1,vec2);
     this->normal = Vector3D::normalize(norm);
-    this->texture = texture;
 }
 
 Face3D::Face3D(){};
@@ -103,4 +102,8 @@ float calcDisectValue(uint8_t axis, std::vector<Face3D *> faces){
     }
     std::nth_element(centers.begin(), centers.begin() + centers.size()/2, centers.end());
     return centers[centers.size()/2];
+}
+
+float calcOctDisectValue(BoundingBox box, uint8_t dir){
+    return (box.p1.at(dir) + box.p2.at(dir)) * 0.5;
 }

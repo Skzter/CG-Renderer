@@ -14,7 +14,6 @@
 int main(int argc, char **argv)
 {
     std::srand(std::time({}));
-    Scene test;
     std::ifstream file;
     std::string filePath = "models/big_porsche.ply";
     file.open(filePath,std::ios::in);
@@ -23,7 +22,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    test.loadFile(file,15);
+    Scene test(file, 15, std::string("textures/white.png").data());
 
     int type;
     bool safe;
@@ -39,16 +38,17 @@ int main(int argc, char **argv)
         safe = false;
     }
 
-    Vector3D eye = Vector3D(18,14.7, -20);
-    Vector3D view = Vector3D(-1,-1,1);
+    //Topdown
+    Vector3D eye = Vector3D(0,15, 0);
+    Vector3D view = Vector3D(0,-1,0);
+
+    //Vector3D eye = Vector3D(5,10, -15);
+    //Vector3D view = Vector3D(-0.3,-0.6,1);
+
     float vw = 1;
 
      test.lights = {
-        //Light(Vector3D(20,0,0), 100, Color(255,0,0)),
-        //Light(Vector3D(0,20,0), 100, Color(0,255,0)),
-        //Light(Vector3D(0,0,-20), 100, Color(0,0,255)),
-        Light(Vector3D(10,10,-20), 4, Color(0,0,255)),
-        Light(Vector3D(10,10,20), 2, Color(255,0,0)),
+        Light(Vector3D(0,30,-10), 100, Color(255,255,255)),
     };
 
     std::cout << "Preset: ";

@@ -1,11 +1,23 @@
 #include "Color.hpp"
+#include <cstddef>
+#include <cstdio>
+#include <iostream>
+#include <stdexcept>
 
 class Texture
 {
+    unsigned char* textureData;
+    size_t width, height;
+    uint8_t channels;
 public:
-    Color color = Color(0,0,0);
-    float opacity = 1;
+    Texture(char* filename);
+    ~Texture();
+    size_t getWidth(){
+        return this->width;
+    }
+    size_t getHeight(){
+        return this->height;
+    }
 
-    Texture();
-    Texture(Color color, float opacity);
+    Color get(size_t x, size_t y);
 };

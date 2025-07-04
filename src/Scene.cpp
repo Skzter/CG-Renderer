@@ -176,7 +176,16 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 			Color col;
 			if(closest.face != nullptr)
 			{
-				col = Color();
+				//Farbwert der Fläche am HP berechen
+				float sceneWidthForText = box.p2.at(0) - box.p1.at(0);
+				float sceneHeightForText = box.p2.at(2) - box.p1.at(2);
+				float wPixelsPerWorldUint = (float)this->texture.getWidth() / sceneWidthForText;
+				float hPixelsPerWorldUint = (float)this->texture.getHeight() / sceneHeightForText;
+				size_t colXpos = wPixelsPerWorldUint * (closest.position.getX() + sceneWidthForText / 2);
+				size_t colZpos = hPixelsPerWorldUint * (sceneHeightForText/2 - closest.position.getZ());
+				Color faceCol = texture.get(colXpos, colZpos);
+
+				col = Color(); 
 				for(Light l : this->lights){
 					Vector3D lightSource = l.getLightSource();
 					Vector3D path = closest.position - lightSource;
@@ -193,7 +202,9 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 						float dot = Vector3D::dot(lightDirection, normale);
 						float intensity = std::max(dot, 0.0f) * (1.0f / (LightHit.distance / l.fallof() + 1.0f));
 						//std::cout << dot << std::endl;
-						col += l.getColor().on(closest.face->texture.color) * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
+
+
+						col += l.getColor().on(faceCol) * intensity; // theoretisch kommt hier noch lichtfarbe aber so ists halt 1 aka weißes licht
 						//col += closest.face->texture.color * intensity;
 
 						//col = closest.face->texture.color;s
@@ -225,21 +236,26 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 void Scene::testoptimized(uint numThreads, tp start){
 	std::cout << "Start Drawing" << std::endl;
 	uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
-	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
 	
 	float pixelWidth = camera.width / camera.width_pixels;
 	float pixelHeight = camera.height / camera.height_pixels;
 
 	Vector3D yaxis = Vector3D(0,1,0);
+	Vector3D view = Vector3D::normalize(camera.view);
+	Vector3D invview = view * -1;
+	std::cout << yaxis << view << invview << (yaxis == view || yaxis == invview) << std::endl;
 
 	Vector3D right;
-	if(yaxis == camera.view){
-		right = Vector3D(-1,0,0);
+	if(yaxis == view || yaxis == invview){
+		right = Vector3D(1,0,0);
 	}else{
-		right = Vector3D::cross(yaxis, camera.view);
+		right = Vector3D::cross(yaxis, view);
 	}
-	 
-	Vector3D down = Vector3D::cross(right, camera.view);
+	Vector3D down = Vector3D::cross(right, view);
+	
+	Vector3D vectorToOriginPixel = camera.view + right * (-camera.width / 2) + down * (-camera.height / 2);
+	std::cout << vectorToOriginPixel << std::endl;
+	
 	down = down * (pixelHeight / down.abs());
 	right = right * (pixelWidth / right.abs());
 
@@ -330,7 +346,10 @@ void Scene::drawPicture()
 	// 2d array von colors pro pixel zu 1D array mit rgb values 
 }*/
 
-Scene::Scene(){	
+Scene::Scene(std::istream& file, int depth, char* textureFile)
+	: texture(textureFile)
+{
+	this->loadFile(file, depth);
 }
 
 bool contains(BoundingBox box, Vector3D vec){

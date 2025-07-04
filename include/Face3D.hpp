@@ -13,10 +13,9 @@ class Face3D{
 public:
     std::vector<Vector3D*> points;
     Vector3D normal;
-    Texture texture;
 
     Face3D();
-    Face3D(std::vector<Vector3D*>, Texture);
+    Face3D(std::vector<Vector3D*>);
     Vector3D middlePoint();
 
     float maxW(size_t dir);
@@ -29,4 +28,5 @@ std::ostream& operator<<(std::ostream& out, Face3D face);
 
 std::pair<std::vector<Face3D*>, std::vector<Face3D*>> calcDisect(std::vector<Face3D*> faces, uint8_t dir, float value);
 float calcDisectValue(uint8_t axis, std::vector<Face3D*> faces);
+float calcOctDisectValue(BoundingBox box, uint8_t dir);
 
