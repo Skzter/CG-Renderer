@@ -22,7 +22,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    Scene test(file, 15, std::string("textures/white.png").data());
+    Scene test(file, 15, std::string("textures/svelte.png").data());
 
     int type;
     bool safe;
@@ -39,11 +39,11 @@ int main(int argc, char **argv)
     }
 
     //Topdown
-    Vector3D eye = Vector3D(0,15, 0);
-    Vector3D view = Vector3D(0,-1,0);
+    //Vector3D eye = Vector3D(0,15, 0);
+    //Vector3D view = Vector3D(0,-1,0);
 
-    //Vector3D eye = Vector3D(5,10, -15);
-    //Vector3D view = Vector3D(-0.3,-0.6,1);
+    Vector3D eye = Vector3D(5,10, -15);
+    Vector3D view = Vector3D(-0.3,-0.6,1);
 
     float vw = 1;
 
