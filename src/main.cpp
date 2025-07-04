@@ -22,7 +22,7 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    Scene test(file, 15, std::string("textures/svelte.png").data());
+    Scene test(file, 15, std::string("textures/porsche.png").data());
 
     int type;
     bool safe;
@@ -39,16 +39,16 @@ int main(int argc, char **argv)
     }
 
     //Topdown
-    //Vector3D eye = Vector3D(0,15, 0);
-    //Vector3D view = Vector3D(0,-1,0);
+    //Vector3D eye = Vector3D(0,300, 0);
+    //Vector3D view = Vector3D(0,-280,0);
 
     Vector3D eye = Vector3D(5,10, -15);
     Vector3D view = Vector3D(-0.3,-0.6,1);
 
     float vw = 1;
 
-     test.lights = {
-        Light(Vector3D(0,30,-10), 100, Color(255,255,255)),
+    test.lights = {
+        Light(Vector3D(0,30, 0), 100, Color(255,255,255)),
     };
 
     std::cout << "Preset: ";

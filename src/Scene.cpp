@@ -146,6 +146,11 @@ void Scene::loadFile(std::istream& file, int depth){
 }
 
 void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down, uint8_t* buffer, Vector3D VecToOrigin, tp starttp){
+	float sceneWidthForText = box.p2.at(0) - box.p1.at(0);
+	float sceneHeightForText = box.p2.at(2) - box.p1.at(2);
+	float wPixelsPerWorldUint = (float)this->texture.getWidth() / sceneWidthForText;
+	float hPixelsPerWorldUint = (float)this->texture.getHeight() / sceneHeightForText;
+
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
 		for (size_t curW = 0; curW < camera.width_pixels; curW++)
@@ -176,16 +181,18 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 			Color col;
 			if(closest.face != nullptr)
 			{
-				//Farbwert der Fläche am HP berechen
-				float sceneWidthForText = box.p2.at(0) - box.p1.at(0);
-				float sceneHeightForText = box.p2.at(2) - box.p1.at(2);
-				float wPixelsPerWorldUint = (float)this->texture.getWidth() / sceneWidthForText;
-				float hPixelsPerWorldUint = (float)this->texture.getHeight() / sceneHeightForText;
-				size_t colXpos = wPixelsPerWorldUint * (closest.position.getX() + sceneWidthForText / 2);
-				size_t colZpos = hPixelsPerWorldUint * (sceneHeightForText/2 - closest.position.getZ());
-				Color faceCol = texture.get(colXpos, colZpos);
+				Vector3D normale = closest.face->normal;
+				Color faceCol;
+				//if(normale.getY() > fabs(normale.getZ()) && normale.getY() > fabs(normale.getX())){
+					//std::cout << normale << std::endl;
+					//Farbwert der Fläche am HP berechen
+					size_t colXpos = wPixelsPerWorldUint * (closest.position.getX() + sceneWidthForText / 2);
+					size_t colZpos = hPixelsPerWorldUint * (sceneHeightForText/2 - closest.position.getZ());
+					faceCol = texture.get(colXpos, colZpos);
+				//}else{
+					//faceCol = Color(255,255,255);
+				//}
 
-				col = Color(); 
 				for(Light l : this->lights){
 					Vector3D lightSource = l.getLightSource();
 					Vector3D path = closest.position - lightSource;
@@ -197,8 +204,7 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 					if(LightHit.position == closest.position){
 						//std::cout << " Hit" << std::endl;
 						//col = closest.face->texture.color;
-						
-						Vector3D normale = closest.face->normal;
+
 						float dot = Vector3D::dot(lightDirection, normale);
 						float intensity = std::max(dot, 0.0f) * (1.0f / (LightHit.distance / l.fallof() + 1.0f));
 						//std::cout << dot << std::endl;
@@ -214,9 +220,6 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 						col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
 					}	
 				}
-			} else 
-			{
-				col = Color();
 			}
 			size_t pos = curH * camera.width_pixels + curW;
 			buffer[pos * 3] = col.getr();     // Red
