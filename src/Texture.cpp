@@ -3,10 +3,12 @@
 #define STB_IMAGE_IMPLEMENTATION
 #include "../include/stb_image.h"
 
-Texture::Texture(char* filename)
+Texture::Texture(){};
+
+Texture::Texture(std::string filename)
 {
     int width, height, channels;
-    unsigned char* data = stbi_load(filename, &width, &height, &channels, 0);
+    unsigned char* data = stbi_load(filename.data(), &width, &height, &channels, 0);
     if (data) {
         std::cout << "Loaded texture: " << width << "x" << height << ", channels: " << channels << std::endl;
         // Use image data here (data is a pointer to the pixel data)

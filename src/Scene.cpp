@@ -148,8 +148,8 @@ void Scene::loadFile(std::istream& file, int depth){
 void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down, uint8_t* buffer, Vector3D VecToOrigin, tp starttp){
 	float sceneWidthForText = box.p2.at(0) - box.p1.at(0);
 	float sceneHeightForText = box.p2.at(2) - box.p1.at(2);
-	float wPixelsPerWorldUint = (float)this->texture.getWidth() / sceneWidthForText;
-	float hPixelsPerWorldUint = (float)this->texture.getHeight() / sceneHeightForText;
+	float wPixelsPerWorldUint = (float)this->texture[0].getWidth() / sceneWidthForText;
+	float hPixelsPerWorldUint = (float)this->texture[0].getHeight() / sceneHeightForText;
 
 	for (size_t curH = start; curH < camera.height_pixels; curH += step)
 	{
@@ -183,15 +183,15 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 			{
 				Vector3D normale = closest.face->normal;
 				Color faceCol;
-				//if(normale.getY() > fabs(normale.getZ()) && normale.getY() > fabs(normale.getX())){
+				if(normale.getY() > fabs(normale.getZ()) && normale.getY() > fabs(normale.getX())){
 					//std::cout << normale << std::endl;
 					//Farbwert der Fläche am HP berechen
 					size_t colXpos = wPixelsPerWorldUint * (closest.position.getX() + sceneWidthForText / 2);
 					size_t colZpos = hPixelsPerWorldUint * (sceneHeightForText/2 - closest.position.getZ());
-					faceCol = texture.get(colXpos, colZpos);
-				//}else{
-					//faceCol = Color(255,255,255);
-				//}
+					faceCol = texture[0].get(colXpos, colZpos);
+				}else{
+					faceCol = Color(255,255,255);
+				}
 
 				for(Light l : this->lights){
 					Vector3D lightSource = l.getLightSource();
@@ -349,8 +349,7 @@ void Scene::drawPicture()
 	// 2d array von colors pro pixel zu 1D array mit rgb values 
 }*/
 
-Scene::Scene(std::istream& file, int depth, char* textureFile)
-	: texture(textureFile)
+Scene::Scene(std::istream& file, int depth)
 {
 	this->loadFile(file, depth);
 }
@@ -368,5 +367,11 @@ void IBinaryDisect::incrCounters(size_t size){
 	IBinaryDisect::sumFaces+=size;
 	if(size > IBinaryDisect::mostFaces){
 		IBinaryDisect::mostFaces = size;
+	}
+}
+
+void Scene::loadGraphics(std::array<std::string, 6> paths){
+	for(uint8_t pos = 0; pos < 6; pos++){
+		this->texture[pos] = Texture(paths[pos]);
 	}
 }

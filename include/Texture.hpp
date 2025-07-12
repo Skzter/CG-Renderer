@@ -10,7 +10,8 @@ class Texture
     size_t width, height;
     uint8_t channels;
 public:
-    Texture(char* filename);
+    Texture();
+    Texture(std::string filename);
     ~Texture();
     size_t getWidth(){
         return this->width;

@@ -8,6 +8,7 @@
 #include <ostream>
 #include <sstream>
 #include <stdexcept>
+#include <string>
 #include <vector>
 #include "../include/Scene.hpp"
 
@@ -22,7 +23,15 @@ int main(int argc, char **argv)
         return -1;
     }
 
-    Scene test(file, 15, std::string("textures/porsche_ohne_cheaten.png").data());
+    Scene test(file, 15);
+    test.loadGraphics({
+        std::string("textures/red.png"),
+        std::string("textures/red.png"),
+        std::string("textures/red.png"),
+        std::string("textures/red.png"),
+        std::string("textures/red.png"),
+        std::string("textures/red.png"),
+    });
 
     int type;
     bool safe;
