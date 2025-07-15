@@ -26,11 +26,11 @@ int main(int argc, char **argv)
     Scene test(file, 15);
     test.loadGraphics({
         std::string("textures/red.png"),
-        std::string("textures/red.png"),
-        std::string("textures/red.png"),
-        std::string("textures/red.png"),
-        std::string("textures/red.png"),
-        std::string("textures/red.png"),
+        std::string("textures/blue.png"),
+        std::string("textures/cyan.png"),
+        std::string("textures/green.png"),
+        std::string("textures/white.png"),
+        std::string("textures/yellow.png"), // oben
     });
 
     int type;

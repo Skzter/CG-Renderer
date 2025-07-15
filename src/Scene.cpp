@@ -184,7 +184,7 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 				Vector3D normale = closest.face->normal;
 				Color faceCol;
 				if(normale.getY() > fabs(normale.getZ()) && normale.getY() > fabs(normale.getX())){
-					//std::cout << normale << std::endl;
+					// std::cout << normale << std::endl;
 					//Farbwert der Fläche am HP berechen
 					size_t colXpos = wPixelsPerWorldUint * (closest.position.getX() + sceneWidthForText / 2);
 					size_t colZpos = hPixelsPerWorldUint * (sceneHeightForText/2 - closest.position.getZ());
