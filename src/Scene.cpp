@@ -218,8 +218,8 @@ void Scene::calcPixels(size_t start, size_t step, Vector3D right, Vector3D down,
 			//col = closest.face->texture.color;s
 
 			/*Vector3D vec  = closest.face->normal;
-						vec = Vector3D::normalize(vec);
-						col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
+vec = Vector3D::normalize(vec);
+col = Color(255 * vec.getX(), 255*vec.getY(), 255*vec.getZ());*/
 		    }	
 		}
 	    }
@@ -295,60 +295,60 @@ void Scene::testoptimized(uint numThreads, tp start){
 /*
 void Scene::drawPicture()
 {
-    uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
-	Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
-	float pixelWidth = camera.width / camera.width_pixels;
-	float pixelHeight = camera.height / camera.height_pixels;
-	for (size_t curH = 0; curH < camera.height_pixels; curH++)
-	{
-		for (size_t curW = 0; curW < camera.width_pixels; curW++)
-		{
-			std::cout << curH << " " << curW << std::endl;
-			Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
-			//std::cout << "Ray - origin: " << ray.origin << " direction: " << ray.direction << "\n";
-			Hitpoint defaultHitpoint = Hitpoint();
-			for (Object3D& object : Object3Ds)
-			{
-				for (Face3D face : object.getFaces())
-				{
-					Hitpoint hit = ray.check(face);
-					if (hit.distance < defaultHitpoint.distance)
-					{
-						defaultHitpoint = hit;
-					}
-				}
-			}
-			Color col;
-			if(defaultHitpoint.face != nullptr)
-			{
-				//std::cout << "Treffer!\n";
-				col = defaultHitpoint.face->texture.color;
-			} else 
-			{
-				col = Color();
-			}
-			size_t pos = curH * camera.width_pixels + curW;
-			buffer[pos * 3] = col.getr();     // Red
-			buffer[pos * 3 + 1] = col.getg(); // Green
-			buffer[pos * 3 + 2] = col.getb();// Blue
-			//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
-			//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
-			//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
-			//std::cout << "------------" << std::endl;
-			// origin plus punkt nach rechts - punkt aus i,j,0
-			// aus i j verhältnis zu bildschirm und dann gänsehosen
-		}
-	}
+uint8_t *buffer = new uint8_t[camera.width_pixels * camera.height_pixels * 3];
+Vector3D vectorToOriginPixel = camera.view + Vector3D(-(camera.width/2),camera.height/2,0);
+float pixelWidth = camera.width / camera.width_pixels;
+float pixelHeight = camera.height / camera.height_pixels;
+for (size_t curH = 0; curH < camera.height_pixels; curH++)
+{
+for (size_t curW = 0; curW < camera.width_pixels; curW++)
+{
+std::cout << curH << " " << curW << std::endl;
+Ray ray = Ray(camera.eye, vectorToOriginPixel + Vector3D(((float)curW) * pixelWidth, -(((float)curH) * pixelHeight), 0));
+//std::cout << "Ray - origin: " << ray.origin << " direction: " << ray.direction << "\n";
+Hitpoint defaultHitpoint = Hitpoint();
+for (Object3D& object : Object3Ds)
+{
+for (Face3D face : object.getFaces())
+{
+Hitpoint hit = ray.check(face);
+if (hit.distance < defaultHitpoint.distance)
+{
+defaultHitpoint = hit;
+}
+}
+}
+Color col;
+if(defaultHitpoint.face != nullptr)
+{
+//std::cout << "Treffer!\n";
+col = defaultHitpoint.face->texture.color;
+} else 
+{
+col = Color();
+}
+size_t pos = curH * camera.width_pixels + curW;
+buffer[pos * 3] = col.getr();     // Red
+buffer[pos * 3 + 1] = col.getg(); // Green
+buffer[pos * 3 + 2] = col.getb();// Blue
+//std::cout << pos * 3 << " R: " << (int)buffer[pos * 3] << std::endl;
+//std::cout << pos * 3 + 1 << " G: " << (int)buffer[pos * 3 + 1] << std::endl;
+//std::cout << pos * 3 + 2 << " B: " << (int)buffer[pos * 3 + 2] << std::endl;
+//std::cout << "------------" << std::endl;
+// origin plus punkt nach rechts - punkt aus i,j,0
+// aus i j verhältnis zu bildschirm und dann gänsehosen
+}
+}
 
-	int success = stbi_write_png("output.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
-	delete[] buffer;
+int success = stbi_write_png("output.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
+delete[] buffer;
 
-	if (!success)
-	{
-		std::cerr << "Failed to write PNG!" << std::endl;
-		return;
-	}
-	// 2d array von colors pro pixel zu 1D array mit rgb values 
+if (!success)
+{
+std::cerr << "Failed to write PNG!" << std::endl;
+return;
+}
+// 2d array von colors pro pixel zu 1D array mit rgb values 
 }*/
 
 Scene::Scene(std::istream& file, int depth)
@@ -375,8 +375,8 @@ void IBinaryDisect::incrCounters(size_t size){
 void Scene::loadGraphics(std::array<std::string, 6> paths){
     this->texture[0] = Texture(paths[0]);
     /*
-    for(uint8_t pos = 0; pos < 6; pos++){
-	this->texture[pos] = Texture(paths[pos]);
-    }
-    */
+for(uint8_t pos = 0; pos < 6; pos++){
+this->texture[pos] = Texture(paths[pos]);
+}
+*/
 }
