@@ -6,7 +6,7 @@
 ![Tommygun](resultate/tommygun-0m51.136s-1920x1080.png)
 
 # Ausführen
-```
+```sh
 git clone https://github.com/Skzter/CG-Renderer
 cd CG-Renderer
 make
@@ -14,7 +14,7 @@ make
 ./a.out 3 1 // zweite 1 speichert bild mit zeit und auflösung
 ```
 Erscheint das Objekt nur zum Teil im Bild, dann muss man in der main.cpp die Parameter anpassen.
-```
+```c
 Vector3D eye = Vector3D(4.33, 10.5, -15); // auge anpassen 
 Vector3D view = Vector3D(-0.3,-0.6,1); // sichtvektor anpassen
 // X,Y,Z Koordinaten von Negativ zu Positiv => X: links, recht | Y: unten, oben | Z: vorne, hinten
