@@ -16,7 +16,7 @@ int main(int argc, char **argv)
 {
     std::srand(std::time({}));
     std::ifstream file;
-    std::string filePath = "models/big_porsche.ply";
+    std::string filePath = "models/big_dodge.ply";
     file.open(filePath,std::ios::in);
     if(!file.is_open()){
         std::cout << "File not opened" << std::endl;
@@ -25,12 +25,12 @@ int main(int argc, char **argv)
 
     Scene test(file, 15);
     test.loadGraphics({
-        std::string("textures/red.png"),
-        std::string("textures/blue.png"),
-        std::string("textures/cyan.png"),
-        std::string("textures/green.png"),
-        std::string("textures/white.png"),
-        std::string("textures/yellow.png"), // oben
+        std::string("textures/red.png"), // vorne
+        std::string("textures/blue.png"), // hinten
+        std::string("textures/cyan.png"), // oben
+        std::string("textures/green.png"), // unten
+        std::string("textures/violet.png"), // hinten
+        std::string("textures/yellow.png"), // vorne
     });
 
     int type;
@@ -51,13 +51,15 @@ int main(int argc, char **argv)
     //Vector3D eye = Vector3D(0,300, 0);
    // Vector3D view = Vector3D(0,-280,0);
 
-    Vector3D eye = Vector3D(5,10, -15);
+    Vector3D eye = Vector3D(4.33, 10.5, -15);
     Vector3D view = Vector3D(-0.3,-0.6,1);
 
-    float vw = 1;
+    float vw = 1.7;
 
     test.lights = {
-        Light(Vector3D(0,20, -0), 100, Color(255,255,255)),
+        // Light(Vector3D(0,20, -0), 100, Color(255,255,255)),
+        // Light(Vector3D(0,0, -20), 100, Color(255,255,255)),
+        Light(eye, 100, Color(255, 255, 255))
     };
 
     std::cout << "Preset: ";
