@@ -32,7 +32,7 @@ public:
     IBinaryDisect* disect;
     BoundingBox box;
 
-    std::array<Texture, 6> texture = {};
+    std::array<Texture, 6> texture;
 
     void loadFile(std::istream&,int);
     void drawPicture();

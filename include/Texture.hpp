@@ -7,10 +7,9 @@
 class Texture
 {
     unsigned char* textureData;
-    size_t width, height;
     uint8_t channels;
+    size_t width, height;
 public:
-    Texture();
     Texture(std::string filename);
     ~Texture();
     size_t getWidth(){
