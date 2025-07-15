@@ -49,7 +49,7 @@ int main(int argc, char **argv)
 
     //Topdown
     //Vector3D eye = Vector3D(0,300, 0);
-    //Vector3D view = Vector3D(0,-280,0);
+   // Vector3D view = Vector3D(0,-280,0);
 
     Vector3D eye = Vector3D(5,10, -15);
     Vector3D view = Vector3D(-0.3,-0.6,1);
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
     float vw = 1;
 
     test.lights = {
-        Light(Vector3D(0,20, -10), 100, Color(255,255,255)),
+        Light(Vector3D(0,20, -0), 100, Color(255,255,255)),
     };
 
     std::cout << "Preset: ";

@@ -281,6 +281,10 @@ void Scene::testoptimized(uint numThreads, tp start){
 
     disect->dealoc();
 
+	for(Texture t : this->texture){
+		t.free();
+	}
+
     int success = stbi_write_png("resultate/output_opt.png", camera.width_pixels, camera.height_pixels, 3, buffer, camera.width_pixels * 3);
     delete[] buffer;
 

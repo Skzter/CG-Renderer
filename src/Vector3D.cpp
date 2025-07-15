@@ -77,7 +77,7 @@ float Vector3D::abs(){
 bool Vector3D::operator==(Vector3D& other){
     const float epsilon = std::numeric_limits<float>::epsilon();
     for(uint8_t dim = 0; dim < 3; dim++){
-        if(fabs(this->at(dim) - other.at(dim)) > 0.0001){
+        if(fabs(this->at(dim) - other.at(dim)) > epsilon){
             return false;
         }
     }

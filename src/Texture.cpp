@@ -1,7 +1,12 @@
 #include "../include/Texture.hpp"
+#include <cstddef>
 #include <iostream>
 #define STB_IMAGE_IMPLEMENTATION
 #include "../include/stb_image.h"
+
+Texture::Texture(){
+    this->textureData = NULL;
+}
 
 Texture::Texture(std::string filename)
 {
@@ -20,11 +25,14 @@ Texture::Texture(std::string filename)
     this->channels = channels;
 }
 
-Texture::~Texture(){
+void Texture::free(){
     stbi_image_free(this->textureData);
 }
 
 Color Texture::get(size_t x, size_t y){
+    if(this->textureData == NULL){
+        return Color();
+    }
     //std::cout << x << " " << y << std::endl;
 
     if(x >= width || y >= height){
